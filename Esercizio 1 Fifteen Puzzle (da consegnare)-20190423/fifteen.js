@@ -1,12 +1,18 @@
+'use strict';
+
 let gameMatrix;
 
+const PUZZLE_DIM = 100;
+const NUM_COL = 4;
+const NUM_ROW = 4;
+const GRID_DIM = NUM_COL * NUM_ROW;
+
 function initGameEngine() {
-    gameMatrix = new Array(16);
-    for (let i = 0; i < 16; i++) {
+    gameMatrix = new Array(GRID_DIM);
+    for (let i = 0; i < GRID_DIM; i++) {
         gameMatrix[i] = {
-            x: i % 4,
-            y: Math.floor(i / 4),
-            div: null
+            x: i % NUM_COL,
+            y: Math.floor(i / NUM_ROW)
         };
     }
 }
@@ -14,7 +20,7 @@ function initGameEngine() {
 function canMove(num) {
 
     let selectedPosition = gameMatrix[num];
-    let emptyPosition = gameMatrix[15];
+    let emptyPosition = gameMatrix[GRID_DIM-1];
     if (selectedPosition.x === emptyPosition.x) {
         return Math.abs(selectedPosition.y - emptyPosition.y) === 1;
     }
@@ -35,8 +41,8 @@ function hideCanMove(div) {
 
 function winCheck() {
     let win = true;
-    for (let i = 0; i < 16; i++)
-        if (gameMatrix[i].x !== i % 4 || gameMatrix[i].y !== Math.floor(i / 4)) {
+    for (let i = 0; i < GRID_DIM; i++)
+        if (gameMatrix[i].x !== i % NUM_COL || gameMatrix[i].y !== Math.floor(i / NUM_ROW)) {
             win = false;
             break;
         }
@@ -53,7 +59,7 @@ function movePiece(num, div) {
         return;
 
     let selectedPosition = gameMatrix[num];
-    let emptyPosition = gameMatrix[15];
+    let emptyPosition = gameMatrix[GRID_DIM - 1];
     let xOffset = 0;
     let yOffset = 0;
     if (selectedPosition.x === emptyPosition.x) {
@@ -65,15 +71,13 @@ function movePiece(num, div) {
 
     // Salvo le nuove posizioni delle celle
     let temp = gameMatrix[num];
-    gameMatrix[num] = gameMatrix[15];
-    gameMatrix[15] = temp;
-    gameMatrix[num].div = div;
-    gameMatrix[15].div = null;
+    gameMatrix[num] = gameMatrix[GRID_DIM -1];
+    gameMatrix[GRID_DIM - 1] = temp;
 
     if (yOffset !== 0)
-        div.style.top = (parseInt(div.style.top, 10) - yOffset * 100) + "px";
+        div.style.top = (parseInt(div.style.top, 10) - yOffset * PUZZLE_DIM) + "px";
     if (xOffset !== 0)
-        div.style.left = (parseInt(div.style.left, 10) - xOffset * 100) + "px";
+        div.style.left = (parseInt(div.style.left, 10) - xOffset * PUZZLE_DIM) + "px";
 
     winCheck();
 }
@@ -83,15 +87,15 @@ function initPuzzle() {
     let divs = puzzleArea.getElementsByTagName("div");
     for (let div of divs) {
         let num = parseInt(div.innerText, 10) - 1;
-        let x = num % 4;
-        let y = Math.floor(num / 4);
+        let x = num % NUM_COL;
+        let y = Math.floor(num / NUM_ROW);
         div.style.backgroundImage = "url('background.jpg')";
-        div.style.backgroundPositionX = (-x * 100) + "px";
-        div.style.backgroundPositionY = (-y * 100) + "px";
-        div.style.left = (x * 100) + "px";
-        div.style.top = (y * 100) + "px";
+        div.style.backgroundPositionX = (-x * PUZZLE_DIM) + "px";
+        div.style.backgroundPositionY = (-y * PUZZLE_DIM) + "px";
+        div.style.left = (x * PUZZLE_DIM) + "px";
+        div.style.top = (y * PUZZLE_DIM) + "px";
         div.position = "absolute";
-        gameMatrix[num].div = div;
+        div.id = "piece_"+num;
 
         div.onmouseenter = function (ev) {
             showCanMove(num, div);
@@ -108,10 +112,10 @@ function initPuzzle() {
 function shuffle() {
     for (let j = 0; j < 100; j++) {
         for (let i = 0; i < gameMatrix.length; i++) {
-            if(i === 15)
+            if (i === PUZZLE_DIM -1)
                 continue;
-            if (canMove(i) && (Math.floor(Math.random()*2)===0)) {
-                movePiece(i, gameMatrix[i].div);
+            if (canMove(i) && (Math.floor(Math.random() * 2) === 0)) {
+                movePiece(i, document.getElementById("piece_"+i));
                 console.log(i);
             }
         }
