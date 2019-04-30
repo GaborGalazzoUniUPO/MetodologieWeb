@@ -105,7 +105,7 @@
                 y: Math.floor(i / NUM_ROW)
             };
         }
-        // Initialize document
+        // Create puzzle pieces
         let puzzleArea = document.getElementById("puzzlearea");
         let divs = puzzleArea.getElementsByTagName("div");
         for (let div of divs) {
