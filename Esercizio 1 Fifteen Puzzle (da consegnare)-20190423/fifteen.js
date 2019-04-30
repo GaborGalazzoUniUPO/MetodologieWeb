@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-
-
     // Construction CONST
     const PUZZLE_DIM = 100;
     const NUM_COL = 4;
@@ -12,7 +10,6 @@
     // For shuffle algorithm
     const NUM_SHUFFLE = 100;
     const RANDOM_VALUE = 2;
-
 
     /**
      * Return if the index piece of he gameMatrix can be moved
