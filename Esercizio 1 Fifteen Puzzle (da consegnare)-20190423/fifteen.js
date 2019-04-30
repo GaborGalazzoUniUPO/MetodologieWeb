@@ -102,14 +102,12 @@
     window.addEventListener('DOMContentLoaded', function () {
         // Initiailize game engine
 
-
         /**
         * A position of a piece
         * @typedef {Object} Position
         * @property {number} x - X coordinate
         * @property {number} y - Y coordinate
         */
-
 
         /** @type Position[] */
         let gameMatrix = [GRID_DIM];
