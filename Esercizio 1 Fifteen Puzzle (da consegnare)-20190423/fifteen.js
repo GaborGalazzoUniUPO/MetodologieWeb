@@ -15,21 +15,8 @@
     const GAME_MATRIX = [GRID_DIM];
 
     /**
-     * Initialize the gameMatriz array to store coordinates for single pieces
-     */
-    function initGameEngine() {
-        //gameMatrix = new Array(GRID_DIM);
-        for (let i = 0; i < GRID_DIM; i++) {
-            GAME_MATRIX[i] = {
-                x: i % NUM_COL,
-                y: Math.floor(i / NUM_ROW)
-            };
-        }
-    }
-
-    /**
      * Return if the index piece of he gameMatrix can be moved
-     * @param {number} index The index of the piece in gameMatrix
+     * @param {indexber} index The index of the piece in gameMatrix
      * @returns {boolean} the piece can be moved
      */
     function canMove(index) {
@@ -45,46 +32,8 @@
     }
 
     /**
-     * Change aspect of the piece if it can be moved
-     * @param {number} index The index of the piece in gameMatrix
-     * @param {Element} div The DOM element reference to the piece
-     */
-    function showCanMove(index, div) {
-        if (canMove(index)) {
-            div.classList.add("hover");
-        }
-    }
-
-    /**
-     * Reset the aspect of the piece
-     * @param {Element} div The DOM element reference to the piece
-     */
-    function hideCanMove(div) {
-        div.classList.remove("hover");
-    }
-
-    /**
-     * Check if the puzzle is resolved, if true display a message.
-     */
-    function winCheck() {
-        let win = true;
-        for (let i = 0; i < GRID_DIM; i++) {
-            if (GAME_MATRIX[i].x !== i % NUM_COL || GAME_MATRIX[i].y !== Math.floor(i / NUM_ROW)) {
-                win = false;
-                break;
-            }
-        }
-        if (win) {
-            let r = confirm("Hai vinto!\nVuoi fare un anuova partita?");
-            if (r) {
-                shuffle();
-            }
-        }
-    }
-
-    /**
      * Mve a piece of the puzzle if it can be moved
-     * @param {number} index The index of the piece in gameMatrix to move
+     * @param {indexber} index The index of the piece in gameMatrix to move
      * @param {Element} div The DOM element reference to the piece
      */
     function movePiece(index, div) {
@@ -112,36 +61,19 @@
         if (xOffset !== 0) {
             div.style.left = (parseInt(div.style.left, 10) - xOffset * PUZZLE_DIM) + "px";
         }
-        winCheck();
-    }
-
-    /**
-     * Initialize the puzzle.
-     * It construct pieces and places on the document.
-     */
-    function initPuzzle() {
-        let puzzleArea = document.getElementById("puzzlearea");
-        let divs = puzzleArea.getElementsByTagName("div");
-        for (let div of divs) {
-            let num = parseInt(div.innerText, 10) - 1;
-            let x = num % NUM_COL;
-            let y = Math.floor(num / NUM_ROW);
-            div.style.backgroundImage = "url('background.jpg')";
-            div.style.backgroundPositionX = (-x * PUZZLE_DIM) + "px";
-            div.style.backgroundPositionY = (-y * PUZZLE_DIM) + "px";
-            div.style.left = (x * PUZZLE_DIM) + "px";
-            div.style.top = (y * PUZZLE_DIM) + "px";
-            div.position = "absolute";
-            div.id = "piece_" + num;
-            div.onmouseenter = function () {
-                showCanMove(num, div);
-            };
-            div.onmouseleave = function () {
-                hideCanMove(div);
-            };
-            div.onclick = function () {
-                movePiece(num, div);
-            };
+        // Win Check
+        let win = true;
+        for (let i = 0; i < GRID_DIM; i++) {
+            if (GAME_MATRIX[i].x !== i % NUM_COL || GAME_MATRIX[i].y !== Math.floor(i / NUM_ROW)) {
+                win = false;
+                break;
+            }
+        }
+        if (win) {
+            let r = confirm("Hai vinto!\nVuoi fare un anuova partita?");
+            if (r) {
+                shuffle();
+            }
         }
     }
 
@@ -164,13 +96,41 @@
     /**
      * Init the the document for the game.
      */
-    function init() {
-        document.getElementById("shufflebutton").onclick = shuffle;
-        initGameEngine();
-        initPuzzle();
-    }
-
     window.addEventListener('DOMContentLoaded', function () {
-        init();
+        document.getElementById("shufflebutton").onclick = shuffle;
+        // Initiailize game engine
+        for (let i = 0; i < GRID_DIM; i++) {
+            GAME_MATRIX[i] = {
+                x: i % NUM_COL,
+                y: Math.floor(i / NUM_ROW)
+            };
+        }
+        // Initialize document
+        let puzzleArea = document.getElementById("puzzlearea");
+        let divs = puzzleArea.getElementsByTagName("div");
+        for (let div of divs) {
+            let index = parseInt(div.innerText, 10) - 1;
+            let x = index % NUM_COL;
+            let y = Math.floor(index / NUM_ROW);
+            div.style.backgroundImage = "url('background.jpg')";
+            div.style.backgroundPositionX = (-x * PUZZLE_DIM) + "px";
+            div.style.backgroundPositionY = (-y * PUZZLE_DIM) + "px";
+            div.style.left = (x * PUZZLE_DIM) + "px";
+            div.style.top = (y * PUZZLE_DIM) + "px";
+            div.position = "absolute";
+            div.id = "piece_" + index;
+            div.onmouseenter = function () {
+                if (canMove(index)) {
+                    div.classList.add("hover");
+                }
+            };
+            div.onmouseleave = function () {
+                div.classList.remove("hover");
+            };
+            div.onclick = function () {
+                movePiece(index, div);
+            };
+        }
     });
+
 })();
