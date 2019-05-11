@@ -2,8 +2,6 @@
     
     class NerdFileDAO implements NerdDAO
     {
-        
-    
         /**
          * @return Nerd[]
          */
