@@ -1,4 +1,6 @@
 <?php
+
+
     
     require_once 'preload.php';
     
@@ -30,7 +32,7 @@
 
 <div class="match">
     <?php
-        // Display all user that matches my preferences
+        // Display all user that matches $nerd_param preferences
         foreach ($available_nerds as $nerd) {
             if ($nerd_param->isMatchForMe($nerd)) {
                 $nerd->toListItem();

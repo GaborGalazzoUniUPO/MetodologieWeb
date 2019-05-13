@@ -1,6 +1,9 @@
 <?php
-    
-    class Nerd
+
+/**
+ * Class Nerd
+ */
+class Nerd
     {
         private $name;
         private $gender;
@@ -9,7 +12,6 @@
         private $os;
         private $seeking_age_min;
         private $seeking_age_max;
-    
         
         /**
          * @return string

@@ -49,9 +49,7 @@
 
             </li>
         </ul>
-
         <input type="submit" value="Sign Up">
     </fieldset>
 </form>
-
 <?php include("bottom.html"); ?>
