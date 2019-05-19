@@ -14,7 +14,7 @@
     /**
      * Return if the index piece of he gameMatrix can be moved
      * @param {Position[]} gameMatrix The array containing pieces position
-     * @param {index} index The index of the piece in gameMatrix
+     * @param {number} index The index of the piece in gameMatrix
      * @returns {boolean} the piece can be moved
      */
     function canMove(gameMatrix, index) {
@@ -32,7 +32,7 @@
     /**
      * Move a piece of the puzzle if it can be moved
      * @param {Position[]} gameMatrix The array containing pieces position
-     * @param {indexber} index The index of the piece in gameMatrix to move
+     * @param {number} index The index of the piece in gameMatrix to move
      * @param {Element} div The DOM element reference to the piece
      */
     function movePiece(gameMatrix, index, div) {
@@ -87,7 +87,7 @@
                     continue;
                 }
                 if (canMove(gameMatrix, i) && (Math.floor(Math.random() * RANDOM_VALUE) === 0)) {
-                    movePiece(i, document.getElementById("piece_" + i));
+                    movePiece(gameMatrix, i, document.getElementById("piece_" + i));
                 }
             }
         }
