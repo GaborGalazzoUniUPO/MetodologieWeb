@@ -7,16 +7,16 @@
     <section class="header-main shadow-sm">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-3 col-sm-4">
+                <div class="col-lg-2 col-xl-2 col-sm-4">
                     <div class="brand-wrap">
                         <img class="logo" src="/assets/images/logo-dark.png">
                         <h2 class="logo-text">LOGO</h2>
                     </div> <!-- brand-wrap.// -->
                 </div>
-                <div class="col-lg-4 col-xl-5 col-sm-8">
+                <div class="col-lg-7 col-xl-7 col-sm-12">
                     <?php include_once "head-search-form.html.php" ?>
                 </div> <!-- col.// -->
-                <div class="col-lg-5 col-xl-4 col-sm-12">
+                <div class="col-lg-3 col-xl-3 col-sm-12 nopadding">
                     <?php include_once "head-widget.html.php" ?>
                 </div> <!-- widgets-wrap.// -->
             </div> <!-- col.// -->

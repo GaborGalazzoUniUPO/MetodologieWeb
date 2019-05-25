@@ -10,7 +10,7 @@ class SignUpController extends AbstractController{
 
     public  function doGET(){
         
-        $this->render("sign-up-page", $_GET);
+        $this->render("page-sign-up", $_GET);
     }
 
     public  function doPOST(){

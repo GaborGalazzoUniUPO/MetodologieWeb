@@ -14,6 +14,6 @@ class IndexController extends AbstractController
 
     public function doPOST()
     {
-        // TODO: Implement doPOST() method.
+        $this->doGET();
     }
 }

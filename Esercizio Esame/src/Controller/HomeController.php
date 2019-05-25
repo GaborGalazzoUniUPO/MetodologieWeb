@@ -9,11 +9,11 @@ class HomeController extends AbstractController
 
     public function doGET()
     {
-        $this->render('home-page', $_GET);
+        $this->render('page-home');
     }
 
     public function doPOST()
     {
-        // TODO: Implement doPOST() method.
+        $this->doGET();
     }
 }

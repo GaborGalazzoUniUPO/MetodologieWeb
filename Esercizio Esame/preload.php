@@ -1,16 +1,19 @@
 <?php
 
-    /**
-     * Preload File to require in each page to load classes and configurations
-     */
-    
-    spl_autoload_register(
-        function ($class) {
-            require_once "src/$class.php";
-        }
-    );
+/**
+ * Preload File to require in each page to load classes and configurations
+ */
 
-    $config = require_once "config.php";
+spl_autoload_register(
+    function ($class) {
+        require_once "src/$class.php";
+    }
+);
 
-    \Functionality\Database::getConnection($config['database']);
+$config = require_once "config.php";
+
+\Functionality\Database::getConnection($config['database']);
+
+
+session_start();
 

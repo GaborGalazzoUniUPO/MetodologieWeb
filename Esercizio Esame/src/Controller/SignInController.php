@@ -11,7 +11,7 @@ class SignInController extends AbstractController
 
     public function doGET()
     {
-        $this->render('sign-in-page', $_GET);
+        $this->render('page-sign-in', $_GET);
     }
 
     public function doPOST()
