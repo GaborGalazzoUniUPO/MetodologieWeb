@@ -25,7 +25,7 @@ foreach ($products as $index => $product): ?>
 
                 <img src="<?= $product->getPhotoUrl() ?>"></div>
             <figcaption class="info-wrap">
-                <h4><a class="title" href="/product.php/?id=<?= $product->getId() ?>"><?= $product->getName() ?></a>
+                <h4><a class="title" href="/product.php?id=<?= $product->getId() ?>"><?= $product->getName() ?></a>
                 </h4>
                 <p class="desc"><?= $product->getSmallDescription() ?></p>
                 <div class="rating-wrap">

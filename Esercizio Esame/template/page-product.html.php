@@ -54,27 +54,35 @@
                     <div class="label-rating"><?= $product->getReviewCount() ?> reviews</div>
                 </div> <!-- rating-wrap.// -->
                 <hr>
-                <div class="row">
-                    <div class="col-sm-5">
-                        <dl class="dlist-inline">
-                            <dt>Quantity:</dt>
-                            <dd>
-                                <select class="form-control form-control-sm" <?= (!$product->getStockCount()) ? 'disabled' : '' ?>
-                                        style="width:70px;">
-                                    <option> 1</option>
-                                    <option> 2</option>
-                                    <option> 3</option>
-                                </select>
-                            </dd>
-                        </dl>  <!-- item-property .// -->
-                    </div> <!-- col.// -->
-                </div> <!-- row.// -->
-                <hr>
-                <?php if ($product->getStockCount()): ?>
-                    <a class="btn  btn-outline-primary" href="#"> <i class="fas fa-shopping-cart"></i> Add to cart </a>
-                <?php else: ?>
-                    <a class="btn  btn-outline-primary" href="#"> Alert me when become available </a>
-                <?php endif; ?>
+                <form action="/cart.php" method="post">
+                    <input type="hidden" name="redirect_to" value="<?= $_SERVER['REQUEST_URI'] ?>">
+                    <input type="hidden" name="product_id" value="<?= $product->getId() ?>">
+
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <dl class="dlist-inline">
+                                <dt>Quantity:</dt>
+                                <dd>
+                                    <select name="qta"
+                                            class="form-control form-control-sm" <?= (!$product->getStockCount()) ? 'disabled' : '' ?>
+                                            style="width:70px;">
+                                        <?php for ($i = 1; $i <= $product->getStockCount(); $i++): ?>
+                                            <option> <?= $i ?></option>
+                                        <?php endfor; ?>
+                                    </select>
+                                </dd>
+                            </dl>  <!-- item-property .// -->
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+                    <hr>
+                    <?php if ($product->getStockCount()): ?>
+                        <button type="submit" class="btn  btn-outline-primary"><i class="fas fa-shopping-cart"></i> Add
+                            to cart
+                        </button>
+                    <?php else: ?>
+                        <button type="submit" class="btn  btn-outline-primary"> Alert me when become available</button>
+                    <?php endif; ?>
+                </form>
             </article> <!-- card-body.// -->
         </aside> <!-- col.// -->
     </div> <!-- row.// -->

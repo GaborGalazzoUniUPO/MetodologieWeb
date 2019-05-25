@@ -1,0 +1,177 @@
+<?php
+
+
+namespace Repository;
+
+
+use Entity\Cart;
+
+class CartRepository extends AbstractRepository
+{
+
+    public function findByCookie($cookie_cart)
+    {
+        $query = "
+        select * from carts
+        where cookie_cart = :cookie_cart
+        ";
+        $stm = $this->connection->prepare($query);
+        $stm->execute(['cookie_cart' => $cookie_cart]);
+
+
+        /** @var Cart $cart */
+        $cart = $stm->fetchObject(Cart::class);
+        if ($cart) {
+            $query = "
+            select p.name,
+                   p.photo_url,
+                   p.unit_price,
+                   count(s.id) as qta
+            from cart_products cp
+                     inner join stock s on s.id = cp.stock_unit
+                     inner join products p on s.product_id = p.id
+            where cp.cart_id = :cart_id
+            group by p.id";
+
+            $stm = $this->connection->prepare($query);
+            $stm->execute(['cart_id' => $cart->getId()]);
+
+            $products = [];
+
+            while ($cartProduct = $stm->fetchObject()) {
+                $products[] = $cartProduct;
+            }
+
+            $cart->setProducts($products);
+
+        }
+        return $cart;
+
+
+    }
+
+    public function addProduct($cartId, $productId)
+    {
+        $this->connection->beginTransaction();
+        try {
+            $this->connection->query("lock tables stock as sr READ, stock as sw WRITE, cart_products write;");
+
+
+            $query = "select id from stock as sr where status = 0 and product_id = :p_id";
+            $stm = $this->connection->prepare($query);
+            $stm->execute(['p_id' => $productId]);
+            $sku = $stm->fetchColumn();
+
+
+            $query = "update stock as sw set status = 1 where id = :id";
+            $stm = $this->connection->prepare($query);
+            $stm->execute([':id' => $sku]);
+
+            $query = "insert into cart_products (stock_unit, cart_id)
+            values (:sku, :cart_id)";
+            $stm = $this->connection->prepare($query);
+            $stm->execute([':sku' => $sku, 'cart_id' => $cartId]);
+
+            $this->connection->query("unlock tables;");
+            $this->connection->commit();
+        } catch (\Exception $e) {
+            $this->connection->rollBack();
+            throw $e;
+        }
+    }
+
+    /**
+     * @param $userId
+     */
+    public function findActiveByUser($userId)
+    {
+        $query = "
+        select * from carts
+        where owner_id = :owner_id
+        ";
+        $stm = $this->connection->prepare($query);
+        $stm->execute(['owner_id' => $userId]);
+
+        /** @var Cart $cart */
+        $cart = $stm->fetchObject(Cart::class);
+        if ($cart) {
+            $query = "
+            select p.name,
+                   p.photo_url,
+                   p.unit_price,
+                   count(s.id) as qta
+            from cart_products cp
+                     inner join stock s on s.id = cp.stock_unit
+                     inner join products p on s.product_id = p.id
+            where cp.cart_id = :cart_id
+            group by p.id";
+
+            $stm = $this->connection->prepare($query);
+            $stm->execute(['cart_id' => $cart->getId()]);
+
+            $products = [];
+
+            while ($cartProduct = $stm->fetchObject()) {
+                $products[] = $cartProduct;
+            }
+
+            $cart->setProducts($products);
+
+        }
+        return $cart;
+    }
+
+    public function createCart($userId = null)
+    {
+        $cookie_cart = uniqid();
+        $query = "
+        insert into carts (cookie_cart, owner_id) values (:cookie_cart, :owner_id)
+        ";
+        $stm = $this->connection->prepare($query);
+        $stm->execute(['cookie_cart' => $cookie_cart, 'owner_id' => $userId]);
+        return $cookie_cart;
+    }
+
+    public function mergeCarts($destId, $sourceId)
+    {
+        $query = "update cart_products set cart_id = :dest_id
+        where cart_id = :source_id";
+        $stm = $this->connection->prepare($query);
+        $stm->execute(
+            [
+                'dest_id' => $destId,
+                'source_id' => $sourceId
+            ]
+        );
+        return $this->delete($sourceId);
+    }
+
+    public function update(Cart $cart)
+    {
+        $query = "
+        update carts set owner_id = :owner_id, cookie_cart = :cookie_cart
+        where id = :cart_id;
+        ";
+        $stm = $this->connection->prepare($query);
+        return $stm->execute(
+            [
+                'owner_id' => $cart->getOwnerId(),
+                'cookie_cart' => $cart->getCookieCart(),
+                'cart_id' => $cart->getId()
+            ]
+        );
+
+    }
+
+    private function delete($id)
+    {
+        $query = "delete from carts 
+        where id = :id";
+        $stm = $this->connection->prepare($query);
+        $stm->execute(
+            [
+                'id' => $id
+            ]
+        );
+    }
+}

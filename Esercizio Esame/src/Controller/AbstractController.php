@@ -67,17 +67,6 @@ abstract class AbstractController
 
     }
 
-    protected function validateUserSession()
-    {
-
-        if (!isset($_SESSION["user"])) {
-            if (isset($_COOKIE['cookie_session'])) {
-                $_SESSION["user"] = $this->cookieRepository->getUserByCookieSession($_COOKIE['cookie_session']);
-            }else
-                $_SESSION["user"] = null;
-        }
-    }
-
     protected function closeUserSession()
     {
         session_unset();

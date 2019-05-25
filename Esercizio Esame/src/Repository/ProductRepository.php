@@ -39,7 +39,7 @@ class ProductRepository extends AbstractRepository implements Repository
             p.category_info,
             ifnull(count(r.id),0) as review_count,
             ifnull(avg(r.vote),0) as review_avg,
-            (select count(*) from stock s where s.product_id = p.id) as stock_count
+            (select count(*) from stock s where s.product_id = p.id and s.status = 0) as stock_count
         from products p
             left join reviews r on p.id = r.product_id
         where p.id = :id
@@ -67,7 +67,7 @@ class ProductRepository extends AbstractRepository implements Repository
             p.category_info,
             ifnull(count(r.id),0) as review_count,
             ifnull(avg(r.vote),0) as review_avg,
-            (select count(*) from stock s where s.product_id = p.id) as stock_count
+            (select count(*) from stock s where s.product_id = p.id and s.status = 0) as stock_count
         from products p
             left join reviews r on p.id = r.product_id
         group by p.id;";
@@ -96,7 +96,7 @@ class ProductRepository extends AbstractRepository implements Repository
             p.category_info,
             ifnull(count(r.id),0) as review_count,
             ifnull(avg(r.vote),0) as review_avg,
-            (select count(*) from stock s where s.product_id = p.id) as stock_count
+            (select count(*) from stock s where s.product_id = p.id and s.status = 0) as stock_count
         from products p
             left join reviews r on p.id = r.product_id
         where (match(p.name, p.small_description, p.description, p.category_info) against (:search_text) || :search_text = '')        

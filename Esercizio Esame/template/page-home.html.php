@@ -16,7 +16,7 @@
                 <div class="form-row mb-5">
                     <div class="col-lg-2 col-sm-12 form-group">
                         <select name="category" class="custom-select form-control-lg">
-                            <option value="-1" selected> All category</option>
+                            <option value="0" selected> All category</option>
                             <option value="1"> Book</option>
                             <option value="2"> Comic</option>
                             <option value="3"> Audio CD</option>
