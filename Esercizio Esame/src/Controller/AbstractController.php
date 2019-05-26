@@ -61,9 +61,10 @@ abstract class AbstractController
     protected function startUserSession(User $user)
     {
         session_destroy();
-        session_regenerate_id(TRUE);
+       
 
         session_start();
+        session_regenerate_id(TRUE);
         $_SESSION["user"] = $user;
         $cookie_session = $this->cookieRepository->generateSessionCookie($user);
         setcookie('cookie_session', $cookie_session, time() + 2592000);
