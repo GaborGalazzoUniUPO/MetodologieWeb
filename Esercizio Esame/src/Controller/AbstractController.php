@@ -8,7 +8,7 @@ use Repository\CookieRepository;
 
 abstract class AbstractController
 {
-    /** @var CookieRepository  */
+    /** @var CookieRepository */
     private $cookieRepository;
 
     public function __construct()
@@ -18,7 +18,10 @@ abstract class AbstractController
 
     public function doAction()
     {
-        $function = "do" . $_SERVER['REQUEST_METHOD'];
+        if (isset($_REQUEST['action']) && $_SERVER['REQUEST_METHOD'] == 'POST')
+            $function = "do" . $_REQUEST['action'];
+        else
+            $function = "do" . $_SERVER['REQUEST_METHOD'];
         $this->$function();
     }
 
@@ -63,7 +66,7 @@ abstract class AbstractController
         session_start();
         $_SESSION["user"] = $user;
         $cookie_session = $this->cookieRepository->generateSessionCookie($user);
-        setcookie('cookie_session', $cookie_session, time()+2592000);
+        setcookie('cookie_session', $cookie_session, time() + 2592000);
 
     }
 
@@ -76,5 +79,9 @@ abstract class AbstractController
             setcookie('cookie_session', '', -1);
         }
 
+    }
+
+    protected function goBack(){
+        $this->render('action-go-back');
     }
 }

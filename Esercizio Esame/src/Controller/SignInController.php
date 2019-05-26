@@ -48,12 +48,15 @@ class SignInController extends AbstractController
 
         $this->startUserSession($user);
 
+        $this->goBack();
         $this->redirect($this->get('redirect_to', 'index'));
     }
 
     public function doDELETE()
     {
         $this->closeUserSession();
+        setcookie('cookie_cart','',-1);
+        $this->goBack();
         $this->redirect($this->get('redirect_to', 'index'));
     }
 }

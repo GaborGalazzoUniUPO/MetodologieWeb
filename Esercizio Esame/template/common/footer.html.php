@@ -14,6 +14,10 @@
 </footer>
 <!-- ========================= FOOTER END // ========================= -->
 
+<?php if(isset($_GET['go_back'])): ?>
+<script>
+</script>
+<?php endif; ?>
 
 </body>
 </html>

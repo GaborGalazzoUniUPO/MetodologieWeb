@@ -58,6 +58,7 @@ if (!isset($_SESSION["cart"])) {
                     $cartRepository->update($_SESSION["cart"]);
                 } else {
                     $cartRepository->mergeCarts($user_cart->getId(), $_SESSION["cart"]->getId());
+                    $_SESSION["cart"] = $cartRepository->findActiveByUser($_SESSION["user"]->getId());
                     setcookie('cookie_cart', $user_cart->getCookieCart(), time() + 2592000);
                 }
             } else {

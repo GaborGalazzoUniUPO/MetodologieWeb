@@ -5,6 +5,7 @@ namespace Repository;
 
 
 use Entity\Cart;
+use Entity\CartProduct;
 
 class CartRepository extends AbstractRepository
 {
@@ -26,7 +27,8 @@ class CartRepository extends AbstractRepository
             select p.name,
                    p.photo_url,
                    p.unit_price,
-                   count(s.id) as qta
+                   count(s.id) as qta,
+                   p.id
             from cart_products cp
                      inner join stock s on s.id = cp.stock_unit
                      inner join products p on s.product_id = p.id
@@ -38,7 +40,7 @@ class CartRepository extends AbstractRepository
 
             $products = [];
 
-            while ($cartProduct = $stm->fetchObject()) {
+            while ($cartProduct = $stm->fetchObject(CartProduct::class)) {
                 $products[] = $cartProduct;
             }
 
@@ -99,7 +101,8 @@ class CartRepository extends AbstractRepository
             select p.name,
                    p.photo_url,
                    p.unit_price,
-                   count(s.id) as qta
+                   count(s.id) as qta,
+                   p.id
             from cart_products cp
                      inner join stock s on s.id = cp.stock_unit
                      inner join products p on s.product_id = p.id
@@ -111,7 +114,7 @@ class CartRepository extends AbstractRepository
 
             $products = [];
 
-            while ($cartProduct = $stm->fetchObject()) {
+            while ($cartProduct = $stm->fetchObject(CartProduct::class)) {
                 $products[] = $cartProduct;
             }
 
@@ -173,5 +176,29 @@ class CartRepository extends AbstractRepository
                 'id' => $id
             ]
         );
+    }
+
+    public function removeProduct($cartId, $productId)
+    {
+        $query = "select s.id as sku_id,
+               cd.id as cart_product_id
+        from cart_products cd
+                 inner join stock s on s.id = cd.stock_unit
+        where cd.cart_id = :cart_id and s.product_id = :product_id
+        limit 1";
+
+        $stm = $this->connection->prepare($query);
+        $stm->execute([
+            'cart_id' => $cartId,
+            'product_id' => $productId
+        ]);
+        $resp = $stm->fetch();
+        $sku = $resp[0];
+        $cp = $resp[1];
+
+        $query = "delete from cart_products where id = :id";
+        $this->connection->prepare($query)->execute(['id'=>$cp]);
+        $query = "update stock set status = 0 where id = :id";
+        $this->connection->prepare($query)->execute(['id' => $sku]);
     }
 }

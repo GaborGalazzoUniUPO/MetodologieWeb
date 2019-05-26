@@ -13,7 +13,7 @@ class CartController extends AbstractController
 
     public function doGET()
     {
-        // TODO: Implement doGET() method.
+        $this->render('page-cart', ['cart' => $_SESSION['cart']]);
     }
 
     public function doPOST()
@@ -29,6 +29,20 @@ class CartController extends AbstractController
         for ($i = 0; $i < $this->get('qta', 1); $i++)
             $cartRepository->addProduct($_SESSION['cart']->getId(), $product->getId());
 
+        $this->goBack();
         $this->redirect($this->get('redirect_to', 'product-list'));
+    }
+
+    public function doDELETE(){
+
+        $product_id = $this->get('product_id', -1);
+
+        $cartRepository = new CartRepository();
+
+        $cartRepository->removeProduct($_SESSION['cart']->getId(), $product_id);
+
+        $this->goBack();
+        $this->redirect('cart');
+
     }
 }

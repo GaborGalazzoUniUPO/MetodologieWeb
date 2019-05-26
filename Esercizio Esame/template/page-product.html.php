@@ -12,6 +12,14 @@
         <aside class="col-sm-5 border-right">
             <article class="img-wrap mt-3">
                 <div class="img-big-wrap">
+                    <?php if ($product->getStockCount() < 5): ?>
+                        <?php if ($product->getStockCount() == 0) : ?>
+                            <span class="badge-danger "><b> NOT AVAILABLE</b></span>
+                        <?php else: ?>
+                            <span class="badge-warning "><b> Only <?= $product->getStockCount() ?> left </b></span>
+                        <?php endif; ?>
+
+                    <?php endif; ?>
                     <div><a href="<?= $product->getPhotoUrl() ?>" data-fancybox=""><img
                                     src="<?= $product->getPhotoUrl() ?>"></a></div>
                 </div> <!-- slider-product.// -->
