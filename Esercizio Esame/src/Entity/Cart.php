@@ -16,6 +16,10 @@ class Cart
     private $products;
 
     private $owner_id;
+    
+    private $item_count;
+    
+    private $total;
 
     /**
      * @return mixed
@@ -66,7 +70,7 @@ class Cart
     }
 
     /**
-     * @return CartProduct
+     * @return CartProduct[]
      */
     public function getProducts()
     {
@@ -96,7 +100,39 @@ class Cart
     {
         $this->owner_id = $owner_id;
     }
-
+    
+    /**
+     * @return mixed
+     */
+    public function getItemCount()
+    {
+        return $this->item_count;
+    }
+    
+    /**
+     * @param mixed $item_count
+     */
+    public function setItemCount($item_count): void
+    {
+        $this->item_count = $item_count;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+    
+    /**
+     * @param mixed $total
+     */
+    public function setTotal($total): void
+    {
+        $this->total = $total;
+    }
+    
 }
 
 class CartProduct{
@@ -202,6 +238,7 @@ class CartProduct{
         $this->qta = $qta;
     }
 
+    
 
 
 

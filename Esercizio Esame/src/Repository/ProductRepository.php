@@ -23,7 +23,12 @@ class ProductRepository extends AbstractRepository implements Repository
     {
         // TODO: Implement delete() method.
     }
-
+    
+    /**
+     * @param $id
+     *
+     * @return Product|null
+     */
     public function findById($id)
     {
         $query = "
@@ -99,15 +104,18 @@ class ProductRepository extends AbstractRepository implements Repository
             (select count(*) from stock s where s.product_id = p.id and s.status = 0) as stock_count
         from products p
             left join reviews r on p.id = r.product_id
-        where (match(p.name, p.small_description, p.description, p.category_info) against (:search_text) || :search_text = '')        
-        AND (p.type = :category || :category = 0)
+        where (match(p.name, p.small_description, p.description, p.category_info) against (:search_text) || :search_text = '')
+        and (p.date_added + interval 7 day > NOW() || 2 <> :type)
+        and (p.type = :category || :category = 0)
         group by p.id
+        having (review_avg >= 3 || 1 <> :type)
         order by match(name, small_description, description, category_info) against (:search_text) desc;";
 
         $stm = $this->connection->prepare($query);
         $stm->execute([
             'search_text' => preg_replace('/[+\-><\(\)~*\"@]+/', ' ', $search_text),
-            'category' => $category
+            'category' => $category,
+            'type' => $type
         ]);
         $products = [];
         while ($product = $stm->fetchObject(Product::class)) {

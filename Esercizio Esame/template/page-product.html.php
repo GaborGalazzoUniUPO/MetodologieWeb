@@ -1,10 +1,10 @@
 <?php include_once "common/header-default.html.php" ?>
 
 <?php
-/**
- * @var $product \Entity\Product
- * @var $reviews \Entity\Review[]
- */
+    /**
+     * @var $product \Entity\Product
+     * @var $reviews \Entity\Review[]
+     */
 ?>
 
 <div class="card">
@@ -12,13 +12,16 @@
         <aside class="col-sm-5 border-right">
             <article class="img-wrap mt-3">
                 <div class="img-big-wrap">
-                    <?php if ($product->getStockCount() < 5): ?>
+                    <?php if (strtotime($product->getDateAdded()) > strtotime('-7 days')): ?>
+                        <span class="badge-new"> NEW </span>
+                    <?php endif; ?>
+                    <?php if ($product->getStockCount() <= 5): ?>
                         <?php if ($product->getStockCount() == 0) : ?>
                             <span class="badge-danger "><b> NOT AVAILABLE</b></span>
                         <?php else: ?>
                             <span class="badge-warning "><b> Only <?= $product->getStockCount() ?> left </b></span>
                         <?php endif; ?>
-
+                    
                     <?php endif; ?>
                     <div><a href="<?= $product->getPhotoUrl() ?>" data-fancybox=""><img
                                     src="<?= $product->getPhotoUrl() ?>"></a></div>
@@ -31,7 +34,10 @@
 
                 <div class="mb-3">
                     <var class="price h3 text-warning">
-                        <span class="currency">€</span><span class="num"><?= $product->getUnitPrice() ?></span>
+                        <span class="currency">€</span><span class="num"><?= number_format(
+                                $product->getUnitPrice(),
+                                2
+                            ) ?></span>
                     </var>
                 </div> <!-- price-detail-wrap .// -->
                 <dl>
@@ -63,7 +69,6 @@
                 </div> <!-- rating-wrap.// -->
                 <hr>
                 <form action="/cart.php" method="post">
-                    <input type="hidden" name="redirect_to" value="<?= $_SERVER['REQUEST_URI'] ?>">
                     <input type="hidden" name="product_id" value="<?= $product->getId() ?>">
 
                     <div class="row">
@@ -72,7 +77,8 @@
                                 <dt>Quantity:</dt>
                                 <dd>
                                     <select name="qta"
-                                            class="form-control form-control-sm" <?= (!$product->getStockCount()) ? 'disabled' : '' ?>
+                                            class="form-control form-control-sm" <?= (!$product->getStockCount(
+                                    )) ? 'disabled' : '' ?>
                                             style="width:70px;">
                                         <?php for ($i = 1; $i <= $product->getStockCount(); $i++): ?>
                                             <option> <?= $i ?></option>
@@ -84,13 +90,20 @@
                     </div> <!-- row.// -->
                     <hr>
                     <?php if ($product->getStockCount()): ?>
-                        <button type="submit" class="btn  btn-outline-primary"><i class="fas fa-shopping-cart"></i> Add
-                            to cart
-                        </button>
-                    <?php else: ?>
-                        <button type="submit" class="btn  btn-outline-primary"> Alert me when become available</button>
-                    <?php endif; ?>
+                    <button type="submit" class="btn  btn-outline-primary"><i class="fas fa-shopping-cart"></i> Add
+                        to cart
+                    </button>
                 </form>
+                <?php else: ?>
+                    </form>
+                    <form action="/product-watcher.php" method="post">
+                        <input type="hidden" name="product_id" value="<?= $product->getId() ?>">
+                        <button type="submit" class="btn  btn-outline-primary"><i
+                                    class="fas fa-eye"></i> Notify me when become available</button>
+                    </form>
+                    
+                <?php endif; ?>
+
             </article> <!-- card-body.// -->
         </aside> <!-- col.// -->
     </div> <!-- row.// -->

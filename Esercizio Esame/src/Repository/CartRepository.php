@@ -13,8 +13,18 @@ class CartRepository extends AbstractRepository
     public function findByCookie($cookie_cart)
     {
         $query = "
-        select * from carts
+        select c.id,
+               c.cookie_cart,
+               c.created_at,
+               c.owner_id,
+               count(s.id)       as item_count,
+               sum(p.unit_price) as total
+        from carts c
+                 left join cart_products cp on c.id = cp.cart_id
+                 left join stock s on s.id = cp.stock_unit
+                 left join products p on p.id = s.product_id
         where cookie_cart = :cookie_cart
+        group by c.id
         ";
         $stm = $this->connection->prepare($query);
         $stm->execute(['cookie_cart' => $cookie_cart]);
@@ -76,9 +86,10 @@ class CartRepository extends AbstractRepository
 
             $this->connection->query("unlock tables;");
             $this->connection->commit();
+            return true;
         } catch (\Exception $e) {
             $this->connection->rollBack();
-            throw $e;
+            return false;
         }
     }
 
@@ -88,8 +99,18 @@ class CartRepository extends AbstractRepository
     public function findActiveByUser($userId)
     {
         $query = "
-        select * from carts
+        select c.id,
+               c.cookie_cart,
+               c.created_at,
+               c.owner_id,
+               count(s.id)       as item_count,
+               sum(p.unit_price) as total
+        from carts c
+                 left join cart_products cp on c.id = cp.cart_id
+                 left join stock s on s.id = cp.stock_unit
+                 left join products p on p.id = s.product_id
         where owner_id = :owner_id
+        group by c.id
         ";
         $stm = $this->connection->prepare($query);
         $stm->execute(['owner_id' => $userId]);

@@ -16,15 +16,7 @@
 
     <!-- Font awesome 5 -->
     <link href="/assets/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">
-
-    <!-- plugin: fancybox  -->
-    <script src="/assets/plugins/fancybox/fancybox.min.js" type="text/javascript"></script>
-    <link href="/assets/plugins/fancybox/fancybox.min.css" type="text/css" rel="stylesheet">
-
-    <!-- plugin: owl carousel  -->
-    <link href="/assets/plugins/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="/assets/plugins/owlcarousel/assets/owl.theme.default.css" rel="stylesheet">
-    <script src="/assets/plugins/owlcarousel/owl.carousel.min.js"></script>
+    
 
     <!-- custom style -->
     <link href="/assets/css/ui.css" rel="stylesheet" type="text/css">
@@ -34,4 +26,25 @@
     <script src="/assets/js/script.js" type="text/javascript"></script>
 
     <script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script>
+    
+    <style>
+        html,
+        body {
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+        }
+
+        header {
+            flex: 0 1 auto;
+        }
+
+        section {
+            flex: 1 1 auto;
+        }
+
+        footer {
+            flex: 0 1 auto;
+        }
+    </style>
 </head>

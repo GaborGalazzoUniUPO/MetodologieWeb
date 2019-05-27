@@ -13,8 +13,11 @@ foreach ($products as $index => $product): ?>
     <?php endif; ?>
     <div class="col-md-4">
         <figure class="card card-product">
-            <div class="img-wrap"><span class="badge-new"> NEW </span>
-                <?php if ($product->getStockCount() < 5): ?>
+            <div class="img-wrap">
+                <?php if(strtotime($product->getDateAdded()) > strtotime('-7 days')): ?>
+                <span class="badge-new"> NEW </span>
+                <?php endif;?>
+                <?php if ($product->getStockCount() <= 5): ?>
                     <?php if ($product->getStockCount() == 0) : ?>
                         <span class="badge-danger "><b> NOT AVAILABLE</b></span>
                     <?php else: ?>
@@ -48,7 +51,10 @@ foreach ($products as $index => $product): ?>
             </figcaption>
             <div class="bottom-wrap">
                 <div class="price-wrap h5">
-                    <span class="price-new">€<?= $product->getUnitPrice() ?></span>
+                    <span class="price-new">€<?= number_format(
+                            $product->getUnitPrice(),
+                            2
+                        ) ?></span>
                 </div> <!-- price-wrap.// -->
             </div> <!-- bottom-wrap.// -->
         </figure>

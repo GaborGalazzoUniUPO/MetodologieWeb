@@ -8,7 +8,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-3 col-sm-4">
-                    <div class="brand-wrap">
+                    <div class="brand-wrap" href="#">
                         <img class="logo" src="/assets/images/logo-dark.png">
                         <h2 class="logo-text">LOGO</h2>
                     </div> <!-- brand-wrap.// -->

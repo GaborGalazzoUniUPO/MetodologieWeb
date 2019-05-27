@@ -169,17 +169,17 @@ class Product
     }
 
     /**
-     * @return \DateTime
+     * @return mixed
      */
-    public function getDateAdded(): \DateTime
+    public function getDateAdded()
     {
         return $this->date_added;
     }
 
     /**
-     * @param \DateTime $date_added
+     * @param mixed $date_added
      */
-    public function setDateAdded(\DateTime $date_added): void
+    public function setDateAdded($date_added): void
     {
         $this->date_added = $date_added;
     }

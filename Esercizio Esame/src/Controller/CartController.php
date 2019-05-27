@@ -26,11 +26,12 @@ class CartController extends AbstractController
 
         $cartRepository = new CartRepository();
 
+        $realQta = 0;
         for ($i = 0; $i < $this->get('qta', 1); $i++)
-            $cartRepository->addProduct($_SESSION['cart']->getId(), $product->getId());
+            if($cartRepository->addProduct($_SESSION['cart']->getId(), $product->getId()))
+                $realQta++;
 
-        $this->goBack();
-        $this->redirect($this->get('redirect_to', 'product-list'));
+        $this->render('page-cart-product-added',['product' => $product, 'qta' => $this->get('qta', 1), 'real_qta' => $realQta]);
     }
 
     public function doDELETE(){

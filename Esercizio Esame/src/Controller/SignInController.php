@@ -56,7 +56,6 @@ class SignInController extends AbstractController
     {
         $this->closeUserSession();
         setcookie('cookie_cart','',-1);
-        $this->goBack();
         $this->redirect($this->get('redirect_to', 'index'));
     }
 }
