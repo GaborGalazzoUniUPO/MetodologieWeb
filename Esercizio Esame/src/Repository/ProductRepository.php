@@ -127,4 +127,27 @@ class ProductRepository extends AbstractRepository implements Repository
         }
         return $products;
     }
+
+    public function searchCount($category, $type, $search_text)
+    {
+        $query = "
+        select count(*) from (select p.id
+        from products p
+            left join reviews r on p.id = r.product_id
+        where (match(p.name, p.small_description, p.description, p.category_info) against (:search_text) || :search_text = '')
+        and (p.date_added + interval 7 day > NOW() || 2 <> :type)
+        and (p.type = :category || :category = 0)
+        group by p.id
+        having (ifnull(avg(r.vote),0) >= 3 || 1 <> :type)) as c;";
+
+        $stm = $this->connection->prepare($query);
+
+        $search_text = preg_replace('/[+\-><\(\)~*\"@]+/', ' ', $search_text);
+        $stm->bindParam('search_text',$search_text , PDO::PARAM_STR);
+        $stm->bindParam('category', $category, PDO::PARAM_INT);
+        $stm->bindParam('type', $type, PDO::PARAM_INT);
+        $stm->execute();
+        return $stm->fetchColumn();
+    }
+
 }

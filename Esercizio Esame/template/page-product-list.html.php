@@ -1,8 +1,11 @@
 <?php include_once 'common/header-default.html.php';
 /**
  * @var $products \Entity\Product[]
- * @var  $index
- * @var  $product \Entity\Product
+ * @var $index
+ * @var $category
+ * @var $product \Entity\Product
+ * @var $product_count integer
+ * @var $page integer
  */
 ?>
 
@@ -11,7 +14,34 @@
     <div class="card-body">
         <div class="row">
             <div class="col-9">
-                1-16 of over 1,000 results for "iphone"
+                <?= ($page * 18) + 1 ?>-<?= min(($page * 18) + 18, $product_count) ?> of <?= $product_count ?> results
+                <?php if (isset($search_text) && !empty(trim($search_text))) : ?>
+                    for "<?= $search_text ?>"
+                <?php endif; ?>
+                <?php if (isset($category) && $category) : ?>
+                    in "<?php
+                    switch ($category) {
+                        case 1:
+                            echo "Book";
+                            break;
+                        case 2:
+                            echo "Comic";
+                            break;
+                        case 3:
+                            echo "Audio CD";
+                            break;
+                        case 4:
+                            echo "Vinyl";
+                            break;
+                        case 5:
+                            echo "DVD Movie";
+                            break;
+                        case 6:
+                            echo "Video Games";
+                            break;
+                    }
+                    ?>"
+                <?php endif; ?>
             </div>
             <div class="text-right col-3">
                 <form action="/product-list.php" method="get">

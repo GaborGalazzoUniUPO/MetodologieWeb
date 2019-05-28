@@ -17,7 +17,9 @@ class ProductListController extends AbstractController
         $search_text = $this->get('search_text', '');
         $order = $this->get('order');
         $page = $this->get('page', 0);
-        $order_field = 'id';
+
+
+        $order_field = 'p.id';
         $order_direction = 'desc';
         switch ($order){
             case 'name_asc':
@@ -36,15 +38,12 @@ class ProductListController extends AbstractController
                 $order_field = 'p.unit_price';
                 $order_direction = 'asc';
                 break;
-            default:
-                $order_field = 'p.id';
-                $order_direction = 'desc';
-                break;
-
         }
 
 
         $productRepository = new ProductRepository();
+
+        $productCount = $productRepository->searchCount($category, $type, $search_text);
 
         $products = $productRepository->search($category, $type, $search_text, $order_field, $order_direction, $page);
 
@@ -54,7 +53,9 @@ class ProductListController extends AbstractController
             'type' => $type,
             'search_text' => $search_text,
             'products' => $products,
-            'order' => $order
+            'order' => $order,
+            'product_count' => $productCount,
+            'page' => $page
 
         ]);
     }
