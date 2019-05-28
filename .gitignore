@@ -1,1 +1,9 @@
 .idea
+
+artifact/
+
+production/
+
+WEB-INF/classes
+
+out/
