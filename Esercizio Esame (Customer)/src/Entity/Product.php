@@ -269,7 +269,7 @@ class Product
      */
     public function getCategoryInfo()
     {
-        return unserialize($this->category_info);
+        return [];
     }
 
     /**

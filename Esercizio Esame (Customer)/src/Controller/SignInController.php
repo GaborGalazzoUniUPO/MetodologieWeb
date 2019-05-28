@@ -55,7 +55,7 @@ class SignInController extends AbstractController
     public function doDELETE()
     {
         $this->closeUserSession();
-        setcookie('cookie_cart','',-1);
+        setcookie('cookie_cart','',-1, "/" );
         $this->redirect($this->get('redirect_to', 'index'));
     }
 }

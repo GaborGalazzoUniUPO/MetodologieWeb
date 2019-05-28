@@ -69,7 +69,7 @@
             session_regenerate_id(true);
             $_SESSION["user"] = $user;
             $cookie_session = $this->cookieRepository->generateSessionCookie($user);
-            setcookie('cookie_session', $cookie_session, time() + 2592000);
+            setcookie('cookie_session', $cookie_session, time() + 2592000, "/" );
             
         }
     
@@ -87,7 +87,7 @@
             session_regenerate_id(true);
             session_destroy();
             if (isset($_COOKIE['cookie_session'])) {
-                setcookie('cookie_session', '', -1);
+                setcookie('cookie_session', '', -1, "/" );
             }
             
         }
