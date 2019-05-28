@@ -5,6 +5,7 @@ namespace Repository;
 
 
 use Entity\Product;
+use PDO;
 
 class ProductRepository extends AbstractRepository implements Repository
 {
@@ -86,7 +87,7 @@ class ProductRepository extends AbstractRepository implements Repository
         return $products;
     }
 
-    public function search($category, $type, $search_text, $order, $page)
+    public function search($category, $type, $search_text, $order_field, $order_direction, $page)
     {
         $query = "
         select p.id,
@@ -110,15 +111,16 @@ class ProductRepository extends AbstractRepository implements Repository
         group by p.id
         having (review_avg >= 3 || 1 <> :type)
         order by match(name, small_description, description, category_info) against (:search_text) desc
-        , ".$order."
+        , $order_field $order_direction
         limit ".(intval($page)*18).", 18;";
 
         $stm = $this->connection->prepare($query);
-        $stm->execute([
-            'search_text' => preg_replace('/[+\-><\(\)~*\"@]+/', ' ', $search_text),
-            'category' => $category,
-            'type' => $type
-        ]);
+
+        $search_text = preg_replace('/[+\-><\(\)~*\"@]+/', ' ', $search_text);
+        $stm->bindParam('search_text',$search_text , PDO::PARAM_STR);
+        $stm->bindParam('category', $category, PDO::PARAM_INT);
+        $stm->bindParam('type', $type, PDO::PARAM_INT);
+        $stm->execute();
         $products = [];
         while ($product = $stm->fetchObject(Product::class)) {
             $products[] = $product;

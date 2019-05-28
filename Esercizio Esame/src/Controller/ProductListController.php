@@ -15,24 +15,30 @@ class ProductListController extends AbstractController
         $category = $this->get('category', 0);
         $type = $this->get('type', 0);
         $search_text = $this->get('search_text', '');
-        $order_p = $this->get('order');
+        $order = $this->get('order');
         $page = $this->get('page', 0);
-        $order = 'id desc';
-        switch ($order_p){
+        $order_field = 'id';
+        $order_direction = 'desc';
+        switch ($order){
             case 'name_asc':
-                $order = 'p.name asc';
+                $order_field = 'p.name';
+                $order_direction = 'asc';
                 break;
             case 'name_desc':
-                $order = 'p.name desc';
+                $order_field = 'p.name';
+                $order_direction = 'desc';
                 break;
             case 'price_desc':
-                $order = 'p.unit_price desc';
+                $order_field = 'p.unit_price';
+                $order_direction = 'desc';
                 break;
             case 'price_asc':
-                $order = 'p.unit_price asc';
+                $order_field = 'p.unit_price';
+                $order_direction = 'asc';
                 break;
             default:
-                $order = 'p.id desc';
+                $order_field = 'p.id';
+                $order_direction = 'desc';
                 break;
 
         }
@@ -40,7 +46,7 @@ class ProductListController extends AbstractController
 
         $productRepository = new ProductRepository();
 
-        $products = $productRepository->search($category, $type, $search_text, $order, $page);
+        $products = $productRepository->search($category, $type, $search_text, $order_field, $order_direction, $page);
 
 
         $this->render('page-product-list', [
@@ -48,7 +54,7 @@ class ProductListController extends AbstractController
             'type' => $type,
             'search_text' => $search_text,
             'products' => $products,
-            'order' => $order_p
+            'order' => $order
 
         ]);
     }
