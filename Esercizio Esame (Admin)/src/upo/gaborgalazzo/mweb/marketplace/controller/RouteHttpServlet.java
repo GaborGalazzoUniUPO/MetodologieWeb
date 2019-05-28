@@ -57,7 +57,6 @@ public abstract class RouteHttpServlet extends HttpServlet
 		ArrayList<Object> params = new ArrayList<>();
 		for (Parameter p : method.getParameters())
 		{
-			String pp;
 			if (p.getType() == HttpServletResponse.class)
 				params.add(response);
 			else if (p.getType() == HttpServletRequest.class)
