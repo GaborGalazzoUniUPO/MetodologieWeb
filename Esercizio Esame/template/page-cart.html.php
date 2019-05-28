@@ -7,9 +7,9 @@
 
 
 <div class="row">
-    <main class="col-sm-9">
-        <div class="card">
-            <table class="table table-hover shopping-cart-wrap">
+    <main class="col-lg-9 col-sm-12 ">
+        <div class="card mb-3">
+            <table class="table table-hover shopping-cart-wrap table-responsive-md">
                 <thead class="text-muted">
                 <tr>
                     <th scope="col">Product</th>
@@ -61,7 +61,7 @@
 
         </div> <!-- card.// -->
     </main>
-    <aside class="col-sm-3">
+    <aside class="col-lg-3 col-sm-12">
         
         <div class="box">
             Summary:

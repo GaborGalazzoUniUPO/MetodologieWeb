@@ -1,12 +1,12 @@
 <?php include_once 'common/header-default.html.php';
-/**
- * @var $products \Entity\Product[]
- * @var $index
- * @var $category
- * @var $product \Entity\Product
- * @var $product_count integer
- * @var $page integer
- */
+    /**
+     * @var $products      \Entity\Product[]
+     * @var $index
+     * @var $category
+     * @var $product       \Entity\Product
+     * @var $product_count integer
+     * @var $page          integer
+     */
 ?>
 
 
@@ -77,7 +77,7 @@
     </div> <!-- card-body .// -->
 </div>
 <?php foreach ($products as $index => $product): ?>
-
+    
     <?php if ($index % 3 == 0): ?>
         <div class="row">
     <?php endif; ?>
@@ -93,7 +93,7 @@
                     <?php else: ?>
                         <span class="badge-warning "><b> Only <?= $product->getStockCount() ?> left </b></span>
                     <?php endif; ?>
-
+                
                 <?php endif; ?>
 
                 <img src="<?= $product->getPhotoUrl() ?>"></div>
@@ -134,5 +134,30 @@
     <?php endif; ?>
 
 <?php endforeach; ?>
+<?php if ($index % 3 != 2): ?>
+    </div> <!-- row.// -->
+<?php endif; ?>
+<?php
+    
+    $page = isset($page) ? $page : 0;
+?>
+<form action="/product-list.php" method="get">
+    <input type="hidden" name="order" value="<?= isset($order) ? $order : 'featured' ?>">
+    <input type="hidden" name="type" value="<?= isset($type) ? $type : 0 ?>">
+    <input type="hidden" name="category" value="<?= isset($category) ? $category : 0 ?>">
+    <input type="hidden" name="search_text" value="<?= isset($search_text) ? $search_text : '' ?>">
+    <ul class="pagination justify-content-center">
+        <li class="page-item <?= ($page == 0) ? 'disabled' : '' ?>">
+            <button class="page-link" name="page" value="<?= $page - 1 ?>" tabindex="-1">Previous</button>
+        </li>
+        <?php for ($i = 0; $i < ($product_count / 18); $i++) : ?>
+            <li class="page-item <?= ($i == $page) ? 'active' : '' ?>"><button name="page" value="<?= $page ?>" class="page-link" href="#"><?= $i + 1 ?></button>
+            </li>
+        <?php endfor; ?>
+        <li class="page-item <?= ($page + 1 >= ($product_count / 18)) ? 'disabled' : '' ?>">
+            <button class="page-link" name="page" value="<?= $page + 1 ?>">Next</button>
+        </li>
+    </ul>
+</form>
 
 <?php include_once 'common/footer.html.php' ?>

@@ -30,7 +30,11 @@ $cartRepository = new \Repository\CartRepository();
 if (isset($_COOKIE['cookie_cart'])) {
     $_SESSION["cart"] = $cartRepository->findByCookie($_COOKIE['cookie_cart']);
 } else if(isset($_SESSION["cart"])){
-    setcookie('cookie_cart', $_SESSION["cart"]->getCookieCart(), time() + 2592000);
+    $sessionCart = $cartRepository->findByCookie($_SESSION["cart"]->getCookieCart());
+    if($sessionCart)
+        setcookie('cookie_cart', $_SESSION["cart"]->getCookieCart(), time() + 2592000);
+    else
+        unset($_SESSION["cart"]);
 }
 
 

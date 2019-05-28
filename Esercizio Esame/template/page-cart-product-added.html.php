@@ -47,8 +47,8 @@
         </aside>
         <article class="col-sm-12 col-md-4 align-self-center pl-2 p-2">
             <h4 class="title  p-2">
-                Cart subtotal (<?= $_SESSION['cart']->getItemCount() + $real_qta ?> item): €<?= number_format(
-                    $_SESSION['cart']->getTotal() + ($product->getUnitPrice() * $real_qta ),
+                Cart subtotal (<?= $_SESSION['cart']->getItemCount() ?> item): €<?= number_format(
+                    $_SESSION['cart']->getTotal(),
                     2
                 ) ?>
             </h4>
@@ -58,7 +58,7 @@
             <div class="action-wrap">
 
                 <a href="/cart.php" class="btn btn-outline-secondary"> Cart </a>
-                <a href="#" class="btn btn-primary"> Proceed to checkout ( <?= $_SESSION['cart']->getItemCount() + $real_qta ?>
+                <a href="#" class="btn btn-primary"> Proceed to checkout ( <?= $_SESSION['cart']->getItemCount() ?>
                     item)</a>
             </div> <!-- action-wrap.// -->
         </aside> <!-- col.// -->

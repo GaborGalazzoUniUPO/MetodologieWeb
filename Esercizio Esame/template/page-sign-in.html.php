@@ -4,7 +4,9 @@
 
 <div class="card">
     <article class="card-body">
+        <a class="float-right btn btn-outline-primary mt-1" href="/sign-up.php?=redirect_to=<?= isset($redirect_to)?$redirect_to:'' ?>">Sign up</a>
         <h4 class="card-title text-center mb-4 mt-1">Sign in</h4>
+        
         <hr>
         <p class="text-danger text-center"><?= isset($error, $error['sign-in']) ? $error['sign-in'] : '' ?></p>
         <form action="/sign-in.php" method="post">
@@ -38,6 +40,7 @@
             <?php endif; ?>
         </form>
     </article>
+    <div class="border-top card-body text-center">Dont have an account? <a href="/sign-up.php?=redirect_to=<?= isset($redirect_to)?$redirect_to:'' ?>">Sign Up</a></div>
 </div> <!-- card.// -->
 
 

@@ -52,7 +52,7 @@
                     Terms of use and Privacy Policy.
                 </small>
                 <?php if (isset($redirect_to)): ?>
-                    <input type="hidden" name="redirect_to" value="<?= $redirect_to ?>">
+                    <input type="hidden" name="redirect_to" value="<?= urlencode($redirect_to) ?>">
                 <?php endif; ?>
             </form>
         </article> <!-- card-body end .// -->

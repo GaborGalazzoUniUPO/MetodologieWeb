@@ -13,7 +13,7 @@
                         <h2 class="logo-text">LOGO</h2>
                     </div> <!-- brand-wrap.// -->
                 </div>
-                <div class="col-lg-5 col-xl-8 col-sm-8">
+                <div class="col-lg-9 col-sm-8">
                     <?php include_once "head-widget.html.php" ?>
                 </div> <!-- widgets-wrap.// -->
             </div> <!-- col.// -->
