@@ -66,8 +66,6 @@ class SignUpController extends AbstractController{
 
         $this->startUserSession($user);
 
-        $this->goBack();
-
         $this->redirect($this->get('redirect_to', 'index'));
     }
 

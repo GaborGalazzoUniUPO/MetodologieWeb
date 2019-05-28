@@ -32,6 +32,7 @@ class CartRepository extends AbstractRepository
 
         /** @var Cart $cart */
         $cart = $stm->fetchObject(Cart::class);
+
         if ($cart) {
             $query = "
             select p.name,
@@ -57,7 +58,7 @@ class CartRepository extends AbstractRepository
             $cart->setProducts($products);
 
         }
-        return $cart;
+        return $cart?$cart:null;
 
 
     }

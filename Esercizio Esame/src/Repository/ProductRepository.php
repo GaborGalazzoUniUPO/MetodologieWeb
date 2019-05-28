@@ -86,7 +86,7 @@ class ProductRepository extends AbstractRepository implements Repository
         return $products;
     }
 
-    public function search($category, $type, $search_text)
+    public function search($category, $type, $search_text, $order, $page)
     {
         $query = "
         select p.id,
@@ -109,7 +109,9 @@ class ProductRepository extends AbstractRepository implements Repository
         and (p.type = :category || :category = 0)
         group by p.id
         having (review_avg >= 3 || 1 <> :type)
-        order by match(name, small_description, description, category_info) against (:search_text) desc;";
+        order by match(name, small_description, description, category_info) against (:search_text) desc
+        , ".$order."
+        limit ".(intval($page)*18).", 18;";
 
         $stm = $this->connection->prepare($query);
         $stm->execute([

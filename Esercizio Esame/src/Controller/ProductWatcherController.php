@@ -11,11 +11,18 @@
     
         public function doGET()
         {
-        
+            if(!$this->getUserSession()){
+                $this->redirect('action-go-back');
+            }
+
         }
     
         public function doPOST()
         {
+
+            if(!$this->getUserSession()){
+                $this->redirect('sign-in', ['redirect_to'=> '/product.php/?id='.$this->get('product_id', -1)]);
+            }
             $productRepository = new ProductRepository();
             $product = $productRepository->findById($this->get('product_id', -1));
     

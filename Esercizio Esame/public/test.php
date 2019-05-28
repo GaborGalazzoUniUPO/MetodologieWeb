@@ -1,4 +1,5 @@
 <?php
+/*
 require_once '../preload.php';
 
 var_dump([
@@ -7,3 +8,9 @@ var_dump([
    $_SERVER,
     serialize([])
 ]);
+
+die();
+*/
+
+extract($_GET);
+var_dump($_GET);

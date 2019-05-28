@@ -30,6 +30,8 @@ class ProductController extends AbstractController
                 'product' => $product,
                 'reviews' => $reviews
                 ]);
+
+
     }
 
     public function doPOST()

@@ -33,6 +33,7 @@ if (isset($_COOKIE['cookie_cart'])) {
     setcookie('cookie_cart', $_SESSION["cart"]->getCookieCart(), time() + 2592000);
 }
 
+
 if (!isset($_SESSION["cart"])) {
     if (isset($_SESSION["user"])) {
         $_SESSION["cart"] = $cartRepository->findActiveByUser($_SESSION["user"]->getId());

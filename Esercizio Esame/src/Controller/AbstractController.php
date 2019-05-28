@@ -50,9 +50,12 @@
         
         protected function redirect($page, $params = [])
         {
-            if (strpos($page, '.php?')) {
+            if (strpos($page, '.php?') || strpos($page, '.php/?')) {
                 header("Location: $page&".http_build_query($params));
-            } else {
+            } elseif (substr_compare($page, '.php', -strlen('.php')) === 0){
+                header("Location: $page/?&".http_build_query($params));
+            }
+            else {
                 header("Location: /$page.php?".http_build_query($params));
             }
             exit(0);

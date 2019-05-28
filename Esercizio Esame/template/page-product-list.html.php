@@ -1,12 +1,52 @@
-<?php include_once 'common/header-default.html.php' ?>
-
-<?php
+<?php include_once 'common/header-default.html.php';
 /**
  * @var $products \Entity\Product[]
  * @var  $index
  * @var  $product \Entity\Product
  */
-foreach ($products as $index => $product): ?>
+?>
+
+
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-9">
+                1-16 of over 1,000 results for "iphone"
+            </div>
+            <div class="text-right col-3">
+                <form action="/product-list.php" method="get">
+                    <input type="hidden" name="category" value="<?= isset($category) ? $category : '' ?>">
+                    <input type="hidden" name="search_text" value="<?= isset($search_text) ? $search_text : '' ?>">
+                    <input type="hidden" name="type" value="<?= isset($type) ? $type : '' ?>">
+                    <dl class="dlist-inline">
+                        <dt>Sort by:</dt>
+                        <dd>
+                            <select onchange="this.form.submit()" name="order" class="form-control">
+                                <option value="featured">Featured</option>
+
+                                <option value="price_asc" <?= (isset($order) && $order == 'price_asc') ? 'selected' : '' ?>>
+                                    Price: Low to High
+                                </option>
+                                <option value="price_desc" <?= (isset($order) && $order == 'price_desc') ? 'selected' : '' ?>>
+                                    Price: High to Low
+                                </option>
+                                <option value="name_asc" <?= (isset($order) && $order == 'name_asc') ? 'selected' : '' ?>>
+                                    Name: Low to High
+                                </option>
+                                <option value="name_desc" <?= (isset($order) && $order == 'name_desc') ? 'selected' : '' ?>>
+                                    Name: High to Low
+                                </option>
+                            </select>
+                        </dd>
+                    </dl>
+                </form>
+
+
+            </div>
+        </div>
+    </div> <!-- card-body .// -->
+</div>
+<?php foreach ($products as $index => $product): ?>
 
     <?php if ($index % 3 == 0): ?>
         <div class="row">
@@ -14,9 +54,9 @@ foreach ($products as $index => $product): ?>
     <div class="col-md-4">
         <figure class="card card-product">
             <div class="img-wrap">
-                <?php if(strtotime($product->getDateAdded()) > strtotime('-7 days')): ?>
-                <span class="badge-new"> NEW </span>
-                <?php endif;?>
+                <?php if (strtotime($product->getDateAdded()) > strtotime('-7 days')): ?>
+                    <span class="badge-new"> NEW </span>
+                <?php endif; ?>
                 <?php if ($product->getStockCount() <= 5): ?>
                     <?php if ($product->getStockCount() == 0) : ?>
                         <span class="badge-danger "><b> NOT AVAILABLE</b></span>
