@@ -7,11 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
-<jsp:include page="common/head.jsp"></jsp:include>
-<body>
-
-
+<jsp:include page="common/header.jsp"/>
 <div class="card">
 	<table class="table table-hover shopping-cart-wrap">
 		<thead class="text-muted">
@@ -62,5 +58,4 @@
 	</table>
 </div> <!-- card.// -->
 
-</body>
-</html>
+<jsp:include page="common/footer.jsp"/>
