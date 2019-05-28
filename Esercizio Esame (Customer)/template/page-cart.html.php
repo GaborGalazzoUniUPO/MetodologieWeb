@@ -13,9 +13,9 @@
                 <thead class="text-muted">
                 <tr>
                     <th scope="col">Product</th>
-                    <th width="120" scope="col">Quantity</th>
-                    <th width="120" scope="col">Price</th>
-                    <th width="200" class="text-right" scope="col">Action</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th class="text-right" scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,8 +39,12 @@
                         </td>
                         <td>
                             <div class="price-wrap">
-                                <var class="price">€ <?= number_format($product->getUnitPrice() * $product->getQta(),2) ?></var>
-                                <small class="text-muted">(€ <?= number_format($product->getUnitPrice(),2) ?> each)</small>
+                                <var class="price">€ <?= number_format(
+                                        $product->getUnitPrice() * $product->getQta(),
+                                        2
+                                    ) ?></var>
+                                <small class="text-muted">(€ <?= number_format($product->getUnitPrice(), 2) ?>each)
+                                </small>
                             </div> <!-- price-wrap .// -->
                         </td>
                         <td class="text-right">
@@ -62,7 +66,7 @@
         </div> <!-- card.// -->
     </main>
     <aside class="col-lg-3 col-sm-12">
-        
+
         <div class="box">
             Summary:
             <dl class="dlist-align mt-2">
@@ -76,9 +80,11 @@
                         2
                     ) ?></dd>
             </dl>
-            <button class="btn btn-block btn-outline-success mt-5 <?= !$cart->getItemCount()?'disabled':'' ?>">Proceede to checkout</button>
+            <button class="btn btn-block btn-outline-success mt-5 <?= !$cart->getItemCount() ? 'disabled' : '' ?>">
+                Proceede to checkout
+            </button>
         </div>
-       
+
     </aside>
 </div>
 
