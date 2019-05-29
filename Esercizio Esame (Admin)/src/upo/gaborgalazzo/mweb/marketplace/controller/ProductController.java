@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet(name = "ProductController", urlPatterns = {"/products/*"})
+@WebServlet(name = "ProductController", urlPatterns = {"/product/*"})
 public class ProductController extends RouteHttpServlet
 {
 
-	@RequestMapping(pattern = "/")
+	@RequestMapping(pattern = "/list")
 	public void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		ProductDAO productDAO = new ProductDAO();
@@ -26,13 +26,21 @@ public class ProductController extends RouteHttpServlet
 		request.setAttribute("products", products);
 
 
-		request.getRequestDispatcher("/WEB-INF/template/page-product-list.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/template/page/product/list.jsp").forward(request, response);
 	}
 
-	@RequestMapping(pattern = "/{id}")
+	@RequestMapping(pattern = "/get/{id}")
 	public void get(HttpServletRequest request,  HttpServletResponse response, int id) throws IOException
 	{
 
 		response.getOutputStream().println(id);
 	}
+
+	@RequestMapping(pattern = "/add")
+	public void add(HttpServletRequest request,  HttpServletResponse response) throws IOException, ServletException
+	{
+		request.setAttribute("product", new Product());
+		request.getRequestDispatcher("/WEB-INF/template/page/product/add.jsp").forward(request, response);
+	}
+
 }

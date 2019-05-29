@@ -1,5 +1,8 @@
 package upo.gaborgalazzo.mweb.marketplace.domain;
 
+import de.ailis.pherialize.MixedArray;
+import de.ailis.pherialize.Pherialize;
+
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -89,6 +92,10 @@ public class Product
 	public String getCategoryInfo()
 	{
 		return categoryInfo;
+	}
+
+	public MixedArray getCategoryInfoMap(){
+		return Pherialize.unserialize("a:0:{}").toArray();
 	}
 
 	public void setCategoryInfo(String categoryInfo)

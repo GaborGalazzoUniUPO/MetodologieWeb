@@ -7,8 +7,16 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="common/header.jsp"/>
+<jsp:include page="../../common/header.jsp"/>
 <div class="card">
+	<div class="card-body">
+		<div class="text-right">
+			<a href="${pageContext.request.contextPath}/product/add" class="btn btn-outline-primary">New</a>
+		</div>
+	</div>
+</div>
+
+<div class="card mt-3">
 	<table class="table table-hover shopping-cart-wrap">
 		<thead class="text-muted">
 		<tr>
@@ -50,7 +58,7 @@
 					</div> <!-- price-wrap .// -->
 				</td>
 				<td class="text-right">
-					<a href="${pageContext.request.contextPath}/products/${product.id}"class="btn btn-outline-success"> Edit</a>
+					<a href="${pageContext.request.contextPath}/product/edit/${product.id}" class="btn btn-outline-success"> Edit</a>
 				</td>
 			</tr>
 		</c:forEach>
@@ -59,4 +67,4 @@
 	</table>
 </div> <!-- card.// -->
 
-<jsp:include page="common/footer.jsp"/>
+<jsp:include page="../../common/footer.jsp"/>

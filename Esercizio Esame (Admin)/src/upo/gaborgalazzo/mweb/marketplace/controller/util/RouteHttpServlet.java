@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,8 +36,9 @@ public abstract class RouteHttpServlet extends HttpServlet
 			{
 				method.invoke(this, params);
 				return;
-			} catch (IllegalAccessException | InvocationTargetException ignored)
+			} catch (IllegalAccessException | InvocationTargetException e)
 			{
+				throw new RuntimeException(e);
 			}
 		}
 		super.service(req, resp);
@@ -52,8 +54,10 @@ public abstract class RouteHttpServlet extends HttpServlet
 		if (!pathInfo.matches(regexPattern))
 			return null;
 
-		Pattern pm = Pattern.compile("([^/]+)");
-		Matcher m = pm.matcher(pathInfo);
+		String[] mapping = requestMapping.pattern().split("/");
+		String[] pathMapping = pathInfo.split("/");
+
+
 		ArrayList<Object> params = new ArrayList<>();
 		for (Parameter p : method.getParameters())
 		{
@@ -61,10 +65,18 @@ public abstract class RouteHttpServlet extends HttpServlet
 				params.add(response);
 			else if (p.getType() == HttpServletRequest.class)
 				params.add(request);
-			else if ( m.find() && (p.getType() == Integer.class || p.getType() == int.class))
-				params.add((Integer.parseInt(m.group(1))));
 			else
-				params.add(m.group(1));
+			{
+				for(int i = 0; i<mapping.length; i++){
+					if(mapping[i].equals("{"+p.getName()+"}")){
+						if(p.getType() == Integer.class || p.getType() == int.class)
+							params.add(Integer.parseInt(pathMapping[i]));
+						else
+							params.add(pathMapping[i]);
+					}
+				}
+
+			}
 		}
 
 

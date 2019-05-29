@@ -21,6 +21,7 @@
 	<!-- custom style -->
 	<link href="${pageContext.request.contextPath}/assets/css/ui.css" rel="stylesheet" type="text/css">
 	<link href="${pageContext.request.contextPath}/assets/css/responsive.css" rel="stylesheet" media="only screen and (max-width: 1200px)">
+	<link href="${pageContext.request.contextPath}/assets/css/dashboard.css" rel="stylesheet">
 
 	<!-- custom javascript -->
 	<script src="${pageContext.request.contextPath}/assets/js/script.js" type="text/javascript"></script>
@@ -28,23 +29,5 @@
 	<script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script>
 
 	<style>
-		html,
-		body {
-			height: 100%;
-			display: flex;
-			flex-flow: column;
-		}
-
-		header {
-			flex: 0 1 auto;
-		}
-
-		section {
-			flex: 1 1 auto;
-		}
-
-		footer {
-			flex: 0 1 auto;
-		}
 	</style>
 </head>
