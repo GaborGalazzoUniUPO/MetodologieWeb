@@ -58,7 +58,7 @@
             <div class="action-wrap">
 
                 <a href="/cart.php" class="btn btn-outline-secondary"> Cart </a>
-                <a href="#" class="btn btn-primary"> Proceed to checkout ( <?= $_SESSION['cart']->getItemCount() ?>
+                <a href="/checkout.php" class="btn btn-primary"> Proceed to checkout ( <?= $_SESSION['cart']->getItemCount() ?>
                     item)</a>
             </div> <!-- action-wrap.// -->
         </aside> <!-- col.// -->

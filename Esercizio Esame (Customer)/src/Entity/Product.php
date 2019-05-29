@@ -35,7 +35,7 @@ class Product
     /**
      * @var int
      */
-    private $type;
+    private $category;
 
     /**
      * @var \DateTime
@@ -155,17 +155,17 @@ class Product
     /**
      * @return int
      */
-    public function getType(): int
+    public function getCategory(): int
     {
-        return $this->type;
+        return $this->category;
     }
 
     /**
-     * @param int $type
+     * @param int $category
      */
-    public function setType(int $type): void
+    public function setCategory(int $category): void
     {
-        $this->type = $type;
+        $this->category = $category;
     }
 
     /**
@@ -269,7 +269,7 @@ class Product
      */
     public function getCategoryInfo()
     {
-        return [];
+        return unserialize($this->category_info);
     }
 
     /**

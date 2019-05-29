@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $info = "_" . $type;
 
     $connection = \Functionality\Database::getConnection();
-    $query = "insert into products (code, photo_url, description, name, unit_price, type,  small_description,
+    $query = "insert into products (code, photo_url, description, name, unit_price, category,  small_description,
                       category_info)
 values ('$code', '$photo_url', :description, :name, $unit_price, $type, :small_description, :info)";
     $connection->prepare($query)
@@ -63,10 +63,112 @@ values ('$code', '$photo_url', :description, :name, $unit_price, $type, :small_d
     <div>
         <label>
             Type:
-            <input type="number" name="type" value="5">
+            <input type="number" name="type" value="6">
         </label>
     </div>
 
+    <br/>
+    <br/>
+    <br/>
+    Game INFO:
+
+    <div>
+        <label>
+            Platform:
+            <input type="text" name="_6[Platform]">
+        </label>
+    </div>
+    <div>
+        <label>
+            Publisher:
+            <input type="text" name="_6[Publisher]">
+        </label>
+    </div>
+    <div>
+        <label>
+            Pub year:
+            <input type="text" name="_6[Pegi]">
+        </label>
+    </div>
+
+    <br/>
+    <br/>
+    <br/>
+    Vinyl INFO:
+
+    <div>
+        <label>
+            Author:
+            <input type="text" name="_3[Author]">
+        </label>
+    </div>
+    <div>
+        <label>
+            Pub year:
+            <input type="text" name="_3[Publication year]">
+        </label>
+    </div>
+    <div>
+        <label>
+            Tracks:
+            <input type="text" name="_4[Tracks][0]"/><br/>
+            <input type="text" name="_4[Tracks][1]"/><br/>
+            <input type="text" name="_4[Tracks][2]"/><br/>
+            <input type="text" name="_4[Tracks][3]"/><br/>
+            <input type="text" name="_4[Tracks][4]"/><br/>
+            <input type="text" name="_4[Tracks][5]"/><br/>
+            <input type="text" name="_4[Tracks][6]"/><br/>
+            <input type="text" name="_4[Tracks][7]"/><br/>
+            <input type="text" name="_4[Tracks][8]"/><br/>
+            <input type="text" name="_4[Tracks][8]"/><br/>
+            <input type="text" name="_4[Tracks][10]"/><br/>
+            <input type="text" name="_4[Tracks][11]"/><br/>
+            <input type="text" name="_4[Tracks][12]"/><br/>
+            <input type="text" name="_4[Tracks][13]"/><br/>
+            <input type="text" name="_4[Tracks][14]"/><br/>
+            <input type="text" name="_4[Tracks][15]"/><br/>
+        </label>
+    </div>
+    
+<br/>
+<br/>
+<br/>
+    CD INFO:
+
+    <div>
+        <label>
+            Author:
+            <input type="text" name="_3[Author]">
+        </label>
+    </div>
+    <div>
+        <label>
+            Pub year:
+            <input type="text" name="_3[Publication year]">
+        </label>
+    </div>
+    <div>
+        <label>
+            Tracks:
+            <input type="text" name="_3[Tracks][0]"/><br/>
+            <input type="text" name="_3[Tracks][1]"/><br/>
+            <input type="text" name="_3[Tracks][2]"/><br/>
+            <input type="text" name="_3[Tracks][3]"/><br/>
+            <input type="text" name="_3[Tracks][4]"/><br/>
+            <input type="text" name="_3[Tracks][5]"/><br/>
+            <input type="text" name="_3[Tracks][6]"/><br/>
+            <input type="text" name="_3[Tracks][7]"/><br/>
+            <input type="text" name="_3[Tracks][8]"/><br/>
+            <input type="text" name="_3[Tracks][8]"/><br/>
+            <input type="text" name="_3[Tracks][10]"/><br/>
+            <input type="text" name="_3[Tracks][11]"/><br/>
+            <input type="text" name="_3[Tracks][12]"/><br/>
+            <input type="text" name="_3[Tracks][13]"/><br/>
+            <input type="text" name="_3[Tracks][14]"/><br/>
+            <input type="text" name="_3[Tracks][15]"/><br/>
+        </label>
+    </div>
+    
     <br/>
     <br/>
     Movie INFO:

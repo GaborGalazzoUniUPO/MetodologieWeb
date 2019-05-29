@@ -43,7 +43,7 @@
                                         $product->getUnitPrice() * $product->getQta(),
                                         2
                                     ) ?></var>
-                                <small class="text-muted">(€ <?= number_format($product->getUnitPrice(), 2) ?>each)
+                                <small class="text-muted">(€ <?= number_format($product->getUnitPrice(), 2) ?> each)
                                 </small>
                             </div> <!-- price-wrap .// -->
                         </td>
@@ -80,9 +80,9 @@
                         2
                     ) ?></dd>
             </dl>
-            <button class="btn btn-block btn-outline-success mt-5 <?= !$cart->getItemCount() ? 'disabled' : '' ?>">
+            <a class="btn btn-block btn-outline-success mt-5 <?= !$cart->getItemCount() ? 'disabled' : '' ?>" href="/checkout.php">
                 Proceede to checkout
-            </button>
+            </a>
         </div>
 
     </aside>

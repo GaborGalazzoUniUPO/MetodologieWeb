@@ -34,6 +34,10 @@ class User
      * @var string
      */
     private $email;
+    
+    private $default_payment_method;
+    
+    private $default_shipping_address;
 
     /**
      * @return int
@@ -130,6 +134,40 @@ class User
     {
         $this->email = $email;
     }
+    
+    /**
+     * @return mixed
+     */
+    public function getDefaultPaymentMethod()
+    {
+        return $this->default_payment_method;
+    }
+    
+    /**
+     * @param mixed $default_payment_method
+     */
+    public function setDefaultPaymentMethod($default_payment_method): void
+    {
+        $this->default_payment_method = $default_payment_method;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getDefaultShippingAddress()
+    {
+        return $this->default_shipping_address;
+    }
+    
+    /**
+     * @param mixed $default_shipping_address
+     */
+    public function setDefaultShippingAddress($default_shipping_address): void
+    {
+        $this->default_shipping_address = $default_shipping_address;
+    }
+    
+    
 
 
     public function validate()

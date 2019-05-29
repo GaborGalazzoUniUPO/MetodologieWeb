@@ -8,10 +8,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-3 col-sm-4">
-                    <div class="brand-wrap">
-                        <img class="logo" src="/assets/images/logo-dark.png">
-                        <h2 class="logo-text">LOGO</h2>
-                    </div> <!-- brand-wrap.// -->
+                    <?php include_once "logo.html.php" ?>
                 </div>
                 <div class="col-lg-9 col-sm-8">
                     <?php include_once "head-widget.html.php" ?>
@@ -25,9 +22,9 @@
 <!-- ========================= SECTION MAIN ========================= -->
 <section class="section-content padding-y bg">
     <div class="container">
-        <?php if(isset($error, $error['internal'])): ?>
+        <?php if (isset($error, $error['internal'])): ?>
         <div class="alert alert-danger">
-            <strong>Internal Error!</strong> <?= $error['internal']?> <br/>
+            <strong>Internal Error!</strong> <?= $error['internal'] ?> <br/>
             If this error persist please contact our team.
         </div>
 <?php endif; ?>

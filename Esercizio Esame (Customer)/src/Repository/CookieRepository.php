@@ -18,7 +18,9 @@ class CookieRepository extends AbstractRepository
                          left join users u on c.user_id = u.id
                 where c.cookie_session = :cookie_session;");
         $stm->execute(['cookie_session' => $cookie_session]);
-        return $stm->fetchObject(User::class);
+        if($user = $stm->fetchObject(User::class))
+            return $user;
+        return null;
     }
 
 

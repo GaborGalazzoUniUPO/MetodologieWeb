@@ -8,10 +8,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-2 col-xl-2 col-sm-4">
-                    <div class="brand-wrap">
-                        <img class="logo" src="/assets/images/logo-dark.png">
-                        <h2 class="logo-text">LOGO</h2>
-                    </div> <!-- brand-wrap.// -->
+                    <?php include_once "logo.html.php" ?>
                 </div>
                 <div class="col-lg-7 col-xl-7 col-sm-12">
                     <?php include_once "head-search-form.html.php" ?>

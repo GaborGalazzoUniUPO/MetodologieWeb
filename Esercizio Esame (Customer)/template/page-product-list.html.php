@@ -134,7 +134,7 @@
     <?php endif; ?>
 
 <?php endforeach; ?>
-<?php if ($index % 3 != 2): ?>
+<?php if (isset($index) && ($index % 3 != 2)): ?>
     </div> <!-- row.// -->
 <?php endif; ?>
 <?php
@@ -151,7 +151,7 @@
             <button class="page-link" name="page" value="<?= $page - 1 ?>" tabindex="-1">Previous</button>
         </li>
         <?php for ($i = 0; $i < ($product_count / 18); $i++) : ?>
-            <li class="page-item <?= ($i == $page) ? 'active' : '' ?>"><button name="page" value="<?= $page ?>" class="page-link" href="#"><?= $i + 1 ?></button>
+            <li class="page-item <?= ($i == $page) ? 'active' : '' ?>"><button name="page" value="<?= $i?>" class="page-link" href="#"><?= $i + 1 ?></button>
             </li>
         <?php endfor; ?>
         <li class="page-item <?= ($page + 1 >= ($product_count / 18)) ? 'disabled' : '' ?>">

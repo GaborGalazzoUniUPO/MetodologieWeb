@@ -1,5 +1,5 @@
 <div class="widget-header">
-    <?php if(!isset($_SESSION['user'])): ?>
+    <?php if(!isset($_SESSION['user']) || !$_SESSION['user']): ?>
     <small class="title text-muted">Welcome guest!</small>
     <div><a href="/sign-in.php?redirect_to=<?= $_SERVER['REQUEST_URI'] ?>">Sign in</a> <span
                 class="dark-transp"> | </span>

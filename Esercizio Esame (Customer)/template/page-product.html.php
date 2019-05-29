@@ -47,8 +47,18 @@
 
                 <dl class="row">
                     <?php foreach ($product->getCategoryInfo() as $category => $info): ?>
-                        <dt class="col-sm-3"><?= $category ?></dt>
-                        <dd class="col-sm-9"><?= $info ?></dd>
+                        <dt class="col-md-3"><?= $category ?></dt>
+                        <?php if (!is_array($info)): ?>
+                            <dd class="col-md-9"><?= $info ?></dd>
+                        <?php else: ?>
+                            <dd class="col-md-9">
+                                <ul class="p-0">
+                                    <?php foreach ($info as $item): ?>
+                                        <li><?= $item ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </dd>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </dl>
 
@@ -99,9 +109,10 @@
                     <form action="/product-watcher.php" method="post">
                         <input type="hidden" name="product_id" value="<?= $product->getId() ?>">
                         <button type="submit" class="btn  btn-outline-primary"><i
-                                    class="fas fa-eye"></i> Notify me when become available</button>
+                                    class="fas fa-eye"></i> Notify me when become available
+                        </button>
                     </form>
-                    
+                
                 <?php endif; ?>
 
             </article> <!-- card-body.// -->
