@@ -8,4 +8,4 @@ WEB-INF/classes
 
 out/
 
-.iml
+*.iml
