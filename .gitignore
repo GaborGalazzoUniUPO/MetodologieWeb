@@ -7,3 +7,5 @@ production/
 WEB-INF/classes
 
 out/
+
+.iml
