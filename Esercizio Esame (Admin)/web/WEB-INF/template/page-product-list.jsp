@@ -21,14 +21,15 @@
 		<tbody>
 
 
+		<jsp:useBean id="products" scope="request" type="java.util.List<upo.gaborgalazzo.mweb.marketplace.domain.Product>"/>
 		<c:forEach items="${products}" var="product">
 
 			<tr>
 				<td>
 					<figure class="media">
-						<div class="img-wrap"><img src="${product.getPhotoUrl()}" class="img-thumbnail img-sm"></div>
+						<div class="img-wrap"><img src="${product.photoUrl}" class="img-thumbnail img-sm" alt=""></div>
 						<figcaption class="media-body">
-							<h6 class="title text-truncate">${product.getName()} </h6>
+							<h6 class="title text-truncate">${product.name}</h6>
 							<dl class="dlist-inline small">
 								<dt>Size:</dt>
 								<dd>XXL</dd>
@@ -41,15 +42,15 @@
 					</figure>
 				</td>
 				<td>
-					${product.getQta()}
+					${product.qta}
 				</td>
 				<td>
 					<div class="price-wrap">
-						<var class="price">€ ${product.getUnitPrice()}</var>
+						<var class="price">€ ${product.unitPrice}</var>
 					</div> <!-- price-wrap .// -->
 				</td>
 				<td class="text-right">
-					<a href="" class="btn btn-outline-success"> Edit</a>
+					<a href="${pageContext.request.contextPath}/products/${product.id}"class="btn btn-outline-success"> Edit</a>
 				</td>
 			</tr>
 		</c:forEach>

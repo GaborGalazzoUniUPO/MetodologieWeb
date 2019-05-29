@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html lang="en">
-<jsp:include page="head.jsp"></jsp:include>
+<jsp:include page="head.jsp"/>
 <body>
 <header class="section-header">
 	<nav class="navbar header-main navbar-expand-sm navbar-dark bg-secondary">

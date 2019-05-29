@@ -1,4 +1,4 @@
-package upo.gaborgalazzo.mweb.marketplace.controller;
+package upo.gaborgalazzo.mweb.marketplace.controller.util;
 
 
 import java.lang.annotation.ElementType;

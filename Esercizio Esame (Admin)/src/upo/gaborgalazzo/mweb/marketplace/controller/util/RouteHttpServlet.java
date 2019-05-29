@@ -1,4 +1,4 @@
-package upo.gaborgalazzo.mweb.marketplace.controller;
+package upo.gaborgalazzo.mweb.marketplace.controller.util;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
