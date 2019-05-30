@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : Locahost
+ Source Server         : LOCALHOST
  Source Server Type    : MySQL
- Source Server Version : 50719
+ Source Server Version : 50718
  Source Host           : localhost:3306
  Source Schema         : mweb-digital_store
 
  Target Server Type    : MySQL
- Target Server Version : 50719
+ Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 28/05/2019 16:42:35
+ Date: 31/05/2019 00:46:45
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,7 @@ CREATE TABLE `cart_products`  (
   UNIQUE INDEX `cart_products_stock_unit_uindex`(`stock_unit`) USING BTREE,
   UNIQUE INDEX `cart_products_cart_id_stock_unit_uindex`(`cart_id`, `stock_unit`) USING BTREE,
   CONSTRAINT `cart_products_carts_id_fk` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for carts
@@ -44,12 +44,14 @@ CREATE TABLE `carts`  (
   UNIQUE INDEX `cart_cookie_cart_uindex`(`cookie_cart`) USING BTREE,
   UNIQUE INDEX `carts_owner_id_uindex`(`owner_id`) USING BTREE,
   CONSTRAINT `carts_users_id_fk` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of carts
 -- ----------------------------
 INSERT INTO `carts` VALUES (11, '5cea5c697d63b', '2019-05-26 11:29:13', 9);
+INSERT INTO `carts` VALUES (12, '5ceee40b0e622', '2019-05-29 21:56:59', NULL);
+INSERT INTO `carts` VALUES (13, '5ceeec266b5d7', '2019-05-29 22:31:34', NULL);
 
 -- ----------------------------
 -- Table structure for cookies
@@ -64,7 +66,7 @@ CREATE TABLE `cookies`  (
   UNIQUE INDEX `cookies_cookie_session_uindex`(`cookie_session`) USING BTREE,
   INDEX `cookies_users_id_fk`(`user_id`) USING BTREE,
   CONSTRAINT `cookies_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of cookies
@@ -86,21 +88,88 @@ INSERT INTO `cookies` VALUES (14, '5cea5d4a95df1', 9, '2019-05-26 11:32:58');
 INSERT INTO `cookies` VALUES (15, '5cea5d939de6d', 9, '2019-05-26 11:34:11');
 INSERT INTO `cookies` VALUES (16, '5cea5e2301577', 9, '2019-05-26 11:36:35');
 INSERT INTO `cookies` VALUES (17, '5cea5ea9a4777', 9, '2019-05-26 11:38:49');
+INSERT INTO `cookies` VALUES (18, '5ceef08e825e1', 9, '2019-05-29 22:50:22');
+INSERT INTO `cookies` VALUES (19, '5ceef29eaeb25', 9, '2019-05-29 22:59:10');
+INSERT INTO `cookies` VALUES (20, '5cef056ae5950', 9, '2019-05-30 00:19:22');
+INSERT INTO `cookies` VALUES (21, '5cf02b40e959e', 9, '2019-05-30 21:13:04');
+INSERT INTO `cookies` VALUES (22, '5cf044a17980d', 9, '2019-05-30 23:01:21');
+
+-- ----------------------------
+-- Table structure for order_products
+-- ----------------------------
+DROP TABLE IF EXISTS `order_products`;
+CREATE TABLE `order_products`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `stock_unit` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `order_products_orders_id_fk`(`order_id`) USING BTREE,
+  CONSTRAINT `order_products_orders_id_fk` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of order_products
+-- ----------------------------
+INSERT INTO `order_products` VALUES (1, 3, 5);
+INSERT INTO `order_products` VALUES (2, 36, 5);
+INSERT INTO `order_products` VALUES (3, 46, 5);
+INSERT INTO `order_products` VALUES (4, 53, 5);
+INSERT INTO `order_products` VALUES (8, 5, 6);
+INSERT INTO `order_products` VALUES (9, 11, 7);
+
+-- ----------------------------
+-- Table structure for orders
+-- ----------------------------
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `transaction` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `owner_id` int(11) NOT NULL,
+  `created_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `shipment_type` int(11) NOT NULL,
+  `payment_method_id` int(11) NOT NULL,
+  `shipping_address_id` int(11) NOT NULL,
+  `code` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `order_transaction_uindex`(`transaction`) USING BTREE,
+  UNIQUE INDEX `orders_code_uindex`(`code`) USING BTREE,
+  INDEX `orders_users_id_fk`(`owner_id`) USING BTREE,
+  INDEX `orders_payment_methods_id_fk`(`payment_method_id`) USING BTREE,
+  INDEX `orders_shipping_addresses_id_fk`(`shipping_address_id`) USING BTREE,
+  CONSTRAINT `orders_payment_methods_id_fk` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_methods` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `orders_shipping_addresses_id_fk` FOREIGN KEY (`shipping_address_id`) REFERENCES `shipping_addresses` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `orders_users_id_fk` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of orders
+-- ----------------------------
+INSERT INTO `orders` VALUES (5, 'transaction_5cf05a97bf1b3', 0, 9, '2019-05-31 00:35:03', 0, 1, 1, 'ord_5cf05a97bf26f');
+INSERT INTO `orders` VALUES (6, 'transaction_5cf05b1e1d725', 0, 9, '2019-05-31 00:37:18', 0, 1, 1, 'ord_5cf05b1e1d820');
+INSERT INTO `orders` VALUES (7, 'transaction_5cf05c0fdfcea', 0, 9, '2019-05-31 00:41:19', 0, 1, 1, 'ord_5cf05c0fdfde5');
 
 -- ----------------------------
 -- Table structure for payment_methods
 -- ----------------------------
 DROP TABLE IF EXISTS `payment_methods`;
 CREATE TABLE `payment_methods`  (
-  `token_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `card_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_digits` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exipry` date NOT NULL,
+  `expiry` date NOT NULL,
   `owner_id` int(11) NOT NULL,
-  PRIMARY KEY (`token_id`) USING BTREE,
+  `token_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `full_name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK_payment_methods_users`(`owner_id`) USING BTREE,
   CONSTRAINT `FK_payment_methods_users` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of payment_methods
+-- ----------------------------
+INSERT INTO `payment_methods` VALUES (1, 'Visa', '4242', '2020-02-01', 9, '5cf0413ecd373', 'Gabor Galazzo');
 
 -- ----------------------------
 -- Table structure for product_watchers
@@ -128,14 +197,14 @@ CREATE TABLE `products`  (
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `unit_price` float NOT NULL,
-  `type` int(11) NOT NULL,
+  `category` int(11) NOT NULL,
   `date_added` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
   `small_description` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `category_info` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'a:0:{}',
+  `category_info` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'a:0:{}',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `code`(`code`) USING BTREE,
   FULLTEXT INDEX `search_index`(`name`, `description`, `small_description`, `category_info`)
-) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of products
@@ -158,6 +227,10 @@ INSERT INTO `products` VALUES (23, '', 'https://images-na.ssl-images-amazon.com/
 INSERT INTO `products` VALUES (25, 'B01KMWAV3Q', 'https://images-na.ssl-images-amazon.com/images/I/91XzfVwf76L._SX425_.jpg', '', 'Harry Potter and the Deathly Hallows, Part II', 10.88, 5, '2019-05-25 15:30:46', '', 'a:4:{s:8:\"Director\";s:11:\"David Yates\";s:6:\"Actors\";s:82:\"Daniel Radcliffe, Rupert Grint, Emma Watson, Helena Bonham Carter, Robbie Coltrane\";s:5:\"Genre\";s:7:\"Fantasy\";s:16:\"Publication year\";s:4:\"2016\";}');
 INSERT INTO `products` VALUES (26, 'B07BYWVLZR', 'https://images-na.ssl-images-amazon.com/images/I/81GfZasnt9L._SY500_.jpg', 'An unprecedented cinematic journey ten years in the making and spanning the entire Marvel Cinematic Universe, Marvel Studios\' \'Avengers: Infinity War\' brings to the screen the ultimate, deadliest showdown of all time. As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos. A despot of intergalactic infamy, his goal is to collect all six Infinity Stones, artifacts of unimaginable power, and use them to inflict his twisted will on all of reality. Everything the Avengers have fought for has led up to this moment - the fate of Earth and existence itself has never been more uncertain.', 'AVENGERS: INFINITY WAR', 13.94, 5, '2019-05-25 15:35:14', 'An unprecedented cinematic journey ten years in the making and spanning the entire Marvel Cinematic Universe, MARVEL STUDIOS\' THE AVENGERS', 'a:4:{s:8:\"Director\";s:19:\"Joe & Anthony Russo\";s:6:\"Actors\";s:81:\"Robert Downey Jr., Chris Hemsworth, Mark Ruffalo, Chris Evans, Scarlett Johansson\";s:5:\"Genre\";s:6:\"Action\";s:16:\"Publication year\";s:4:\"2018\";}');
 INSERT INTO `products` VALUES (28, 'B01L7DYMIE', 'https://images-na.ssl-images-amazon.com/images/I/917IDVbIJRL._SY500_.jpg', '', 'Marvel\'s The Avengers 2-Movie Collection', 46, 5, '2019-05-25 15:38:01', '', 'a:4:{s:8:\"Director\";s:19:\"Joe & Anthony Russo\";s:6:\"Actors\";s:61:\"Chris Evans, Robert Jr. Downey, Mark Ruffalo, Chris Hemsworth\";s:5:\"Genre\";s:6:\"Action\";s:16:\"Publication year\";s:4:\"2016\";}');
+INSERT INTO `products` VALUES (29, 'B07HN2XHVC', 'https://images-na.ssl-images-amazon.com/images/I/81Qmd0Dv43L._SX522_.jpg', '', 'love', 16.49, 3, '2019-05-29 22:17:22', '', 'a:3:{s:6:\"Author\";s:14:\"Buble\' Michael\";s:16:\"Publication year\";s:4:\"2018\";s:6:\"Tracks\";a:10:{i:0;s:29:\"When I Fall In Love - (04:03)\";i:1;s:34:\"I Only Have Eyes for You - (03:22)\";i:2;s:26:\"Love You Anymore - (03:02)\";i:3;s:56:\"La vie en rose (feat. CÃ©cile McLorin Salvant) - (03:49)\";i:4;s:28:\"My Funny Valentine - (04:25)\";i:5;s:22:\"Such a Night - (03:17)\";i:6;s:21:\"Forever Now - (03:40)\";i:7;s:64:\"Help Me Make It Through the Night (feat. Loren Allred) - (03:42)\";i:8;s:29:\"When You\'re Smiling - (02:50)\";i:10;s:24:\" Where or When - (03:05)\";}}');
+INSERT INTO `products` VALUES (31, 'B0041KVZ1I', 'https://images-na.ssl-images-amazon.com/images/I/81oFpzU4d3L._SX522_PJautoripBadge,BottomRight,4,-40_OU11__.jpg', '', 'Abbey Road', 22.99, 4, '2019-05-29 22:36:55', '', 'a:1:{s:6:\"Tracks\";a:15:{i:0;s:27:\"\"Come Together\"	Lennon	4:19\";i:1;s:43:\"\"Something\" (George Harrison)	Harrison	3:02\";i:2;s:40:\"\"Maxwell\'s Silver Hammer\"	McCartney	3:27\";i:3;s:28:\"\"Oh! Darling\"	McCartney	3:27\";i:4;s:47:\"\"Octopus\'s Garden\" (Richard Starkey)	Starr	2:51\";i:5;s:41:\"\"I Want You (She\'s So Heavy)\"	Lennon	7:47\";i:6;s:52:\"\"Here Comes the Sun\" (George Harrison)	Harrison	3:05\";i:7;s:45:\"\"Because\"	Lennon, McCartney and Harrison	2:45\";i:8;s:51:\"\"Sun King\"	Lennon, with McCartney and Harrison	2:26\";i:10;s:30:\"\"Mean Mr. Mustard\"	Lennon	1:06\";i:11;s:27:\"\"Polythene Pam\"	Lennon	1:13\";i:12;s:56:\"\"She Came In Through the Bathroom Window\"	McCartney	1:58\";i:13;s:32:\"\"Golden Slumbers\"	McCartney	1:31\";i:14;s:67:\"\"Carry That Weight\"	McCartney, with Lennon, Harrison and Starr	1:36\";i:15;s:24:\"\"The End\"	McCartney	2:05\";}}');
+INSERT INTO `products` VALUES (32, 'B00K6IU3MG', 'https://images-na.ssl-images-amazon.com/images/I/91iW%2BpWm6WL._AC_SX215_.jpg', 'Nintendo Super Mario Galaxy 2, Wii. Piattaforma: Nintendo Wii, Genere: Piattaforma, Classificazione ESRB: E (tutti)', 'Super Mario: Galaxy 2', 27.9, 6, '2019-05-29 22:42:51', 'Nintendo Super Mario Galaxy 2, Wii. Piattaforma: Nintendo Wii, Genere: Piattaforma, Classificazione ESRB: E (tutti)', 'a:3:{s:8:\"Platform\";s:12:\"Nintendo Wii\";s:9:\"Publisher\";s:8:\"Nintendo\";s:16:\"Publication year\";s:4:\"2014\";}');
+INSERT INTO `products` VALUES (33, 'B005KJG6TA', 'https://images-na.ssl-images-amazon.com/images/I/51JaVWRVHwL._AC_SX215_.jpg', 'Super Mario Galaxy, Nintendo Wii', 'Super Mario Galaxy - Nintendo Selects Edition', 27.98, 6, '2019-05-29 22:43:50', 'Super Mario Galaxy, Nintendo Wii', 'a:3:{s:8:\"Platform\";s:12:\"Nintendo Wii\";s:9:\"Publisher\";s:8:\"Nintendo\";s:16:\"Publication year\";s:4:\"2011\";}');
 
 -- ----------------------------
 -- Table structure for reviews
@@ -401,13 +474,18 @@ CREATE TABLE `shipping_addresses`  (
   `city` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `region` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `country` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cap` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `zip_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `owner_id` int(11) NOT NULL,
+  `full_name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK_shipping_addresses_users`(`owner_id`) USING BTREE,
   CONSTRAINT `FK_shipping_addresses_users` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of shipping_addresses
+-- ----------------------------
+INSERT INTO `shipping_addresses` VALUES (1, 'Via Wagner 51', 'Alessandria', 'AL', 'Italia', '15121', 9, 'Gabor Galazzo');
 
 -- ----------------------------
 -- Table structure for stock
@@ -429,15 +507,15 @@ CREATE TABLE `stock`  (
 -- ----------------------------
 INSERT INTO `stock` VALUES (1, '19UUA9F70DA886121', 7, 0);
 INSERT INTO `stock` VALUES (2, '1D7RV1CTXBS811810', 22, 0);
-INSERT INTO `stock` VALUES (3, '1FBNE3BL8DD202648', 26, 0);
+INSERT INTO `stock` VALUES (3, '1FBNE3BL8DD202648', 26, 1);
 INSERT INTO `stock` VALUES (4, '1FMCU4K30AK453436', 22, 0);
-INSERT INTO `stock` VALUES (5, '1FMCU4K34AK849014', 20, 0);
+INSERT INTO `stock` VALUES (5, '1FMCU4K34AK849014', 20, 1);
 INSERT INTO `stock` VALUES (6, '1FTEW1CM3EK881407', 10, 0);
 INSERT INTO `stock` VALUES (7, '1FTMF1C83AK748476', 7, 0);
 INSERT INTO `stock` VALUES (8, '1FTMF1EW4AF413554', 21, 0);
 INSERT INTO `stock` VALUES (9, '1FTSW2B50AE116621', 20, 0);
 INSERT INTO `stock` VALUES (10, '1FTWW3B51AE053083', 13, 0);
-INSERT INTO `stock` VALUES (11, '1G4HR57Y16U050016', 19, 0);
+INSERT INTO `stock` VALUES (11, '1G4HR57Y16U050016', 19, 1);
 INSERT INTO `stock` VALUES (12, '1G6AH5R35E0244048', 11, 0);
 INSERT INTO `stock` VALUES (13, '1G6DC8EY0B0707787', 11, 0);
 INSERT INTO `stock` VALUES (14, '1G6DH5E5XD0909710', 7, 0);
@@ -462,7 +540,7 @@ INSERT INTO `stock` VALUES (32, 'JTEBU4BFXAK344197', 9, 0);
 INSERT INTO `stock` VALUES (33, 'KMHHT6KD2BU402087', 28, 0);
 INSERT INTO `stock` VALUES (34, 'SCBLC43F15C164457', 17, 0);
 INSERT INTO `stock` VALUES (35, 'SCFEBBCF9CG561189', 12, 0);
-INSERT INTO `stock` VALUES (36, 'TRURD28N261244474', 26, 0);
+INSERT INTO `stock` VALUES (36, 'TRURD28N261244474', 26, 1);
 INSERT INTO `stock` VALUES (37, 'VNKJTUD37FA655595', 12, 0);
 INSERT INTO `stock` VALUES (38, 'WA1CGAFE2DD084042', 18, 0);
 INSERT INTO `stock` VALUES (39, 'WA1EY74L78D614957', 26, 0);
@@ -472,14 +550,14 @@ INSERT INTO `stock` VALUES (42, 'WA1VMBFE8BD068478', 7, 0);
 INSERT INTO `stock` VALUES (43, 'WAUCFAFR7CA333928', 16, 0);
 INSERT INTO `stock` VALUES (44, 'WAUFFAFL9EA815473', 16, 0);
 INSERT INTO `stock` VALUES (45, 'WAUFGAFC5DN260204', 9, 0);
-INSERT INTO `stock` VALUES (46, 'WAUGL58EX5A567043', 23, 0);
+INSERT INTO `stock` VALUES (46, 'WAUGL58EX5A567043', 23, 1);
 INSERT INTO `stock` VALUES (47, 'WAUGU44D82N754466', 9, 0);
 INSERT INTO `stock` VALUES (48, 'WAUNF98P48A372230', 17, 0);
 INSERT INTO `stock` VALUES (49, 'WAURD68D02A908125', 8, 0);
 INSERT INTO `stock` VALUES (50, 'WAURD68D92A675684', 28, 0);
 INSERT INTO `stock` VALUES (51, 'WAUUL68E05A771794', 20, 0);
 INSERT INTO `stock` VALUES (52, 'WBABD53464P771274', 21, 0);
-INSERT INTO `stock` VALUES (53, 'WBAEP33412P992075', 23, 0);
+INSERT INTO `stock` VALUES (53, 'WBAEP33412P992075', 23, 1);
 INSERT INTO `stock` VALUES (54, 'WBAVC93597K465705', 25, 0);
 INSERT INTO `stock` VALUES (55, 'WP0AB2A90AS594196', 13, 0);
 INSERT INTO `stock` VALUES (56, 'WVGAV7AX6FW296220', 9, 0);
@@ -495,20 +573,20 @@ CREATE TABLE `users`  (
   `email` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `salt` int(11) NOT NULL,
   `secret` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `default_payment_method` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `default_payment_method` int(11) NULL DEFAULT NULL,
   `default_shipping_address` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `users_email_uindex`(`email`) USING BTREE,
   INDEX `FK_users_payment_methods`(`default_payment_method`) USING BTREE,
   INDEX `FK_users_shipping_addresses`(`default_shipping_address`) USING BTREE,
-  CONSTRAINT `FK_users_payment_methods` FOREIGN KEY (`default_payment_method`) REFERENCES `payment_methods` (`token_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `FK_users_shipping_addresses` FOREIGN KEY (`default_shipping_address`) REFERENCES `shipping_addresses` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `FK_users_shipping_addresses` FOREIGN KEY (`default_shipping_address`) REFERENCES `shipping_addresses` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `users_payment_methods_id_fk` FOREIGN KEY (`default_payment_method`) REFERENCES `payment_methods` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 115 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (9, 'Gabor', 'Galazzo', 'gabor.galazzo@gmail.com', 8866424, '$2y$12$bj5wurPlxQnTB4EojGM4febvXNiywv040h28vpSoCORrI0.x903w6', NULL, NULL);
+INSERT INTO `users` VALUES (9, 'Gabor', 'Galazzo', 'gabor.galazzo@gmail.com', 8866424, '$2y$12$bj5wurPlxQnTB4EojGM4febvXNiywv040h28vpSoCORrI0.x903w6', 1, 1);
 INSERT INTO `users` VALUES (11, 'Gabor', 'Galazzo', 'gaborando@live.it', 4393958, '$2y$12$oHUwQ.YZYQorATYaMvIDYORGyxJE5yQPTucDbmexOXZiIQAg3gHYy', NULL, NULL);
 INSERT INTO `users` VALUES (12, 'Michela', 'Galazzo', 'michelagalazzo@icloud.com', 2196061, '$2y$12$OWx3dhFC/fnV/RZB2ftGcOurN1agSNJ2gTPGCwZ2s3ejaeNoAl6d2', NULL, NULL);
 INSERT INTO `users` VALUES (14, 'Mario', 'Galazzo', 'mariogalazzo@libero.it', 4130327, '$2y$12$0ulOIDL0sLXQWZtcvn/eU.0l8epRlsejZMZuUgR06C.cPRAlP7uyu', NULL, NULL);
