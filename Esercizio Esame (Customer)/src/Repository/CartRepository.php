@@ -34,28 +34,7 @@ class CartRepository extends AbstractRepository
         $cart = $stm->fetchObject(Cart::class);
 
         if ($cart) {
-            $query = "
-            select p.name,
-                   p.photo_url,
-                   p.unit_price,
-                   count(s.id) as qta,
-                   p.id
-            from cart_products cp
-                     inner join stock s on s.id = cp.stock_unit
-                     inner join products p on s.product_id = p.id
-            where cp.cart_id = :cart_id
-            group by p.id";
-
-            $stm = $this->connection->prepare($query);
-            $stm->execute(['cart_id' => $cart->getId()]);
-
-            $products = [];
-
-            while ($cartProduct = $stm->fetchObject(CartProduct::class)) {
-                $products[] = $cartProduct;
-            }
-
-            $cart->setProducts($products);
+            $this->refreshCartProduct($cart);
 
         }
         return $cart?$cart:null;
@@ -119,28 +98,7 @@ class CartRepository extends AbstractRepository
         /** @var Cart $cart */
         $cart = $stm->fetchObject(Cart::class);
         if ($cart) {
-            $query = "
-            select p.name,
-                   p.photo_url,
-                   p.unit_price,
-                   count(s.id) as qta,
-                   p.id
-            from cart_products cp
-                     inner join stock s on s.id = cp.stock_unit
-                     inner join products p on s.product_id = p.id
-            where cp.cart_id = :cart_id
-            group by p.id";
-
-            $stm = $this->connection->prepare($query);
-            $stm->execute(['cart_id' => $cart->getId()]);
-
-            $products = [];
-
-            while ($cartProduct = $stm->fetchObject(CartProduct::class)) {
-                $products[] = $cartProduct;
-            }
-
-            $cart->setProducts($products);
+            $this->refreshCartProduct($cart);
 
         }
         return $cart;
@@ -222,5 +180,63 @@ class CartRepository extends AbstractRepository
         $this->connection->prepare($query)->execute(['id'=>$cp]);
         $query = "update stock set status = 0 where id = :id";
         $this->connection->prepare($query)->execute(['id' => $sku]);
+    }
+    
+    public function findById($id)
+    {
+        $query = "
+        select c.id,
+               c.cookie_cart,
+               c.created_at,
+               c.owner_id,
+               count(s.id)       as item_count,
+               sum(p.unit_price) as total
+        from carts c
+                 left join cart_products cp on c.id = cp.cart_id
+                 left join stock s on s.id = cp.stock_unit
+                 left join products p on p.id = s.product_id
+        where c.id = :id
+        group by c.id
+        ";
+        $stm = $this->connection->prepare($query);
+        $stm->execute(['id' => $id]);
+    
+    
+        /** @var Cart $cart */
+        $cart = $stm->fetchObject(Cart::class);
+    
+        if ($cart) {
+            $this->refreshCartProduct($cart);
+        
+        }
+        return $cart?$cart:null;
+    }
+    
+    /**
+     * @param $cart Cart
+     */
+    public function refreshCartProduct($cart){
+        $query = "
+            select p.name,
+                   p.photo_url,
+                   p.unit_price,
+                   count(s.id) as qta,
+                   p.id
+            from cart_products cp
+                     inner join stock s on s.id = cp.stock_unit
+                     inner join products p on s.product_id = p.id
+            where cp.cart_id = :cart_id
+            group by p.id";
+    
+        $stm = $this->connection->prepare($query);
+        $stm->execute(['cart_id' => $cart->getId()]);
+    
+        $products = [];
+    
+        while ($cartProduct = $stm->fetchObject(CartProduct::class)) {
+            $products[] = $cartProduct;
+        }
+    
+        $cart->setProducts($products);
     }
 }

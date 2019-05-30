@@ -51,19 +51,19 @@
                     <dl class="dlist-inline">
                         <dt>Sort by:</dt>
                         <dd>
-                            <select onchange="this.form.submit()" name="order" class="form-control">
+                            <select onchange="this.form.submit()" name="ord" class="form-control">
                                 <option value="featured">Featured</option>
 
-                                <option value="price_asc" <?= (isset($order) && $order == 'price_asc') ? 'selected' : '' ?>>
+                                <option value="price_asc" <?= (isset($ord) && $ord == 'price_asc') ? 'selected' : '' ?>>
                                     Price: Low to High
                                 </option>
-                                <option value="price_desc" <?= (isset($order) && $order == 'price_desc') ? 'selected' : '' ?>>
+                                <option value="price_desc" <?= (isset($ord) && $ord == 'price_desc') ? 'selected' : '' ?>>
                                     Price: High to Low
                                 </option>
-                                <option value="name_asc" <?= (isset($order) && $order == 'name_asc') ? 'selected' : '' ?>>
+                                <option value="name_asc" <?= (isset($ord) && $ord == 'name_asc') ? 'selected' : '' ?>>
                                     Name: Low to High
                                 </option>
-                                <option value="name_desc" <?= (isset($order) && $order == 'name_desc') ? 'selected' : '' ?>>
+                                <option value="name_desc" <?= (isset($ord) && $ord == 'name_desc') ? 'selected' : '' ?>>
                                     Name: High to Low
                                 </option>
                             </select>
@@ -142,7 +142,7 @@
     $page = isset($page) ? $page : 0;
 ?>
 <form action="/product-list.php" method="get">
-    <input type="hidden" name="order" value="<?= isset($order) ? $order : 'featured' ?>">
+    <input type="hidden" name="ord" value="<?= isset($order) ? $order : 'featured' ?>">
     <input type="hidden" name="type" value="<?= isset($type) ? $type : 0 ?>">
     <input type="hidden" name="category" value="<?= isset($category) ? $category : 0 ?>">
     <input type="hidden" name="search_text" value="<?= isset($search_text) ? $search_text : '' ?>">

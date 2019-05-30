@@ -24,7 +24,7 @@ class SignUpController extends AbstractController{
         $error = $user->validate();
 
         if(count($error) > 0)
-            $this->redirect("sign-up",[
+            $this->render("page-sign-up",[
                 'name' => $user->getName(),
                 'surname' => $user->getSurname(),
                 'secret' => $user->getSecret(),

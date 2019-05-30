@@ -15,7 +15,7 @@
             <option value="1" <?= (isset($type) && $type == 1)?'selected':'' ?>>Only best</option>
             <option value="2" <?= (isset($type) && $type == 2)?'selected':'' ?>>Latest</option>
         </select>
-        <input type="hidden" name="order" value="<?= isset($order)?$order:'featured' ?>">
+        <input type="hidden" name="ord" value="<?= isset($ord)?$ord:'featured' ?>">
         <div class="input-group-append">
             <button class="btn btn-primary" type="submit">
                 <i class="fa fa-search"></i>

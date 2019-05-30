@@ -74,3 +74,10 @@ if (!isset($_SESSION["cart"])) {
     }
 }
 
+if(isset($_SESSION['checkout-confirm'])){
+    $_SESSION['checkout-confirm']['expiry']--;
+    
+    if($_SESSION['checkout-confirm']['expiry'] < 0)
+        unset($_SESSION['checkout-confirm']);
+}
+

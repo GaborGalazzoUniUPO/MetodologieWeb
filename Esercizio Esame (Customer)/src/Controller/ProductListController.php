@@ -15,7 +15,7 @@ class ProductListController extends AbstractController
         $category = $this->get('category', 0);
         $type = $this->get('type', 0);
         $search_text = $this->get('search_text', '');
-        $order = $this->get('order');
+        $order = $this->get('ord');
         $page = $this->get('page', 0);
 
 
@@ -53,7 +53,7 @@ class ProductListController extends AbstractController
             'type' => $type,
             'search_text' => $search_text,
             'products' => $products,
-            'order' => $order,
+            'ord' => $order,
             'product_count' => $productCount,
             'page' => $page
 

@@ -148,4 +148,24 @@
             $this->full_name = $full_name;
         }
     
+        public function validate()
+        {
+            $error = [];
+            if(strlen(trim($this->full_name))<5)
+                $error['address_full_name'] = "Full name invalid, must contain 5 characters at least";
+            if(strlen(trim($this->street))<5)
+                $error['street'] = "Street invalid, must contain 5 characters at least";
+            if(strlen(trim($this->city))<2)
+                $error['city'] = "City invalid, must contain 2 characters at least";
+            if(strlen(trim($this->region))<2)
+                $error['region'] = "State/Province/Region invalid, must contain 2 characters at least";
+            if(strlen(trim($this->zip_code))<4)
+                $error['zip_code'] = "Zip code invalid, must contain 4 characters at least";
+            if(strlen(trim($this->country))<3)
+                $error['country'] = "Country invalid, must contain 3 characters at least";
+            
+            return $error;
+            
+        }
+    
     }

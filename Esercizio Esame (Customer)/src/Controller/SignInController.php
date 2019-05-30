@@ -39,7 +39,7 @@ class SignInController extends AbstractController
         }
 
         if (count($error) > 0)
-            $this->redirect("sign-in", [
+            $this->render("page-sign-in", [
                 'email' => $email,
                 'password' => $password,
                 'redirect_to' => $this->get('redirect_to'),

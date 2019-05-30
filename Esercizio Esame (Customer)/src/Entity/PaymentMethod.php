@@ -124,4 +124,9 @@
             $this->full_name = $full_name;
         }
     
+        public function __toString()
+        {
+           return "$this->card_type - **** **** **** $this->last_digits ($this->expiry) - ".strtoupper($this->full_name);
+        }
+    
     }
