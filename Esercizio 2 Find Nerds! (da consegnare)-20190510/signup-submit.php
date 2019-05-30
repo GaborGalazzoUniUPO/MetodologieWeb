@@ -2,7 +2,7 @@
     
     require_once 'preload.php';
 
-    // Create a nerd from the signin form data
+    // Create a nerd from the sign-in form data
     $nerd = new Nerd();
     $nerd->setName($_POST['name']);
     $nerd->setGender($_POST['gender']);
