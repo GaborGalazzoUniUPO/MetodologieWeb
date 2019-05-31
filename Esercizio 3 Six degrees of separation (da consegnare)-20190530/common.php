@@ -1,4 +1,7 @@
 <?php
+    /**
+     * File for common and utility functions
+     */
     
     /**
      * @return PDO the connection to the database
@@ -54,6 +57,10 @@
         return null;
     }
     
+    /**
+     * @param $table array an array containing film name and year [["name"=>'', "year"=>''], ... ]
+     * @param $caption string the table caption
+     */
     function createTable($table, $caption)
     {
         ?>

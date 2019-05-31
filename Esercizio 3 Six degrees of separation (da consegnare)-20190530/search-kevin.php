@@ -3,8 +3,9 @@
 <?php
     
     require_once "common.php";
-    
+    // Find the actor id on DB
     $actorId = findIdBestActorMatch($_REQUEST['firstname'], $_REQUEST['lastname']);
+    // Find Kevin Bacon's id on DB
     $kevinBaconId = findIdBestActorMatch("Kevin", "Bacon");
     if ($actorId) {
         $searchAllQuery = "select m.name, m.year from movies m
@@ -22,9 +23,9 @@
         if($stm->rowCount() == 0){
             echo "<h1><b>$_REQUEST[firstname] $_REQUEST[lastname]</b> wasn't in any films with Kevin Bacon</h1>";
         }else {
-            echo " <h1>Results for <b> $_REQUEST[firstname]$_REQUEST[lastname] </b> and Kevin Bacon</h1>";
+            echo " <h1>Results for <b> $_REQUEST[firstname] $_REQUEST[lastname] </b> and Kevin Bacon</h1>";
             createTable($stm->fetchAll(PDO::FETCH_ASSOC),
-                "Films with $_REQUEST[firstname]$_REQUEST[lastname] and Kevin Bacon");
+                "Films with $_REQUEST[firstname] $_REQUEST[lastname] and Kevin Bacon");
         }
     } else {
         ?>

@@ -4,6 +4,7 @@
     
     require_once "common.php";
     
+    // Find the actor id on DB
     $actorId = findIdBestActorMatch($_REQUEST['firstname'], $_REQUEST['lastname']);
     if ($actorId) {
         $searchAllQuery = "select m.name, m.year from movies m
@@ -18,9 +19,10 @@
         ?>
         <h1>Results for <b><?= $_REQUEST['firstname']." ".$_REQUEST['lastname'] ?></b></h1>
         <?php
-        createTable($stm->fetchAll(PDO::FETCH_ASSOC),
+        createTable(
+            $stm->fetchAll(PDO::FETCH_ASSOC),
             "All Films"
-            );
+        );
     } else {
         ?>
         <h1>Actor <b> <?= $_REQUEST['firstname']." ".$_REQUEST['lastname'] ?> </b> not found</h1>
