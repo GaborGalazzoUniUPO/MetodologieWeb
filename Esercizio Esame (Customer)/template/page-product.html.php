@@ -23,7 +23,7 @@
                         <?php endif; ?>
                     
                     <?php endif; ?>
-                    <div><a href="<?= $product->getPhotoUrl() ?>" data-fancybox=""><img
+                    <div><a href="<?= $product->getPhotoUrl() ?>"><img
                                     src="<?= $product->getPhotoUrl() ?>"></a></div>
                 </div> <!-- slider-product.// -->
             </article> <!-- gallery-wrap .end// -->
@@ -121,37 +121,144 @@
 </div> <!-- card.// -->
 
 <div class="card mt-3">
+
     <div class="card-body">
-        <?php foreach ($reviews as $review): ?>
-            <div class="mb-3" style="border-bottom: 1px dotted #ccc">
+        <div class="card-title row">
+            <div class="col">
+                <span class="h4">Reviews </span> <span class="h5" id="count"></span>
+            </div>
+            <div class="col text-right">
                 <dl class="dlist-inline">
-                    <dt class="mr-5"><?= $review->getAuthor() ?> </dt>
+                    <dt>Sort by:</dt>
                     <dd>
-                        <div class="rating-wrap">
-                            <ul class="rating-stars">
-                                <li class="stars-active" style="width:<?= $review->getVote() * 25 ?>%">
-                                    <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                </li>
-                                <li>
-                                    <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                </li>
-                            </ul>
-                        </div> <!-- rating-wrap.// -->
+                        <select id="order" name="ord" class="form-control">
+
+                            <option value="rate_asc">
+                                Rate: Low to High
+                            </option>
+                            <option value="rate_desc">
+                                Rate: High to Low
+                            </option>
+                            <option value="date_asc">
+                                Date: Older to Newer
+                            </option>
+                            <option value="date_desc" selected>
+                                Date: Newer to Older
+                            </option>
+                        </select>
                     </dd>
                 </dl>
-
-                <p class="text-muted"><?= $review->getCreatedAt()->format("F j, Y") ?></p>
-
-                <P> <?= $review->getContent() ?></P>
-
             </div>
-        <?php endforeach; ?>
+        </div>
+        <div id="reviews">
 
-        <a href="#" class="btn btn-light btn-block"> See more </a>
+        </div>
+        <a id="load_more" class="btn btn-light btn-block"> Load More </a>
     </div>
 </div>
+
+<template id="review">
+    <div class="mb-3" style="border-bottom: 1px dotted #ccc">
+        <dl class="dlist-inline">
+            <dt class="mr-5">{{authorName}}</dt>
+            <dd>
+                <div class="rating-wrap">
+                    <ul class="rating-stars">
+                        <li class="stars-active" style="width:{{vote}}%">
+                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                        </li>
+                        <li>
+                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                        </li>
+                    </ul>
+                </div> <!-- rating-wrap.// -->
+            </dd>
+        </dl>
+
+        <p class="text-muted">{{createdAt}}</p>
+
+        <P>{{content}}</P>
+
+    </div>
+</template>
+
+<script>
+    $(document).ready(function () {
+        'use strict';
+
+        const reviewsElement = $('#reviews');
+        let order = '';
+        let batch = 0;
+        let total = 0;
+        let count = 0;
+
+        $.ajax({
+            url: "/review-api.php",
+            dataType: 'json',
+            type: 'get',
+            data: {
+                product_id: <?= $product->getId() ?>,
+                ord: this.value,
+                batch: batch
+            },
+            success: appendReviews
+        });
+
+        $('#order').change(function () {
+            batch = 0;
+            order = this.value;
+            $.ajax({
+                url: "/review-api.php",
+                dataType: 'json',
+                type: 'get',
+                data: {
+                    product_id: <?= $product->getId() ?>,
+                    ord: order,
+                    batch: batch
+                },
+                success: changeOrder
+            });
+        });
+
+        $('#load_more').click(function () {
+            batch++;
+            $.ajax({
+                url: "/review-api.php",
+                dataType: 'json',
+                type: 'get',
+                data: {
+                    product_id: <?= $product->getId() ?>,
+                    ord: order,
+                    batch: batch
+                },
+                success: appendReviews
+            });
+        });
+
+        function changeOrder(result) {
+            count = 0;
+            reviewsElement.empty();
+            appendReviews(result);
+        }
+
+        function appendReviews(result) {
+            total = result.count;
+            count += result.reviews.length;
+            for (let review of result.reviews) {
+                reviewsElement.append(
+                    $('#review').html()
+                        .replace('{{authorName}}', review.author)
+                        .replace('{{vote}}', review.vote * 25 + "")
+                        .replace('{{createdAt}}', review.created_at)
+                        .replace('{{content}}', review.content)
+                );
+            }
+            $('#count').text( "("+count+ " of "+ total+")");
+        }
+    });
+</script>
 
 
 <?php include_once "common/footer.html.php" ?>

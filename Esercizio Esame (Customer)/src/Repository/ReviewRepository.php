@@ -33,6 +33,19 @@ class ReviewRepository extends AbstractRepository implements Repository
     {
         // TODO: Implement findAll() method.
     }
+    
+    public function getReviewCountByProductId($id){
+        $query = "
+        select count(r.id)
+        from reviews r
+        where r.product_id = :p_id;
+        ";
+    
+        $stm = $this->connection->prepare($query);
+        $stm->execute(['p_id' => $id]);
+        
+        return $stm->fetchColumn();
+    }
 
     public function findRecentByProductId($id)
     {
@@ -58,6 +71,46 @@ class ReviewRepository extends AbstractRepository implements Repository
         }
         return $reviews;
     }
-
-
+    
+    public function findByProductId($product_id, $batch, $ord)
+    {
+        switch ($ord){
+            case 'rate_asc':
+                $ord = 'r.vote asc';
+                break;
+            case 'rate_desc':
+                $ord = 'r.vote desc';
+                break;
+            case 'date_asc':
+                $ord = 'r.created_at asc';
+                break;
+            default:
+                $ord = 'r.created_at desc';
+                break;
+        }
+        $query = "
+        select concat(u.name, ' ', u.surname) as author,
+               r.vote,
+               r.content,
+               r.created_at
+        from reviews r
+                 inner join users u on r.author_id = u.id
+        where r.product_id = :p_id
+        order by $ord
+        limit :b, 5;
+        ";
+    
+        $batch *= 5;
+        $stm = $this->connection->prepare($query);
+        $stm->bindParam('b', $batch, \PDO::PARAM_INT);
+        $stm->bindParam('p_id', $product_id, \PDO::PARAM_INT);
+        $stm->execute();
+    
+        $reviews = [];
+        while ($review = $stm->fetchObject(Review::class)){
+            $reviews[] = $review;
+        }
+        return $reviews;
+    }
+    
 }

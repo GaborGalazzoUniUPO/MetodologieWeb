@@ -21,14 +21,9 @@ class ProductController extends AbstractController
         if(!$product)
             $this->render('error-404');
 
-        $reviewRepository = new ReviewRepository();
-
-        $reviews = $reviewRepository->findRecentByProductId($product->getId());
-
         $this->render('page-product',
             [
-                'product' => $product,
-                'reviews' => $reviews
+                'product' => $product
                 ]);
 
 

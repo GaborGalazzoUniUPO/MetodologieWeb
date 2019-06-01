@@ -15,7 +15,7 @@
         public function doGET()
         {
             
-            if (!$this->getUserSession()) {
+            if (!$this->getUserSession() || $this->getUserSession()->isFromCookie()) {
                 $this->redirect('sign-in', ['redirect_to' => 'checkout']);
             }
             
@@ -43,7 +43,7 @@
         
         public function doPOST()
         {
-            if (!$this->getUserSession()) {
+            if (!$this->getUserSession() || $this->getUserSession()->isFromCookie()) {
                 $this->redirect('sign-in', ['redirect_to' => 'checkout']);
             }
             $error = [];

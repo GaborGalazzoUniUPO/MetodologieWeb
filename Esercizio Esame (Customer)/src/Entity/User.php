@@ -38,6 +38,8 @@ class User
     private $default_payment_method;
     
     private $default_shipping_address;
+    
+    private $from_cookie = false;
 
     /**
      * @return int
@@ -167,9 +169,24 @@ class User
         $this->default_shipping_address = $default_shipping_address;
     }
     
+    /**
+     * @return bool
+     */
+    public function isFromCookie(): bool
+    {
+        return $this->from_cookie;
+    }
     
-
-
+    /**
+     * @param bool $from_cookie
+     */
+    public function setFromCookie(bool $from_cookie): void
+    {
+        $this->from_cookie = $from_cookie;
+    }
+    
+    
+    
     public function validate()
     {
         $error = [];
@@ -189,6 +206,4 @@ class User
 
         return $error;
     }
-
-
 }

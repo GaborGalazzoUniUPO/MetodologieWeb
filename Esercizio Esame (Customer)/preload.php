@@ -20,6 +20,7 @@ session_start();
 if (!isset($_SESSION["user"]) || !$_SESSION['user']) {
     if (isset($_COOKIE['cookie_session'])) {
         $_SESSION["user"] = (new \Repository\CookieRepository())->getUserByCookieSession($_COOKIE['cookie_session']);
+        $_SESSION["user"]->setFromCookie(true);
     } else
         $_SESSION["user"] = null;
 }
