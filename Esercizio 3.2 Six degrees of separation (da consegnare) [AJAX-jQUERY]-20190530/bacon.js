@@ -1,3 +1,4 @@
+/* <GABOR,GALAZZO,20024195> --> */
 $(document).ready(function () {
     'use strict';
 

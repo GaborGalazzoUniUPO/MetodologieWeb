@@ -1,4 +1,4 @@
-<?php
+<?php #<GABOR,GALAZZO,20024195>
 
     require_once("verify-session.php");
     

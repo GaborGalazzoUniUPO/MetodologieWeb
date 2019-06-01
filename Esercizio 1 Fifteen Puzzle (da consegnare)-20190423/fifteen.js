@@ -1,3 +1,4 @@
+/* <GABOR,GALAZZO,20024195> */
 (function () {
     'use strict';
 
@@ -69,7 +70,7 @@
             }
         }
         if (win) {
-            let r = confirm("Hai vinto!\nVuoi fare un anuova partita?");
+            let r = confirm("You win!\nDo you want to play again?");
             if (r) {
                 shuffle(gameMatrix);
             }
@@ -97,7 +98,7 @@
      * Init the the document for the game.
      */
     window.addEventListener('DOMContentLoaded', function () {
-        // Initiailize game engine
+        // Init game engine
 
         /**
         * A position of a piece

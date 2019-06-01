@@ -1,4 +1,4 @@
-<?php
+<?php #<GABOR,GALAZZO,20024195>
     /**
      * File for common and utility functions
      */

@@ -10,7 +10,7 @@
             $result = array();
             $lines = file(self::getFileStore());
             foreach ($lines as $line){
-                list($name, $gender, $age, $personality, $os, $seeking_age_min, $seeking_age_max) = explode(",",$line);
+                list($name, $gender, $age, $personality, $os, $seeking_age_min, $seeking_age_max, $f_gender) = explode(",",trim($line, "\r\n "));
                 $nerd = new Nerd();
                 $nerd->setName($name);
                 $nerd->setGender($gender);
@@ -19,6 +19,7 @@
                 $nerd->setOs($os);
                 $nerd->setSeekingAgeMin(intval($seeking_age_min));
                 $nerd->setSeekingAgeMax(intval($seeking_age_max));
+                $nerd->setFavoriteGender($f_gender);
                 array_push($result, $nerd);
             }
             return $result;

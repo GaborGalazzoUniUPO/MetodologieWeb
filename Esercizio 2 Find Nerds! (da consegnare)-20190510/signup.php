@@ -1,3 +1,4 @@
+<!-- <GABOR,GALAZZO,20024195> -->
 <?php include("top.html"); ?>
 <form action="signup-submit.php" method="post">
     <fieldset>
@@ -47,6 +48,17 @@
                 to
                 <input type="text" size="6" maxlength="2" name="max_age" placeholder="max">
 
+            </li>
+            <li>
+
+                <label>
+                    <strong>Favorite gender:</strong>
+                    <select name="f_gender">
+                        <option value="O" selected="selected">Opposite</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
+                </label>
             </li>
         </ul>
         <input type="submit" value="Sign Up">

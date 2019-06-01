@@ -1,9 +1,9 @@
 <?php
-
-/**
- * Class Nerd
- */
-class Nerd
+    
+    /**
+     * Class Nerd
+     */
+    class Nerd
     {
         private $name;
         private $gender;
@@ -12,6 +12,7 @@ class Nerd
         private $os;
         private $seeking_age_min;
         private $seeking_age_max;
+        private $favorite_gender;
         
         /**
          * @return string
@@ -20,7 +21,7 @@ class Nerd
         {
             return $this->name;
         }
-    
+        
         /**
          * @param string $name
          */
@@ -28,7 +29,7 @@ class Nerd
         {
             $this->name = $name;
         }
-    
+        
         /**
          * @return string
          */
@@ -36,7 +37,7 @@ class Nerd
         {
             return $this->gender;
         }
-    
+        
         /**
          * @param string $gender
          */
@@ -44,7 +45,7 @@ class Nerd
         {
             $this->gender = $gender;
         }
-    
+        
         /**
          * @return integer
          */
@@ -52,7 +53,7 @@ class Nerd
         {
             return $this->age;
         }
-    
+        
         /**
          * @param integer $age
          */
@@ -60,7 +61,7 @@ class Nerd
         {
             $this->age = $age;
         }
-    
+        
         /**
          * @return string
          */
@@ -68,7 +69,7 @@ class Nerd
         {
             return $this->personality;
         }
-    
+        
         /**
          * @param string $personality
          */
@@ -76,7 +77,7 @@ class Nerd
         {
             $this->personality = $personality;
         }
-    
+        
         /**
          * @return string
          */
@@ -84,7 +85,7 @@ class Nerd
         {
             return $this->os;
         }
-    
+        
         /**
          * @param string $os
          */
@@ -92,7 +93,7 @@ class Nerd
         {
             $this->os = $os;
         }
-    
+        
         /**
          * @return integer
          */
@@ -100,7 +101,7 @@ class Nerd
         {
             return $this->seeking_age_min;
         }
-    
+        
         /**
          * @param integer $seeking_age_min
          */
@@ -108,7 +109,7 @@ class Nerd
         {
             $this->seeking_age_min = $seeking_age_min;
         }
-    
+        
         /**
          * @return integer
          */
@@ -116,7 +117,7 @@ class Nerd
         {
             return $this->seeking_age_max;
         }
-    
+        
         /**
          * @param integer $seeking_age_max
          */
@@ -124,9 +125,26 @@ class Nerd
         {
             $this->seeking_age_max = $seeking_age_max;
         }
-    
+        
+        /**
+         * @return string
+         */
+        public function getFavoriteGender()
+        {
+            return $this->favorite_gender;
+        }
+        
+        /**
+         * @param string $favorite_gender
+         */
+        public function setFavoriteGender($favorite_gender): void
+        {
+            $this->favorite_gender = $favorite_gender;
+        }
+        
         /**
          * Check that the two personalities have at least one common letter
+         *
          * @param $personality1
          * @param $personality2
          *
@@ -136,33 +154,46 @@ class Nerd
         {
             for ($i = 0; $i < 4; $i++) {
                 if ($personality1[$i] == $personality2[$i]) {
-                    return True;
+                    return true;
                 }
             }
+            
             return false;
         }
-    
+        
         /**
          * Check that the nerd parameter is within the specifications of this nerd
+         *
          * @param $nerd Nerd
-         * @return bool the parameter has different sex && the parameter age is between seekingAge && the OS is the same && isPersonalityMatch
+         *
+         * @return bool the parameter has different sex && the parameter age is between seekingAge && the OS is the
+         *              same && isPersonalityMatch && they are respectively of the requested favorite gender
          * @see Nerd::isPersonalityMatch()
          */
-        public function isMatchForMe($nerd){
-            return $nerd->getGender() != $this->gender &&
-            $nerd->getAge() >= $this->seeking_age_min &&
-            $nerd->getAge() <= $this->seeking_age_max &&
-            $nerd->getOs() == $this->os &&
-            self::isPersonalityMatch($nerd->personality, $this->personality);
+        public function isMatchForMe($nerd)
+        {
+            return
+                (
+                    ($this->getFavoriteGender() == 'O' && $nerd->getGender() != $this->getGender()) ||
+                    ($this->getFavoriteGender() == 'M' && $nerd->getGender() == 'M') ||
+                    ($this->getFavoriteGender() == 'F' && $nerd->getGender() == 'F')
+                ) &&
+                ($nerd->getFavoriteGender() == 'O' || $nerd->getFavoriteGender() == $this->getGender()) &&
+                $nerd->getAge() >= $this->getSeekingAgeMin() &&
+                $nerd->getAge() <= $this->getSeekingAgeMax() &&
+                $nerd->getOs() == $this->os &&
+                self::isPersonalityMatch($nerd->getPersonality(), $this->getPersonality());
         }
-    
+        
         /**
          * Print a card containing this nerd infos
          */
-        public function toListItem(){
+        public function toListItem()
+        {
             ?>
-            <p><?= $this->name ?><img src="http://www.cs.washington.edu/education/courses/cse190m/12sp/homework/4/user.jpg"
-                                alt="Profile Image"></p>
+            <p><?= $this->name ?><img
+                        src="http://www.cs.washington.edu/education/courses/cse190m/12sp/homework/4/user.jpg"
+                        alt="Profile Image"></p>
             <ul>
                 <li>
                     <strong>Gender:</strong> <?= $this->gender ?>
@@ -180,6 +211,4 @@ class Nerd
             <?php
         }
         
-        
-    
     }

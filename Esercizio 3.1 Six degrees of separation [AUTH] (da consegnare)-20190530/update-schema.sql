@@ -1,3 +1,4 @@
+-- <GABOR,GALAZZO,20024195>
 create table user
 (
     id int auto_increment

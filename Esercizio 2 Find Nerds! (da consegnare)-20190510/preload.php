@@ -1,4 +1,4 @@
-<?php
+<?php # <GABOR,GALAZZO,20024195>
     
     /**
      * Preload File to require in each page to load classes and configurations
