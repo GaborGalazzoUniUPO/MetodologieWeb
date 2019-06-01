@@ -22,6 +22,8 @@
          */
         private $created_at;
         
+        private $product_id;
+        
         /**
          * @return string
          */
@@ -85,6 +87,24 @@
         {
             $this->created_at = $created_at;
         }
+    
+        /**
+         * @return mixed
+         */
+        public function getProductId()
+        {
+            return $this->product_id;
+        }
+    
+        /**
+         * @param mixed $product_id
+         */
+        public function setProductId($product_id): void
+        {
+            $this->product_id = $product_id;
+        }
+        
+        
         
         /**
          * Specify data which should be serialized to JSON
@@ -104,5 +124,23 @@
             $json['created_at'] = $this->getCreatedAt()->format("F j, Y");
             
             return $json;
+        }
+    
+        /**
+         * @return array
+         */
+        public function validate()
+        {
+            $error = [];
+            if($this->vote < 1 || $this->vote > 4){
+                $error['vote'] = "The vote must be between 1 and 4 stars";
+            }
+            
+            if(strlen($this->content) < 80)
+                $error['content'] = "The content must be minimum 80 characters long";
+            elseif ( strlen($this->content) > 512)
+                $error['content'] = "The content must be maximum 512 characters long";
+            
+            return $error;
         }
     }

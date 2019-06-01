@@ -154,6 +154,7 @@
 
         </div>
         <a id="load_more" class="btn btn-light btn-block"> Load More </a>
+        <a href="/review.php?product_id=<?= $product->getId() ?>" id="load_more" class="btn btn-outline-secondary btn-block"> Write a review </a>
     </div>
 </div>
 

@@ -1,8 +1,6 @@
 <?php include_once "common/header-default.html.php";
     /**
      * @var $product  \Entity\Product
-     * @var $qta      integer
-     * @var $real_qta integer
      */
 ?>
 
