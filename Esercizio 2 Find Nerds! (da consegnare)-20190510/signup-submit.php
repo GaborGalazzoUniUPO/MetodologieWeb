@@ -1,6 +1,6 @@
 <?php #<GABOR,GALAZZO,20024195>
     
-    require_once 'preload.php';
+    require_once 'autoload.php';
 
     // Create a nerd from the sign-in form data
     $nerd = new Nerd();

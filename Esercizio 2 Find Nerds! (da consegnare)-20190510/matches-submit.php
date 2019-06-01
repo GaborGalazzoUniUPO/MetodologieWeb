@@ -3,7 +3,7 @@
 
 
     
-    require_once 'preload.php';
+    require_once 'autoload.php';
     
     $name_param = $_GET["name"];
     
