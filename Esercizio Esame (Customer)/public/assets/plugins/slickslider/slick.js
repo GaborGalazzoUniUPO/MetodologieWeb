@@ -1998,7 +1998,7 @@
             position = -position;
         }
         x = _.positionProp == 'left' ? Math.ceil(position) + 'px' : '0px';
-        y = _.positionProp == 'top' ? Math.ceil(position) + 'px' : '0px';
+        y = _.positionProp == 'top.php' ? Math.ceil(position) + 'px' : '0px';
 
         positionProps[_.positionProp] = position;
 
@@ -2221,9 +2221,9 @@
         var _ = this,
             bodyStyle = document.body.style;
 
-        _.positionProp = _.options.vertical === true ? 'top' : 'left';
+        _.positionProp = _.options.vertical === true ? 'top.php' : 'left';
 
-        if (_.positionProp === 'top') {
+        if (_.positionProp === 'top.php') {
             _.$slider.addClass('slick-vertical');
         } else {
             _.$slider.removeClass('slick-vertical');

@@ -1,0 +1,84 @@
+html, body, #frame{
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+ body{
+    margin: 0;
+    background-color: #3F3F3F;
+
+}
+
+#banner, #w3c {
+
+    padding: 10px;
+    background-image:  url("banner-background.png");
+    flex: 0 1 auto;
+}
+
+#banner {
+    color: white;
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+/*
+Font & Text-Color Settings
+ */
+#frame{
+    font-family: Verdana, sans-serif;
+    color: #3F3F3F;
+
+}
+
+#main {
+    padding: 20px;
+    text-align: center;
+    background-color: white;
+    flex: 1 1 auto;
+}
+
+form {
+    width: 24em;
+    margin-top: 1em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table {
+    width: 70%;
+    max-width: 45em;
+    min-width: 24em;
+    border-collapse: collapse;
+    border: 1px solid lightgrey;
+    margin-top: 1em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td, th {
+    padding-left: 10px;
+    padding-right: 10px;
+
+}
+
+
+tr:nth-child(even) {
+    background-color: lightgrey;
+    font-weight: lighter;
+}
+
+div.error{
+    color: red;
+    margin-top: 1em;
+}
+
+span.user-info{
+    float: right;
+}
+
+span.user-info > a {
+    color: cornflowerblue;
+}
+
