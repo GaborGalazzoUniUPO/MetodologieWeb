@@ -1,116 +1,137 @@
 <?php
-
-
-namespace Repository;
-
-
-use Entity\Review;
-
-class ReviewRepository extends AbstractRepository implements Repository
-{
-
-    public function save($entity)
-    {
-        // TODO: Implement save() method.
-    }
-
-    public function update($entity)
-    {
-        // TODO: Implement update() method.
-    }
-
-    public function delete($entity)
-    {
-        // TODO: Implement delete() method.
-    }
-
-    public function findById($id)
-    {
-        // TODO: Implement findById() method.
-    }
-
-    public function findAll()
-    {
-        // TODO: Implement findAll() method.
-    }
     
-    public function getReviewCountByProductId($id){
-        $query = "
+    namespace Repository;
+    
+    use Entity\Review;
+    
+    class ReviewRepository extends AbstractRepository implements Repository
+    {
+        
+        /**
+         * @param $entity Review
+         */
+        public function save($entity)
+        {
+            $query = "insert into reviews (author_id, product_id, vote, content) values
+        (:author_id, :product_id, :vote, :content)";
+            $stm = $this->connection->prepare($query);
+            $stm->execute(
+                [
+                    "author_id" => $entity->getAuthorId(),
+                    "product_id" => $entity->getProductId(),
+                    "vote" => $entity->getVote(),
+                    "content" => $entity->getContent(),
+                ]
+            );
+            $entity->setId($this->connection->lastInsertId('reviews'));
+        }
+        
+        public function update($entity)
+        {
+            // TODO: Implement update() method.
+        }
+        
+        public function delete($entity)
+        {
+            // TODO: Implement delete() method.
+        }
+        
+        public function findById($id)
+        {
+            // TODO: Implement findById() method.
+        }
+        
+        public function findAll()
+        {
+            // TODO: Implement findAll() method.
+        }
+        
+        public function getReviewCountByProductId($id)
+        {
+            $query = "
         select count(r.id)
         from reviews r
         where r.product_id = :p_id;
         ";
-    
-        $stm = $this->connection->prepare($query);
-        $stm->execute(['p_id' => $id]);
+            
+            $stm = $this->connection->prepare($query);
+            $stm->execute(['p_id' => $id]);
+            
+            return $stm->fetchColumn();
+        }
         
-        return $stm->fetchColumn();
-    }
-
-    public function findRecentByProductId($id)
-    {
-
-        $query = "
+        public function findRecentByProductId($id)
+        {
+            
+            $query = "
         select concat(u.name, ' ', u.surname) as author,
                r.vote,
                r.content,
-               r.created_at
+               r.created_at,
+               r.author_id,
+               r.id
         from reviews r
                  inner join users u on r.author_id = u.id
         where r.product_id = :p_id
         order by r.created_at desc 
         limit 5;
         ";
-
-        $stm = $this->connection->prepare($query);
-        $stm->execute(['p_id' => $id]);
-
-        $reviews = [];
-        while ($review = $stm->fetchObject(Review::class)){
-            $reviews[] = $review;
+            
+            $stm = $this->connection->prepare($query);
+            $stm->execute(['p_id' => $id]);
+            
+            $reviews = [];
+            while ($review = $stm->fetchObject(Review::class)) {
+                $reviews[] = $review;
+            }
+            
+            return $reviews;
         }
-        return $reviews;
-    }
-    
-    public function findByProductId($product_id, $batch, $ord)
-    {
-        switch ($ord){
-            case 'rate_asc':
-                $ord = 'r.vote asc';
-                break;
-            case 'rate_desc':
-                $ord = 'r.vote desc';
-                break;
-            case 'date_asc':
-                $ord = 'r.created_at asc';
-                break;
-            default:
-                $ord = 'r.created_at desc';
-                break;
-        }
-        $query = "
+        
+        public function findByProductId($product_id, $batch, $ord, $user_id)
+        {
+            switch ($ord) {
+                case 'rate_asc':
+                    $ord = 'r.vote asc';
+                    break;
+                case 'rate_desc':
+                    $ord = 'r.vote desc';
+                    break;
+                case 'date_asc':
+                    $ord = 'r.created_at asc';
+                    break;
+                default:
+                    $ord = 'r.created_at desc';
+                    break;
+            }
+            $query = "
         select concat(u.name, ' ', u.surname) as author,
                r.vote,
                r.content,
-               r.created_at
+               r.created_at,
+               r.author_id,
+               r.id,
+               r.author_id = :author_id as is_author
         from reviews r
                  inner join users u on r.author_id = u.id
         where r.product_id = :p_id
-        order by $ord
+        order by is_author desc, $ord
         limit :b, 5;
         ";
-    
-        $batch *= 5;
-        $stm = $this->connection->prepare($query);
-        $stm->bindParam('b', $batch, \PDO::PARAM_INT);
-        $stm->bindParam('p_id', $product_id, \PDO::PARAM_INT);
-        $stm->execute();
-    
-        $reviews = [];
-        while ($review = $stm->fetchObject(Review::class)){
-            $reviews[] = $review;
+            
+            $batch *= 5;
+            $stm = $this->connection->prepare($query);
+            $stm->bindParam('b', $batch, \PDO::PARAM_INT);
+            $stm->bindParam('p_id', $product_id, \PDO::PARAM_INT);
+            $stm->bindParam('author_id', $user_id, \PDO::PARAM_INT);
+            $stm->execute();
+            
+            $reviews = [];
+            while ($review = $stm->fetchObject(Review::class)) {
+                $reviews[] = $review;
+            }
+            
+            return $reviews;
         }
-        return $reviews;
+        
     }
-    
-}

@@ -16,7 +16,7 @@
             $batch = $this->get('batch', 0);
             
             $revCount = $revRepo->getReviewCountByProductId($product_id);
-            $reviews = $revRepo->findByProductId($product_id, $batch, $ord);
+            $reviews = $revRepo->findByProductId($product_id, $batch, $ord, $this->getUserSession()?$this->getUserSession()->getId():-1);
             
             
             echo json_encode(

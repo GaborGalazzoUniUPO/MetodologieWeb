@@ -5,10 +5,14 @@
     class Review implements \JsonSerializable
     {
         
+        private $id;
+        
         /**
          * @var string
          */
         private $author;
+        
+        private $author_id;
         /**
          * @var int
          */
@@ -139,8 +143,40 @@
             if(strlen($this->content) < 80)
                 $error['content'] = "The content must be minimum 80 characters long";
             elseif ( strlen($this->content) > 512)
-                $error['content'] = "The content must be maximum 512 characters long";
+                $error['content'] = "The content must be maximum 512b n characters long";
             
             return $error;
+        }
+    
+        /**
+         * @return mixed
+         */
+        public function getAuthorId()
+        {
+            return $this->author_id;
+        }
+    
+        /**
+         * @param mixed $author_id
+         */
+        public function setAuthorId($author_id): void
+        {
+            $this->author_id = $author_id;
+        }
+    
+        /**
+         * @return mixed
+         */
+        public function getId()
+        {
+            return $this->id;
+        }
+    
+        /**
+         * @param mixed $id
+         */
+        public function setId($id): void
+        {
+            $this->id = $id;
         }
     }

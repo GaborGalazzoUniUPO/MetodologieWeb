@@ -4,7 +4,8 @@
     
     use Entity\Review;
     use Repository\ProductRepository;
-    
+    use Repository\ReviewRepository;
+
     class ReviewController extends AbstractController
     {
         
@@ -38,7 +39,7 @@
             
             $review = new Review();
             
-            $review->setAuthor($this->getUserSession()->getId());
+            $review->setAuthorId($this->getUserSession()->getId());
             $review->setContent($this->get('content'));
             $review->setVote(intval($this->get('vote')));
             $review->setProductId($product->getId());
@@ -54,6 +55,15 @@
                         'content' => $this->get('content')
                     ]);
             }
-            var_dump($_REQUEST);
+            
+            
+            $reviewRepo = new ReviewRepository();
+            
+            $reviewRepo->save($review);
+            
+            $this->render('page-review-added', [
+                'product' => $product,
+                'review' => $review
+            ]);
         }
     }
