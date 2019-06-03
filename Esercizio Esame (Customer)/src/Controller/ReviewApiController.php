@@ -30,4 +30,16 @@
         {
             // TODO: Implement doPOST() method.
         }
+    
+        public function doDELETE(){
+            $reviewRepo = new ReviewRepository();
+        
+            $review = $reviewRepo->findByProductIdAndUserId($this->get('product_id'), $this->getUserSession()?$this->getUserSession()->getId():-1);
+        
+            $reviewRepo->delete($review?$review->getId():-1);
+            
+            $this->doGET();
+        
+           
+        }
     }

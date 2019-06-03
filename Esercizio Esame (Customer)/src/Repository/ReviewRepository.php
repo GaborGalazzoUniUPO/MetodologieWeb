@@ -25,15 +25,35 @@
             );
             $entity->setId($this->connection->lastInsertId('reviews'));
         }
-        
+    
+        /**
+         * @param $entity Review
+         */
         public function update($entity)
         {
-            // TODO: Implement update() method.
+            $query = "update reviews set vote = :vote, content = :content
+            where author_id = :author_id and product_id = :product_id";
+            $stm = $this->connection->prepare($query);
+            $stm->execute(
+                [
+                    "author_id" => $entity->getAuthorId(),
+                    "product_id" => $entity->getProductId(),
+                    "vote" => $entity->getVote(),
+                    "content" => $entity->getContent(),
+                ]
+            );
         }
-        
-        public function delete($entity)
+    
+        public function delete($id)
         {
-            // TODO: Implement delete() method.
+            $query = "delete from reviews
+            where id = :id";
+            $stm = $this->connection->prepare($query);
+            $stm->execute(
+                [
+                    "id" => $id,
+                ]
+            );
         }
         
         public function findById($id)
@@ -133,5 +153,30 @@
             
             return $reviews;
         }
-        
+    
+        public function findByProductIdAndUserId($product_id, $user_id)
+        {
+            $query = "
+        select concat(u.name, ' ', u.surname) as author,
+               r.vote,
+               r.content,
+               r.created_at,
+               r.author_id,
+               r.id
+        from reviews r
+                 inner join users u on r.author_id = u.id
+        where r.product_id = :p_id
+        and r.author_id = :author_id
+        limit 1;
+        ";
+    
+            $stm = $this->connection->prepare($query);
+            $stm->execute(['p_id' => $product_id, 'author_id' => $user_id]);
+    
+          
+            if($review = $stm->fetchObject(Review::class))
+                return $review;
+            return null;
+        }
+    
     }

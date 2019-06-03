@@ -20,8 +20,12 @@
             if (!$product) {
                 $this->render('error-404');
             }
-            
-            $this->render('page-review-add', ['product' => $product]);
+    
+    
+            $review = (new ReviewRepository())->findByProductIdAndUserId($product->getId(), $this->getUserSession()?$this->getUserSession()->getId(): -1);
+    
+    
+            $this->render('page-review-add', ['product' => $product, 'review' => $review]);
         }
         
         public function doPOST()
@@ -51,19 +55,26 @@
                     [
                         'product' => $product,
                         'error' => $error,
-                        'vote' => $this->get('vote'),
-                        'content' => $this->get('content')
+                        'review' => $review
                     ]);
             }
             
             
             $reviewRepo = new ReviewRepository();
             
-            $reviewRepo->save($review);
+            try {
+                $reviewRepo->save($review);
+            }catch (\PDOException $e){
+                if($e->errorInfo[1] == 1062)
+                    $reviewRepo->update($review);
+                else throw $e;
+            }
             
             $this->render('page-review-added', [
                 'product' => $product,
                 'review' => $review
             ]);
         }
+        
+       
     }

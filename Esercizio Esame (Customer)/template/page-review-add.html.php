@@ -1,6 +1,7 @@
 <?php require_once "common/header-default.html.php"
     /**
      * @var $product  \Entity\Product
+     * @var $review  \Entity\Review
      */
 ?>
 
@@ -29,7 +30,7 @@
                     <label>Rate</label>
                     <div class="form-control <?= isset($error) && isset($error['vote'])?'is-invalid':''?>">
                         <ul class="rating-stars">
-                            <li class="stars-active" id="stars-active" style="width: <?= (isset($vote)?intval($vote):0) * 25 ?>%">
+                            <li class="stars-active" id="stars-active" style="width: <?= (isset($review)?intval($review->getVote()):0) * 25 ?>%">
                                 <i star="1" class="fa fa-star"></i> <i star="2" class="fa fa-star"></i>
                                 <i star="3"  class="fa fa-star"></i> <i star="4" class="fa fa-star"></i>
                             </li>
@@ -46,7 +47,7 @@
                 </div>
                 <div class="form-group">
                     <label>Content</label>
-                    <textarea class="form-control <?= isset($error) && isset($error['content'])?'is-invalid':''?>" name="content"><?= isset($content)?$content:'' ?></textarea>
+                    <textarea class="form-control <?= isset($error) && isset($error['content'])?'is-invalid':''?>" name="content"><?= isset($review)?$review->getContent():'' ?></textarea>
                     <div class="invalid-feedback">
                         <?= isset($error, $error['content']) ? $error['content'] : '' ?>
                     </div>
@@ -54,7 +55,7 @@
                         The content must be between 80 and 512 characters long
                     </small>
                 </div>
-                <input type="hidden" id="vote" name="vote" value="<?= isset($vote)?$vote:0 ?>">
+                <input type="hidden" id="vote" name="vote" value="<?= isset($review)?$review->getVote():0 ?>">
                 <input type="hidden" name="product_id" value="<?= $product->getId()?>">
                 <button type="submit" class="btn btn-primary">Submit</button>
 

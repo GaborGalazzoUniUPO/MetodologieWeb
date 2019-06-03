@@ -18,7 +18,7 @@
                         </div>
                         <br/>
                         <div>
-                            <h5 class="mt-3 ml-3"><p class="text-success">Review added!</p></h5>
+                            <h5 class="mt-3 ml-3"><p class="text-success">Review saved!</p></h5>
                         </div>
                     </div> <!-- icontext.// -->
 

@@ -3,7 +3,7 @@
 <?php
     /**
      * @var $product \Entity\Product
-     * @var $reviews \Entity\Review[]
+     * @var $review  \Entity\Review
      */
 ?>
 
@@ -154,7 +154,8 @@
 
         </div>
         <a id="load_more" class="btn btn-light btn-block"> Load More </a>
-        <a href="/review.php?product_id=<?= $product->getId() ?>" id="load_more" class="btn btn-outline-secondary btn-block"> Write a review </a>
+        <a href="/review.php?product_id=<?= $product->getId() ?>" id="new_review"
+           class="btn btn-outline-secondary btn-block"> Write a review </a>
     </div>
 </div>
 
@@ -185,80 +186,147 @@
     </div>
 </template>
 
+<template id="my_review">
+    <div class="mb-3" style="border-bottom: 1px dotted #ccc">
+        <dl class="dlist-inline">
+            <dt class="mr-5">{{authorName}}</dt>
+            <dd>
+                <div class="rating-wrap">
+                    <ul class="rating-stars">
+                        <li class="stars-active" style="width:{{vote}}%">
+                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                        </li>
+                        <li>
+                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                        </li>
+                    </ul>
+                </div> <!-- rating-wrap.// -->
+            </dd>
+        </dl>
+
+        <p class="text-muted">{{createdAt}}</p>
+
+        <P>{{content}}</P>
+        <div class="mt-2 mb-2">
+            <a class="btn btn-outline-success mr-2" href="/review.php?product_id=<?= $product->getId() ?>">Edit
+                review</a>
+            <button id="delete_my" class="btn btn-outline-danger">Delete</button>
+        </div>
+
+    </div>
+</template>
+
 <script>
     $(document).ready(function () {
-        'use strict';
+            'use strict';
 
-        const reviewsElement = $('#reviews');
-        let order = '';
-        let batch = 0;
-        let total = 0;
-        let count = 0;
+            const reviewsElement = $('#reviews');
+            let order = '';
+            let batch = 0;
+            let total = 0;
+            let count = 0;
 
-        $.ajax({
-            url: "/review-api.php",
-            dataType: 'json',
-            type: 'get',
-            data: {
-                product_id: <?= $product->getId() ?>,
-                ord: this.value,
-                batch: batch
-            },
-            success: appendReviews
-        });
-
-        $('#order').change(function () {
-            batch = 0;
-            order = this.value;
             $.ajax({
                 url: "/review-api.php",
                 dataType: 'json',
                 type: 'get',
                 data: {
                     product_id: <?= $product->getId() ?>,
-                    ord: order,
-                    batch: batch
-                },
-                success: changeOrder
-            });
-        });
-
-        $('#load_more').click(function () {
-            batch++;
-            $.ajax({
-                url: "/review-api.php",
-                dataType: 'json',
-                type: 'get',
-                data: {
-                    product_id: <?= $product->getId() ?>,
-                    ord: order,
+                    ord: this.value,
                     batch: batch
                 },
                 success: appendReviews
             });
-        });
 
-        function changeOrder(result) {
-            count = 0;
-            reviewsElement.empty();
-            appendReviews(result);
-        }
+            $('#order').change(function () {
+                batch = 0;
+                order = this.value;
+                $.ajax({
+                    url: "/review-api.php",
+                    dataType: 'json',
+                    type: 'get',
+                    data: {
+                        product_id: <?= $product->getId() ?>,
+                        ord: order,
+                        batch: batch
+                    },
+                    success: changeOrder
+                });
+            });
 
-        function appendReviews(result) {
-            total = result.count;
-            count += result.reviews.length;
-            for (let review of result.reviews) {
-                reviewsElement.append(
-                    $('#review').html()
-                        .replace('{{authorName}}', review.author)
-                        .replace('{{vote}}', review.vote * 25 + "")
-                        .replace('{{createdAt}}', review.created_at)
-                        .replace('{{content}}', review.content)
-                );
+            $('#load_more').click(function () {
+                batch++;
+                $.ajax({
+                    url: "/review-api.php",
+                    dataType: 'json',
+                    type: 'get',
+                    data: {
+                        product_id: <?= $product->getId() ?>,
+                        ord: order,
+                        batch: batch
+                    },
+                    success: appendReviews
+                });
+            });
+
+           
+
+            function changeOrder(result) {
+                count = 0;
+                reviewsElement.empty();
+                appendReviews(result);
             }
-            $('#count').text( "("+count+ " of "+ total+")");
+
+            function appendReviews(result) {
+                total = result.count;
+                count += result.reviews.length;
+                for (let review of result.reviews) {
+                    if (review.author_id != <?= isset($_SESSION['user']) ? $_SESSION['user']->getId() : -1 ?>)
+                        reviewsElement.append(
+                            $('#review').html()
+                                .replace('{{authorName}}', review.author)
+                                .replace('{{vote}}', review.vote * 25 + "")
+                                .replace('{{createdAt}}', review.created_at)
+                                .replace('{{content}}', review.content)
+                        );
+                    else {
+                        reviewsElement.append(
+                            $('#my_review').html()
+                                .replace('{{authorName}}', review.author)
+                                .replace('{{vote}}', review.vote * 25 + "")
+                                .replace('{{createdAt}}', review.created_at)
+                                .replace('{{content}}', review.content)
+                        );
+                        $('#new_review').hide();
+                        $('#delete_my').click(function () {
+                            $.ajax({
+                                url: "/review-api.php",
+                                dataType: 'json',
+                                type: 'post',
+                                data: {
+                                    product_id: <?= $product->getId() ?>,
+                                    ord: order,
+                                    batch: batch,
+                                    action: 'DELETE'
+                                },
+                                success: function (resp) {
+                                    $('#new_review').show();
+                                    changeOrder(resp);
+                                }
+                            });
+                        });
+                    }
+                }
+                $('#count').text("(" + count + " of " + total + ")");
+                if (total == count)
+                    $('#load_more').hide();
+                else
+                    $('#load_more').show();
+            }
         }
-    });
+    );
 </script>
 
 

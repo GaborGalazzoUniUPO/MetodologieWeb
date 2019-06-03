@@ -20,7 +20,7 @@ class ProductController extends AbstractController
 
         if(!$product)
             $this->render('error-404');
-
+        
         $this->render('page-product',
             [
                 'product' => $product
