@@ -15,7 +15,7 @@
         public function findByOwnerId($owner_id)
         {
             $query = "select id,token_id, card_type, last_digits, expiry, owner_id, full_name from payment_methods
-            where owner_id = :owner_id";
+            where owner_id = :owner_id and deleted_at is null";
             
             $stm = $this->connection->prepare($query);
             $stm->execute(['owner_id' => $owner_id]);
@@ -26,7 +26,13 @@
             
             return $result;
         }
-        
+    
+        /**
+         * @param $id
+         * @param $owner_id
+         *
+         * @return PaymentMethod|null
+         */
         public function findByIdAndOwner($id, $owner_id)
         {
             $query = "select id,token_id, card_type, last_digits, expiry, owner_id,full_name from payment_methods
@@ -63,5 +69,12 @@
             
             return $paymentMethod;
             
+        }
+    
+        public function delete($id)
+        {
+            $query = "update payment_methods set deleted_at = CURRENT_TIMESTAMP where id = :id";
+            $stm = $this->connection->prepare($query);
+            return $stm->execute(['id' =>$id]);
         }
     }

@@ -14,7 +14,7 @@
         public function findByOwnerId($owner_id)
         {
             $query = "select id, street, city, region, country, zip_code, full_name, owner_id from shipping_addresses
-            where owner_id = :owner_id";
+            where owner_id = :owner_id and deleted_at is null";
             
             $stm = $this->connection->prepare($query);
             $stm->execute(['owner_id' => $owner_id]);
@@ -26,10 +26,16 @@
             return $result;
         }
         
+        /**
+         * @param $id
+         * @param $owner_id
+         *
+         * @return ShippingAddress|null
+         */
         public function findByIdAndOwner($id, $owner_id)
         {
             $query = "select id, street, city, region, country, zip_code, full_name, owner_id from shipping_addresses
-            where owner_id = :owner_id and id = :id";
+            where owner_id = :owner_id and id = :id ";
             
             $stm = $this->connection->prepare($query);
             $stm->execute(['owner_id' => $owner_id, 'id' => $id]);
@@ -64,6 +70,14 @@
             }
             
             return $shippingAddress;
+        }
+        
+        public function delete($id)
+        {
+            $query = "update shipping_addresses set deleted_at = CURRENT_TIMESTAMP where id = :id";
+            $stm = $this->connection->prepare($query);
+            
+            return $stm->execute(['id' => $id]);
         }
         
     }

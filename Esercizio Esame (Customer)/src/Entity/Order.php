@@ -16,6 +16,12 @@
         private $code;
         
         private $products;
+        
+        private $item_count;
+        
+        private $total;
+        private $delivered_at;
+        private $tracking_code;
     
         /**
          * @return mixed
@@ -175,6 +181,83 @@
         public function setCode($code): void
         {
             $this->code = $code;
+        }
+    
+        /**
+         * @return mixed
+         */
+        public function getItemCount()
+        {
+            return $this->item_count;
+        }
+    
+        /**
+         * @param mixed $item_count
+         */
+        public function setItemCount($item_count): void
+        {
+            $this->item_count = $item_count;
+        }
+    
+        /**
+         * @return mixed
+         */
+        public function getTotal()
+        {
+            return $this->total;
+        }
+    
+        /**
+         * @param mixed $total
+         */
+        public function setTotal($total): void
+        {
+            $this->total = $total;
+        }
+        
+        public function getStatusString(){
+            switch ($this->status){
+                case 0:
+                    return '<span class="text-warning">Under processing</span>';
+                case 1:
+                    return '<span class="text-primary">Sent (Tracking code: '.$this->tracking_code.')</span>';
+                case 2:
+                    return '<span class="text-success">Delivered '.$this->delivered_at.'</span>';
+                    
+            }
+            return '<span class="text-danger">Error</span>';
+        }
+    
+        /**
+         * @return mixed
+         */
+        public function getDeliveredAt()
+        {
+            return $this->delivered_at;
+        }
+    
+        /**
+         * @param mixed $delivered_at
+         */
+        public function setDeliveredAt($delivered_at): void
+        {
+            $this->delivered_at = $delivered_at;
+        }
+    
+        /**
+         * @return mixed
+         */
+        public function getTrackingCode()
+        {
+            return $this->tracking_code;
+        }
+    
+        /**
+         * @param mixed $tracking_code
+         */
+        public function setTrackingCode($tracking_code): void
+        {
+            $this->tracking_code = $tracking_code;
         }
     
     }

@@ -6,15 +6,34 @@
     use Entity\Order;
     use Entity\PaymentMethod;
     use Functionality\PaymentService;
+    use function mysql_xdevapi\getSession;
     use Repository\CartRepository;
     use Repository\OrderRepository;
+    use Repository\PaymentMethodRepository;
+    use Repository\ShippingAddressRepository;
 
     class OrderController extends AbstractController
     {
     
         public function doGET()
         {
-            // TODO: Implement doGET() method.
+            if(!$this->getUserSession())
+                $this->redirect('login', ['redirect_to' => '/order.php?order_id='.$this->get('order_id',-1)]);
+            
+            $orderRepo = new OrderRepository();
+            
+            $order = $orderRepo->findByIdAndOwner($this->get('order_id'), $this->getUserSession()->getId());
+    
+            $saRepo = new ShippingAddressRepository();
+            $pmRepo = new PaymentMethodRepository();
+            
+            $shippingAddress = $saRepo->findByIdAndOwner($order->getShippingAddressId(), $this->getUserSession()->getId());
+            $paymentMethod = $pmRepo->findByIdAndOwner($order->getPaymentMethodId(), $this->getUserSession()->getId());
+            
+            if(!$order)
+                $this->render('error-404');
+            
+            $this->render('page-order', ['order' => $order, 'shippingAddress' => $shippingAddress, 'paymentMethod' => $paymentMethod]);
         }
     
         public function doPOST()
