@@ -109,6 +109,9 @@
                     ) ?></dd>
             </dl>
         </div>
+        <div class="mt-3">
+        <a href="/report.php/?order_id=<?= $order->getId() ?>" class="btn btn-danger btn-block">Order report</a>
+        </div>
     
     </aside>
 
