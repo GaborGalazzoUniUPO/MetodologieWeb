@@ -1,10 +1,8 @@
-</div>
-</div>
-
-
 </div> <!-- container .// -->
 
 </section>
+</div>
+</div>
 <!-- ========================= SECTION CONTENT END// ========================= -->
 
 

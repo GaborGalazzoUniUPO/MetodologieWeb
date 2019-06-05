@@ -3,9 +3,13 @@ package upo.gaborgalazzo.mweb.marketplace.domain;
 import de.ailis.pherialize.MixedArray;
 import de.ailis.pherialize.Pherialize;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Product
 {
@@ -16,9 +20,9 @@ public class Product
 	private String photoUrl;
 	private String description;
 	private String smallDescription;
-	private String categoryInfo;
+	private MixedArray categoryInfo;
 	private float unitPrice;
-	private int type;
+	private int category;
 	private Date dateAdded;
 	private int qta;
 
@@ -31,11 +35,11 @@ public class Product
 		product.setPhotoUrl(resultSet.getString("photo_url"));
 		product.setDescription(resultSet.getString("description"));
 		product.setSmallDescription(resultSet.getString("small_description"));
-		product.setCategoryInfo(resultSet.getString("category_info"));
 		product.setUnitPrice(resultSet.getFloat("unit_price"));
-		product.setType(resultSet.getInt("type"));
+		product.setCategory(resultSet.getInt("category"));
 		product.setDateAdded(resultSet.getDate("date_added"));
 		product.setQta(resultSet.getInt("qta"));
+		product.setCategoryInfo(Pherialize.unserialize(resultSet.getString("category_info")).toArray());
 		return product;
 	}
 
@@ -89,19 +93,6 @@ public class Product
 		this.smallDescription = smallDescription;
 	}
 
-	public String getCategoryInfo()
-	{
-		return categoryInfo;
-	}
-
-	public MixedArray getCategoryInfoMap(){
-		return Pherialize.unserialize("a:0:{}").toArray();
-	}
-
-	public void setCategoryInfo(String categoryInfo)
-	{
-		this.categoryInfo = categoryInfo;
-	}
 
 	public float getUnitPrice()
 	{
@@ -113,14 +104,14 @@ public class Product
 		this.unitPrice = unitPrice;
 	}
 
-	public int getType()
+	public int getCategory()
 	{
-		return type;
+		return category;
 	}
 
-	public void setType(int type)
+	public void setCategory(int category)
 	{
-		this.type = type;
+		this.category = category;
 	}
 
 	public Date getDateAdded()
@@ -151,5 +142,48 @@ public class Product
 	public void setQta(int qta)
 	{
 		this.qta = qta;
+	}
+
+
+	public MixedArray getCategoryInfo()
+	{
+		return categoryInfo;
+	}
+
+	public void setCategoryInfo(MixedArray categoryInfo)
+	{
+		this.categoryInfo = categoryInfo;
+	}
+
+	public Map<String, String> validate()
+	{
+		Map<String, String> errors = new HashMap<>();
+		try
+		{
+			if (code.length() < 4)
+				errors.put("code", "Code required (3 characters at least)");
+			if (name.length() < 4)
+				errors.put("name", "Code required (3 characters at least)");
+			try{
+				new URL(photoUrl);
+			}catch (MalformedURLException e){
+				errors.put("photo_url", e.getMessage());
+			}
+			if(unitPrice<1)
+				errors.put("unit_price", "Unit price must be greater than €1");
+
+			if(smallDescription.length() < 10)
+				errors.put("small_description", "Small Description required (10 characters at least)");
+
+			if(description.length() < 10)
+				errors.put("description", "Small Description required (10 characters at least)");
+
+			if(category < 1 || category > 6)
+				errors.put("category", "Category Required");
+
+		}catch (Exception e){
+			errors.put("exception", e.getMessage());
+		}
+		return errors;
 	}
 }

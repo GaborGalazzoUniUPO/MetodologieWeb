@@ -76,8 +76,9 @@ public class ProductDAO
 			}
 			query.close();
 			connection.close();
-		} catch (SQLException ignored)
+		} catch (SQLException e)
 		{
+			e.printStackTrace();
 		}
 
 		return result;
