@@ -34,15 +34,35 @@ public class ProductController extends RouteHttpServlet
 	}
 
 	@RequestMapping(pattern = "/edit/{id}")
-	public void edit(HttpServletRequest request,  HttpServletResponse response, @PathParam(name="id") int id) throws IOException, ServletException {
+	public void editForm(HttpServletRequest request,  HttpServletResponse response, @PathParam(name="id") int id) throws IOException, ServletException {
 
         ProductDAO productDAO = new ProductDAO();
 
         Product product = productDAO.get(id);
 
-        request.setAttribute("product", product);
-        request.setAttribute("errors", product.validate());
-        request.getRequestDispatcher("/WEB-INF/template/page/product/add.jsp").forward(request, response);
+
+		Map<String, String> errors = product.validate();
+
+		if(errors.size() > 0){
+
+			request.setAttribute("product", product);
+			request.setAttribute("errors", errors);
+			request.getRequestDispatcher("/WEB-INF/template/page/product/add.jsp").forward(request, response);
+		}
+
+
+	}
+
+	@RequestMapping(pattern = "/edit/{id}", method = "POST")
+	public void edit(HttpServletRequest request,  HttpServletResponse response, @PathParam(name="id") int id) throws IOException, ServletException {
+
+		ProductDAO productDAO = new ProductDAO();
+
+		Product product = productDAO.get(id);
+
+		request.setAttribute("product", product);
+		request.setAttribute("errors", product.validate());
+		request.getRequestDispatcher("/WEB-INF/template/page/product/add.jsp").forward(request, response);
 
 
 	}
@@ -61,36 +81,9 @@ public class ProductController extends RouteHttpServlet
 	public void add(HttpServletRequest request,  HttpServletResponse response) throws IOException, ServletException
 	{
 
-		Map<String, String[]> params = request.getParameterMap();
-
 		Product product = new Product();
 
-		product.setCode(request.getParameter("code"));
-		product.setDescription(request.getParameter("description"));
-		product.setSmallDescription(request.getParameter("small_description"));
-		product.setName(request.getParameter("name"));
-		product.setUnitPrice(Float.parseFloat(request.getParameter("unit_price")));
-		product.setCategory(Integer.parseInt(request.getParameter("category")));
-		product.setPhotoUrl(request.getParameter("photo_url"));
-
-		switch (request.getParameter("category")){
-			case "1":
-			case "2":
-				product.setCategoryInfo(parseBook(request));
-				break;
-			case "3":
-			case "4":
-				product.setCategoryInfo(parseCD(request));
-				break;
-			case "5":
-				product.setCategoryInfo(parseDVD(request));
-				break;
-			case "6":
-				product.setCategoryInfo(parseVideoGame(request));
-				break;
-		}
-
-		Map<String, String> errors = product.validate();
+		Map<String, String> errors = parseProductRequest(product, request);
 
 		if(errors.size() > 0){
 
@@ -131,6 +124,35 @@ public class ProductController extends RouteHttpServlet
 		mixedArray.put("Print Length", request.getParameter("length"));
 		mixedArray.put("Publication year", request.getParameter("pub_year"));
 		return mixedArray;
+	}
+
+	private Map<String, String> parseProductRequest(Product product, HttpServletRequest request){
+		product.setCode(request.getParameter("code"));
+		product.setDescription(request.getParameter("description"));
+		product.setSmallDescription(request.getParameter("small_description"));
+		product.setName(request.getParameter("name"));
+		product.setUnitPrice(Float.parseFloat(request.getParameter("unit_price")));
+		product.setCategory(Integer.parseInt(request.getParameter("category")));
+		product.setPhotoUrl(request.getParameter("photo_url"));
+
+		switch (request.getParameter("category")){
+			case "1":
+			case "2":
+				product.setCategoryInfo(parseBook(request));
+				break;
+			case "3":
+			case "4":
+				product.setCategoryInfo(parseCD(request));
+				break;
+			case "5":
+				product.setCategoryInfo(parseDVD(request));
+				break;
+			case "6":
+				product.setCategoryInfo(parseVideoGame(request));
+				break;
+		}
+
+		return product.validate();
 	}
 
 }

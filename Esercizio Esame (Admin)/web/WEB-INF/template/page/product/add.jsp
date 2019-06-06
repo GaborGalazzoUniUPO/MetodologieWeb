@@ -21,7 +21,7 @@
         <h4 class="card-title mt-2">Product Form</h4>
     </header>
     <article class="card-body">
-        <form action="${pageContext.request.contextPath}/product/add" method="post">
+        <form action="${pageContext.request.contextPath}/product/${product.id > 0?"edit/":'add'}${product.id > 0?product.id:''}" method="post">
             <div class="form-row">
                 <div class="col form-group">
                     <label>Name</label>
