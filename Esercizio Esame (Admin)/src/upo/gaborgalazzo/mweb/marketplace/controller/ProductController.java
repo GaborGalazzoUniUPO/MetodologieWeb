@@ -73,10 +73,13 @@ public class ProductController extends RouteHttpServlet
 			case "3":
 			case "4":
 				product.setCategoryInfo(parseCD(request));
+				break;
 			case "5":
 				product.setCategoryInfo(parseDVD(request));
+				break;
 			case "6":
 				product.setCategoryInfo(parseVideoGame(request));
+				break;
 		}
 
 		Map<String, String> errors = product.validate();
@@ -117,8 +120,8 @@ public class ProductController extends RouteHttpServlet
 		mixedArray.put("Author", request.getParameter("author"));
 		mixedArray.put("Editor", request.getParameter("editor"));
 		mixedArray.put("ISBN", request.getParameter("ISBN"));
-		mixedArray.put("Print Length", request.getParameter("print_length"));
-		mixedArray.put("Publication year", request.getParameter("publication_year"));
+		mixedArray.put("Print Length", request.getParameter("length"));
+		mixedArray.put("Publication year", request.getParameter("pub_year"));
 		return mixedArray;
 	}
 

@@ -181,6 +181,34 @@ public class Product
 			if(category < 1 || category > 6)
 				errors.put("category", "Category Required");
 
+			switch (category){
+				case 1:
+				case 2:
+					if(categoryInfo.getString("Author") == null ||  categoryInfo.getString("Author").length() < 2)
+						errors.put("author", "Author required (3 characters at least)");
+					if(categoryInfo.getString("Editor") == null ||  categoryInfo.getString("Editor").length() < 2)
+						errors.put("editor", "Editor required (3 characters at least)");
+					if(categoryInfo.getString("ISBN") == null ||  categoryInfo.getString("ISBN").length() < 9)
+						errors.put("isbn", "ISBN required (10 characters at least)");
+					if(categoryInfo.getInt("Print Length") < 4)
+						errors.put("length", "Print Length required (must be greater than 5)");
+					if(categoryInfo.getString("Publication year") == null ||  categoryInfo.getString("Publication year").length() < 3)
+						errors.put("pub_year", "Publication year required (4 digits at least)");
+					break;
+				case 3:
+				case 4:
+					if(categoryInfo.getString("Author") == null ||  categoryInfo.getString("Author").length() < 3)
+						errors.put("author", "Author required (3 characters at least)");
+					break;
+				case 5:
+					if(categoryInfo.getString("Director") == null ||  categoryInfo.getString("Director").length() < 3)
+						errors.put("director", "Director required (3 characters at least)");
+					break;
+				case 6:
+					if(categoryInfo.getString("Director") == null ||  categoryInfo.getString("Director").length() < 3)
+						errors.put("director", "Director required (3 characters at least)");
+			}
+
 		}catch (Exception e){
 			errors.put("exception", e.getMessage());
 		}
