@@ -53,7 +53,7 @@
                 <div class="col form-group">
                     <label>Category</label>
                     <select class="form-control   ${errors.category != null?'is-invalid':''}"
-                            onchange="populateCategoryInfo(this.value)" name="category">
+                            onchange="populateCategoryInfo(this.value)" name="category" ${product.id > 0?'disabled':''} >
                         <option selected value="0"> -- Select an option --</option>
                         <option value="1"  ${product.category == 1?'selected':''}> Book</option>
                         <option value="2"  ${product.category == 2?'selected':''}> Comic</option>
@@ -119,19 +119,19 @@
             <div class="col form-group">
                 <label>Platform</label>
                 <input type="text" class="form-control" placeholder="" name="platform"
-                       value="${product.categoryInfo.getOrDefault('Platform','')}">
+                       value="${product.categoryInfo.get("Platform")}">
             </div> <!-- form-group end.// -->
             <div class="col form-group">
                 <label>Publisher</label>
                 <input type="text" class="form-control" placeholder="" name="publisher"
-                       value="${product.categoryInfo.getOrDefault('Publisher','')}">
+                       value="${product.categoryInfo.get("Publisher")}">
             </div> <!-- form-group end.// -->
         </div> <!-- form-row end.// -->
         <div class="form-row">
             <div class="col form-group">
                 <label>Publication year</label>
                 <input type="text" class="form-control" placeholder="" name="publication_year"
-                       value="${product.categoryInfo.getOrDefault('Publication year','')}">
+                       value="${product.categoryInfo.get("Publication year")}">
             </div> <!-- form-group end.// -->
         </div> <!-- form-row end.// -->
         <div class="form-row">
@@ -146,7 +146,7 @@
                 <label>Author</label>
                 <input type="text" class="form-control  ${errors.author != null?'is-invalid':''}" placeholder=""
                        name="author"
-                       value="${product.categoryInfo.getOrDefault('Author','')}">
+                       value="${product.categoryInfo.get("Author")}">
                 <div class="invalid-feedback">
                     ${errors.author}
                 </div>
@@ -155,7 +155,7 @@
                 <label>Editor</label>
                 <input type="text" class="form-control  ${errors.editor != null?'is-invalid':''}" placeholder=""
                        name="editor"
-                       value="${product.categoryInfo.getOrDefault('Editor','')}">
+                       value="${product.categoryInfo.get("Editor")}">
                 <div class="invalid-feedback">
                     ${errors.editor}
                 </div>
@@ -166,7 +166,7 @@
                 <label>ISBN</label>
                 <input type="text" class="form-control  ${errors.isbn != null?'is-invalid':''}" placeholder=""
                        name="isbn"
-                       value="${product.categoryInfo.getOrDefault('ISBN','')}">
+                       value="${product.categoryInfo.get("ISBN")}">
                 <div class="invalid-feedback">
                     ${errors.isbn}
                 </div>
@@ -175,7 +175,7 @@
                 <label>Print Length</label>
                 <input type="text" class="form-control  ${errors.length != null?'is-invalid':''}" placeholder=""
                        name="length"
-                       value="${product.categoryInfo.getOrDefault('Print Length','')}">
+                       value="${product.categoryInfo.get("Print length") }">
                 <div class="invalid-feedback">
                     ${errors.length}
                 </div>
@@ -186,7 +186,7 @@
                 <label>Publication year</label>
                 <input type="text" class="form-control  ${errors.pub_year != null?'is-invalid':''}" placeholder=""
                        name="pub_year"
-                       value="${product.categoryInfo.getOrDefault('Publication Year','')}">
+                       value="${product.categoryInfo.get("Publication year") }">
                 <div class="invalid-feedback">
                     ${errors.pub_year}
                 </div>
@@ -202,12 +202,12 @@
             <div class="col form-group">
                 <label>Author</label>
                 <input type="text" class="form-control" placeholder="" name="author"
-                       value="${product.categoryInfo.getOrDefault('Author','')}">
+                       value="${product.categoryInfo.get("Author")}">
             </div> <!-- form-group end.// -->
             <div class="col form-group">
                 <label>Publication year</label>
                 <input type="text" class="form-control" placeholder="" name="pub_year"
-                       value="${product.categoryInfo.getOrDefault('Publication year','')}">
+                       value="${product.categoryInfo.get("Publication year") }">
             </div> <!-- form-group end.// -->
         </div> <!-- form-row end.// -->
 
@@ -220,17 +220,17 @@
             <div class="col form-group">
                 <label>Director</label>
                 <input type="text" class="form-control" placeholder="" name="director"
-                       value="${product.categoryInfo.getOrDefault('Director','')}">
+                       value="${product.categoryInfo.get("Director") }">
             </div> <!-- form-group end.// -->
             <div class="col form-group">
                 <label>Publication year</label>
                 <input type="text" class="form-control" placeholder="" name="pub_year"
-                       value="${product.categoryInfo.getOrDefault('Publication year','')}">
+                       value="${product.categoryInfo.get("Publication year") }">
             </div> <!-- form-group end.// -->
             <div class="col form-group">
                 <label>Genre</label>
                 <input type="text" class="form-control" placeholder="" name="genre"
-                       value="${product.categoryInfo.getOrDefault('Genre','')}">
+                       value="${product.categoryInfo.get("Genre") }">
             </div> <!-- form-group end.// -->
         </div> <!-- form-row end.// -->
         <div class="form-row">
@@ -272,7 +272,7 @@
             actorList += '<li index="' + i + '" ">' + actors[i] + '</li>';
         $('#actor_list').append(actorList);
         $('#actor_input').val("");
-        $('#actors').join(',~,')
+        $('#actors').val(actors.join(',~,'));
     }
 
     $('.category-info').hide();
@@ -291,10 +291,12 @@
 
     populateCategoryInfo(${product.category});
 
-    <c:forEach items="${product.categoryInfo.get('Actors')}" var="actor" >
-    addActor(${actor});
+    <c:forEach items='${product.categoryInfo.get("Actors").toString() }' var="actor">
+    addActor('${actor}');
     </c:forEach>
+
 
 </script>
 
 <jsp:include page="../../common/footer.jsp"/>
+
