@@ -23,15 +23,16 @@
             $orderRepo = new OrderRepository();
             
             $order = $orderRepo->findByIdAndOwner($this->get('order_id'), $this->getUserSession()->getId());
+
+            if(!$order)
+                $this->render('error-404');
     
             $saRepo = new ShippingAddressRepository();
             $pmRepo = new PaymentMethodRepository();
             
             $shippingAddress = $saRepo->findByIdAndOwner($order->getShippingAddressId(), $this->getUserSession()->getId());
             $paymentMethod = $pmRepo->findByIdAndOwner($order->getPaymentMethodId(), $this->getUserSession()->getId());
-            
-            if(!$order)
-                $this->render('error-404');
+
             
             $this->render('page-order', ['order' => $order, 'shippingAddress' => $shippingAddress, 'paymentMethod' => $paymentMethod]);
         }

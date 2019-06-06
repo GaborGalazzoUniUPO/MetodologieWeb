@@ -37,7 +37,7 @@
                             </div>
                             <br/>
                             <div>
-                                <h5 class="mt-3 ml-3"><p class="text-warning"><?= $real_qta ?> item added </p></h5>
+                                <h5 class="mt-3 ml-3"><p class="text-warning"><?= $real_qta ?> item added instead of <?= $qta ?> </p></h5>
                             </div>
                         <?php endif; ?>
                     </div> <!-- icontext.// -->

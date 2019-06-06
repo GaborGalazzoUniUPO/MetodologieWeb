@@ -112,14 +112,13 @@
             if (!$paymentMethod) {
                 $error['payment_method'] = "Payment method required";
             }
-            
-            $this->getUserSession()->setDefaultPaymentMethod($paymentMethod->getId());
-            $this->getUserSession()->setDefaultShippingAddress($shippingAddress->getId());
-            
-            $userRepo = new UserRepository();
-            $userRepo->update($this->getUserSession());
-            
+
+
+
             if (count($error) > 0) {
+
+                $paymentMethods = $pmRepo->findByOwnerId($this->getUserSession()->getId());
+                $shippingAddresses = $saRepo->findByOwnerId($this->getUserSession()->getId());
                 $this->render(
                     "page-checkout",
                     array_merge(
@@ -127,11 +126,21 @@
                             'cart' => $_SESSION['cart'],
                             'user' => $this->getUserSession(),
                             'error' => $error,
+                            'paymentMethods' => $paymentMethods,
+                            'shippingAddresses' => $shippingAddresses,
                         ],
                         $_REQUEST
                     )
                 );
             }
+            
+            $this->getUserSession()->setDefaultPaymentMethod($paymentMethod->getId());
+            $this->getUserSession()->setDefaultShippingAddress($shippingAddress->getId());
+            
+            $userRepo = new UserRepository();
+            $userRepo->update($this->getUserSession());
+            
+
            
             $_SESSION['checkout-confirm'] = [
                 'paymentMethod' => $paymentMethod,

@@ -89,7 +89,7 @@
                 <?php endif; ?>
                 <?php if ($product->getStockCount() <= 5): ?>
                     <?php if ($product->getStockCount() == 0) : ?>
-                        <span class="badge-danger "><b> NOT AVAILABLE</b></span>
+                        <span class="badge-danger "><b>Not available</b></span>
                     <?php else: ?>
                         <span class="badge-warning "><b> Only <?= $product->getStockCount() ?> left </b></span>
                     <?php endif; ?>

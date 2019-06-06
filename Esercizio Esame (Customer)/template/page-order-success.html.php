@@ -15,7 +15,7 @@
                     <p class="card-text">
                         We have taken charge of your order. Our staff are preparing it for shipment.</p>
                     <p class="card-text mt-3">
-                    Order code: <a href="/order.php?id=<?=$order->getId()?>"><?= $order->getCode()?></a></p>
+                    Order code: <a href="/order.php?order_id=<?=$order->getId()?>"><?= $order->getCode()?></a></p>
                 </div>
             </div> <!-- card.// -->
         </div>

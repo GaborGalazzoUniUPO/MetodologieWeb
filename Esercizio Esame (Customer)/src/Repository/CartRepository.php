@@ -69,6 +69,7 @@ class CartRepository extends AbstractRepository
             return true;
         } catch (\Exception $e) {
             $this->connection->rollBack();
+            $this->connection->query("unlock tables;");
             return false;
         }
     }
