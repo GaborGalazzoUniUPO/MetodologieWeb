@@ -1,6 +1,7 @@
 package upo.gaborgalazzo.mweb.marketplace.controller;
 
 import de.ailis.pherialize.MixedArray;
+import upo.gaborgalazzo.mweb.marketplace.controller.util.PathParam;
 import upo.gaborgalazzo.mweb.marketplace.controller.util.RequestMapping;
 import upo.gaborgalazzo.mweb.marketplace.controller.util.RouteHttpServlet;
 import upo.gaborgalazzo.mweb.marketplace.domain.Product;
@@ -32,11 +33,18 @@ public class ProductController extends RouteHttpServlet
 		request.getRequestDispatcher("/WEB-INF/template/page/product/list.jsp").forward(request, response);
 	}
 
-	@RequestMapping(pattern = "/get/{id}")
-	public void get(HttpServletRequest request,  HttpServletResponse response, int id) throws IOException
-	{
+	@RequestMapping(pattern = "/edit/{id}")
+	public void edit(HttpServletRequest request,  HttpServletResponse response, @PathParam(name="id") int id) throws IOException, ServletException {
 
-		response.getOutputStream().println(id);
+        ProductDAO productDAO = new ProductDAO();
+
+        Product product = productDAO.get(id);
+
+        request.setAttribute("product", product);
+        request.setAttribute("errors", product.validate());
+        request.getRequestDispatcher("/WEB-INF/template/page/product/add.jsp").forward(request, response);
+
+
 	}
 
 	@RequestMapping(pattern = "/add")

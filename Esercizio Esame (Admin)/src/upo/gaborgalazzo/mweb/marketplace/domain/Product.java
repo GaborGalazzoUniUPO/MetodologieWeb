@@ -190,7 +190,7 @@ public class Product
 						errors.put("editor", "Editor required (3 characters at least)");
 					if(categoryInfo.getString("ISBN") == null ||  categoryInfo.getString("ISBN").length() < 9)
 						errors.put("isbn", "ISBN required (10 characters at least)");
-					if(categoryInfo.getInt("Print Length") < 4)
+					if(categoryInfo.getInt("Print length") < 4)
 						errors.put("length", "Print Length required (must be greater than 5)");
 					if(categoryInfo.getString("Publication year") == null ||  categoryInfo.getString("Publication year").length() < 3)
 						errors.put("pub_year", "Publication year required (4 digits at least)");

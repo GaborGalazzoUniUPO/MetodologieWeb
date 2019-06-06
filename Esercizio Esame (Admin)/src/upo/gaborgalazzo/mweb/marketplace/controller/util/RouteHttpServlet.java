@@ -67,8 +67,11 @@ public abstract class RouteHttpServlet extends HttpServlet
 				params.add(request);
 			else
 			{
+				PathParam pp = p.getAnnotation(PathParam.class);
+				if(pp == null)
+					continue;
 				for(int i = 0; i<mapping.length; i++){
-					if(mapping[i].equals("{"+p.getName()+"}")){
+					if(mapping[i].equals("{"+pp.name()+"}")){
 						if(p.getType() == Integer.class || p.getType() == int.class)
 							params.add(Integer.parseInt(pathMapping[i]));
 						else
