@@ -11,7 +11,7 @@
  Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 31/05/2019 00:46:45
+ Date: 06/06/2019 08:56:46
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,7 @@ CREATE TABLE `cart_products`  (
   UNIQUE INDEX `cart_products_stock_unit_uindex`(`stock_unit`) USING BTREE,
   UNIQUE INDEX `cart_products_cart_id_stock_unit_uindex`(`cart_id`, `stock_unit`) USING BTREE,
   CONSTRAINT `cart_products_carts_id_fk` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for carts
@@ -44,7 +44,7 @@ CREATE TABLE `carts`  (
   UNIQUE INDEX `cart_cookie_cart_uindex`(`cookie_cart`) USING BTREE,
   UNIQUE INDEX `carts_owner_id_uindex`(`owner_id`) USING BTREE,
   CONSTRAINT `carts_users_id_fk` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of carts
@@ -66,7 +66,7 @@ CREATE TABLE `cookies`  (
   UNIQUE INDEX `cookies_cookie_session_uindex`(`cookie_session`) USING BTREE,
   INDEX `cookies_users_id_fk`(`user_id`) USING BTREE,
   CONSTRAINT `cookies_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of cookies
@@ -93,6 +93,12 @@ INSERT INTO `cookies` VALUES (19, '5ceef29eaeb25', 9, '2019-05-29 22:59:10');
 INSERT INTO `cookies` VALUES (20, '5cef056ae5950', 9, '2019-05-30 00:19:22');
 INSERT INTO `cookies` VALUES (21, '5cf02b40e959e', 9, '2019-05-30 21:13:04');
 INSERT INTO `cookies` VALUES (22, '5cf044a17980d', 9, '2019-05-30 23:01:21');
+INSERT INTO `cookies` VALUES (23, '5cf262e959f25', 9, '2019-06-01 13:35:05');
+INSERT INTO `cookies` VALUES (24, '5cf26323a7331', 9, '2019-06-01 13:36:03');
+INSERT INTO `cookies` VALUES (25, '5cf2b38e5d89c', 9, '2019-06-01 19:19:10');
+INSERT INTO `cookies` VALUES (26, '5cf2b399c6ed6', 9, '2019-06-01 19:19:21');
+INSERT INTO `cookies` VALUES (27, '5cf2b3b38352d', 9, '2019-06-01 19:19:47');
+INSERT INTO `cookies` VALUES (28, '5cf80bca27e20', 9, '2019-06-05 20:36:58');
 
 -- ----------------------------
 -- Table structure for order_products
@@ -105,7 +111,7 @@ CREATE TABLE `order_products`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `order_products_orders_id_fk`(`order_id`) USING BTREE,
   CONSTRAINT `order_products_orders_id_fk` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of order_products
@@ -116,6 +122,8 @@ INSERT INTO `order_products` VALUES (3, 46, 5);
 INSERT INTO `order_products` VALUES (4, 53, 5);
 INSERT INTO `order_products` VALUES (8, 5, 6);
 INSERT INTO `order_products` VALUES (9, 11, 7);
+INSERT INTO `order_products` VALUES (10, 17, 8);
+INSERT INTO `order_products` VALUES (11, 39, 9);
 
 -- ----------------------------
 -- Table structure for orders
@@ -131,6 +139,8 @@ CREATE TABLE `orders`  (
   `payment_method_id` int(11) NOT NULL,
   `shipping_address_id` int(11) NOT NULL,
   `code` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `delivered_at` timestamp(0) NULL DEFAULT NULL,
+  `tracking_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'none',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `order_transaction_uindex`(`transaction`) USING BTREE,
   UNIQUE INDEX `orders_code_uindex`(`code`) USING BTREE,
@@ -140,14 +150,16 @@ CREATE TABLE `orders`  (
   CONSTRAINT `orders_payment_methods_id_fk` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_methods` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `orders_shipping_addresses_id_fk` FOREIGN KEY (`shipping_address_id`) REFERENCES `shipping_addresses` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `orders_users_id_fk` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES (5, 'transaction_5cf05a97bf1b3', 0, 9, '2019-05-31 00:35:03', 0, 1, 1, 'ord_5cf05a97bf26f');
-INSERT INTO `orders` VALUES (6, 'transaction_5cf05b1e1d725', 0, 9, '2019-05-31 00:37:18', 0, 1, 1, 'ord_5cf05b1e1d820');
-INSERT INTO `orders` VALUES (7, 'transaction_5cf05c0fdfcea', 0, 9, '2019-05-31 00:41:19', 0, 1, 1, 'ord_5cf05c0fdfde5');
+INSERT INTO `orders` VALUES (5, 'transaction_5cf05a97bf1b3', 0, 9, '2019-05-31 00:35:03', 0, 1, 1, 'ord_5cf05a97bf26f', NULL, ' ');
+INSERT INTO `orders` VALUES (6, 'transaction_5cf05b1e1d725', 0, 9, '2019-05-31 00:37:18', 0, 1, 1, 'ord_5cf05b1e1d820', NULL, 'none');
+INSERT INTO `orders` VALUES (7, 'transaction_5cf05c0fdfcea', 0, 9, '2019-05-31 00:41:19', 0, 1, 1, 'ord_5cf05c0fdfde5', NULL, 'none');
+INSERT INTO `orders` VALUES (8, 'transaction_5cf2633a4b099', 0, 9, '2019-06-01 13:36:26', 0, 1, 1, 'ord_5cf2633a4f3b0', NULL, 'none');
+INSERT INTO `orders` VALUES (9, 'transaction_5cf27e88a3963', 0, 9, '2019-06-01 15:32:56', 0, 1, 1, 'ord_5cf27e88a3a64', NULL, 'none');
 
 -- ----------------------------
 -- Table structure for payment_methods
@@ -161,6 +173,7 @@ CREATE TABLE `payment_methods`  (
   `owner_id` int(11) NOT NULL,
   `token_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `full_name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deleted_at` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK_payment_methods_users`(`owner_id`) USING BTREE,
   CONSTRAINT `FK_payment_methods_users` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -169,7 +182,7 @@ CREATE TABLE `payment_methods`  (
 -- ----------------------------
 -- Records of payment_methods
 -- ----------------------------
-INSERT INTO `payment_methods` VALUES (1, 'Visa', '4242', '2020-02-01', 9, '5cf0413ecd373', 'Gabor Galazzo');
+INSERT INTO `payment_methods` VALUES (1, 'Visa', '4242', '2020-02-01', 9, '5cf0413ecd373', 'Gabor Galazzo', '2019-06-03 23:23:38');
 
 -- ----------------------------
 -- Table structure for product_watchers
@@ -233,6 +246,27 @@ INSERT INTO `products` VALUES (32, 'B00K6IU3MG', 'https://images-na.ssl-images-a
 INSERT INTO `products` VALUES (33, 'B005KJG6TA', 'https://images-na.ssl-images-amazon.com/images/I/51JaVWRVHwL._AC_SX215_.jpg', 'Super Mario Galaxy, Nintendo Wii', 'Super Mario Galaxy - Nintendo Selects Edition', 27.98, 6, '2019-05-29 22:43:50', 'Super Mario Galaxy, Nintendo Wii', 'a:3:{s:8:\"Platform\";s:12:\"Nintendo Wii\";s:9:\"Publisher\";s:8:\"Nintendo\";s:16:\"Publication year\";s:4:\"2011\";}');
 
 -- ----------------------------
+-- Table structure for report_messages
+-- ----------------------------
+DROP TABLE IF EXISTS `report_messages`;
+CREATE TABLE `report_messages`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL DEFAULT 0,
+  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `read` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of report_messages
+-- ----------------------------
+INSERT INTO `report_messages` VALUES (1, 5, 0, 'mi Ã¨ arrivato l\'album sbagliato', '2019-06-05 21:21:01', 0);
+INSERT INTO `report_messages` VALUES (2, 5, 0, 'mi rispondete!\r\n', '2019-06-05 21:21:11', 0);
+INSERT INTO `report_messages` VALUES (3, 5, 0, 'Mi fa tutto schifo', '2019-06-05 21:22:04', 0);
+
+-- ----------------------------
 -- Table structure for reviews
 -- ----------------------------
 DROP TABLE IF EXISTS `reviews`;
@@ -244,11 +278,12 @@ CREATE TABLE `reviews`  (
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `reviews_author_id_product_id_uindex`(`author_id`, `product_id`) USING BTREE,
   INDEX `author_id`(`author_id`) USING BTREE,
   INDEX `product_id`(`product_id`) USING BTREE,
   CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 251 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 257 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of reviews
@@ -370,23 +405,19 @@ INSERT INTO `reviews` VALUES (136, 39, 8, 4, 'Morbi porttitor lorem id ligula. S
 INSERT INTO `reviews` VALUES (137, 76, 18, 2, 'Vivamus tortor. Duis mattis egestas metus. Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (138, 34, 19, 2, 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem. Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus. Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (140, 30, 23, 1, 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', '2019-05-25 16:17:24');
-INSERT INTO `reviews` VALUES (142, 95, 26, 2, 'Ut at dolor quis odio consequat varius. Integer ac leo.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (143, 28, 23, 4, 'Integer a nibh. In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (144, 54, 11, 2, 'Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque. Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus. Phasellus in felis.', '2019-05-25 16:17:24');
-INSERT INTO `reviews` VALUES (145, 90, 7, 4, 'Mauris sit amet eros. Suspendisse accumsan tortor quis turpis. Sed ante. Vivamus tortor. Duis mattis egestas metus. Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (146, 98, 10, 3, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis. Sed ante. Vivamus tortor. Duis mattis egestas metus. Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (147, 24, 11, 2, 'Integer a nibh. In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (148, 18, 10, 3, 'Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque. Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus. Phasellus in felis.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (149, 24, 10, 1, 'Nunc rhoncus dui vel sem. Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (150, 109, 25, 4, 'Fusce consequat. Nulla nisl. Nunc nisl. Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (151, 76, 21, 3, 'Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', '2019-05-25 16:17:24');
-INSERT INTO `reviews` VALUES (152, 69, 20, 2, 'Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (153, 76, 10, 2, 'Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris. Morbi non lectus.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (154, 91, 17, 1, 'Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus. Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (155, 110, 8, 1, 'In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (157, 33, 8, 4, 'Aenean sit amet justo. Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (158, 69, 23, 4, 'In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque. Duis bibendum.', '2019-05-25 16:17:24');
-INSERT INTO `reviews` VALUES (159, 54, 11, 1, 'Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede. Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem. Fusce consequat. Nulla nisl.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (160, 20, 11, 2, 'Vivamus vel nulla eget eros elementum pellentesque. Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (161, 102, 8, 2, 'Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (162, 62, 21, 4, 'Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim.', '2019-05-25 16:17:24');
@@ -402,18 +433,14 @@ INSERT INTO `reviews` VALUES (171, 107, 25, 1, 'Praesent lectus. Vestibulum quam
 INSERT INTO `reviews` VALUES (172, 45, 20, 1, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (174, 82, 18, 2, 'Duis mattis egestas metus. Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (176, 84, 12, 2, 'Pellentesque at nulla.', '2019-05-25 16:17:24');
-INSERT INTO `reviews` VALUES (177, 105, 9, 2, 'Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (178, 28, 20, 3, 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo. Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (179, 66, 20, 1, 'Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl. Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (181, 104, 23, 2, 'Aliquam non mauris. Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem. Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', '2019-05-25 16:17:24');
-INSERT INTO `reviews` VALUES (183, 76, 10, 3, 'Ut at dolor quis odio consequat varius. Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.', '2019-05-25 16:17:24');
-INSERT INTO `reviews` VALUES (185, 95, 8, 1, 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh. In quis justo. Maecenas rhoncus aliquam lacus.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (186, 114, 7, 3, 'In hac habitasse platea dictumst.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (188, 53, 23, 1, 'Donec dapibus.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (189, 84, 19, 3, 'Quisque ut erat. Curabitur gravida nisi at nibh.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (190, 100, 21, 2, 'Integer ac neque. Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis dui vel nisl.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (191, 35, 16, 3, 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.', '2019-05-25 16:17:24');
-INSERT INTO `reviews` VALUES (193, 95, 17, 4, 'In congue. Etiam justo.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (194, 108, 20, 3, 'Nunc rhoncus dui vel sem.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (195, 46, 8, 2, 'Donec semper sapien a libero. Nam dui. Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius. Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (196, 47, 9, 1, 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt.', '2019-05-25 16:17:24');
@@ -450,7 +477,6 @@ INSERT INTO `reviews` VALUES (233, 91, 9, 4, 'Vivamus in felis eu sapien cursus 
 INSERT INTO `reviews` VALUES (234, 66, 19, 2, 'Fusce consequat. Nulla nisl. Nunc nisl. Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (235, 40, 28, 3, 'Nulla ut erat id mauris vulputate elementum.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (236, 75, 11, 3, 'Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo. Aliquam quis turpis eget elit sodales scelerisque.', '2019-05-25 16:17:24');
-INSERT INTO `reviews` VALUES (237, 82, 11, 1, 'Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (238, 15, 20, 1, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (239, 97, 26, 3, 'Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (240, 26, 17, 3, 'Aliquam erat volutpat. In congue. Etiam justo.', '2019-05-25 16:17:24');
@@ -463,6 +489,7 @@ INSERT INTO `reviews` VALUES (247, 79, 18, 4, 'Aenean lectus. Pellentesque eget 
 INSERT INTO `reviews` VALUES (248, 45, 21, 2, 'Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (249, 107, 16, 2, 'Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (250, 97, 25, 3, 'Phasellus id sapien in sapien iaculis congue.', '2019-05-25 16:17:24');
+INSERT INTO `reviews` VALUES (256, 9, 26, 4, 'Bellissimo non ho mai visto un film piÃ¹ bello di questo Ã¨ spettacolare mi piacarebbe ne facessero di piÃ¹', '2019-06-02 18:55:09');
 
 -- ----------------------------
 -- Table structure for shipping_addresses
@@ -477,6 +504,7 @@ CREATE TABLE `shipping_addresses`  (
   `zip_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `owner_id` int(11) NOT NULL,
   `full_name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deleted_at` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK_shipping_addresses_users`(`owner_id`) USING BTREE,
   CONSTRAINT `FK_shipping_addresses_users` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -485,7 +513,7 @@ CREATE TABLE `shipping_addresses`  (
 -- ----------------------------
 -- Records of shipping_addresses
 -- ----------------------------
-INSERT INTO `shipping_addresses` VALUES (1, 'Via Wagner 51', 'Alessandria', 'AL', 'Italia', '15121', 9, 'Gabor Galazzo');
+INSERT INTO `shipping_addresses` VALUES (1, 'Via Wagner 51', 'Alessandria', 'AL', 'Italia', '15121', 9, 'Gabor Galazzo', '2019-06-05 21:32:17');
 
 -- ----------------------------
 -- Table structure for stock
@@ -521,7 +549,7 @@ INSERT INTO `stock` VALUES (13, '1G6DC8EY0B0707787', 11, 0);
 INSERT INTO `stock` VALUES (14, '1G6DH5E5XD0909710', 7, 0);
 INSERT INTO `stock` VALUES (15, '1G6YV36AX75719908', 13, 0);
 INSERT INTO `stock` VALUES (16, '1GD12ZCG4CF534398', 19, 0);
-INSERT INTO `stock` VALUES (17, '1GTG5BE3XF1000654', 28, 0);
+INSERT INTO `stock` VALUES (17, '1GTG5BE3XF1000654', 28, 1);
 INSERT INTO `stock` VALUES (18, '1N6AF0KX1FN177582', 9, 0);
 INSERT INTO `stock` VALUES (19, '2C3CDXGJ6DH297998', 18, 0);
 INSERT INTO `stock` VALUES (20, '2C3CK5CV7AH660288', 19, 0);
@@ -543,7 +571,7 @@ INSERT INTO `stock` VALUES (35, 'SCFEBBCF9CG561189', 12, 0);
 INSERT INTO `stock` VALUES (36, 'TRURD28N261244474', 26, 1);
 INSERT INTO `stock` VALUES (37, 'VNKJTUD37FA655595', 12, 0);
 INSERT INTO `stock` VALUES (38, 'WA1CGAFE2DD084042', 18, 0);
-INSERT INTO `stock` VALUES (39, 'WA1EY74L78D614957', 26, 0);
+INSERT INTO `stock` VALUES (39, 'WA1EY74L78D614957', 26, 1);
 INSERT INTO `stock` VALUES (40, 'WA1VGBFP7EA117894', 28, 0);
 INSERT INTO `stock` VALUES (41, 'WA1VMAFP1EA855998', 17, 0);
 INSERT INTO `stock` VALUES (42, 'WA1VMBFE8BD068478', 7, 0);
