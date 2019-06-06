@@ -67,7 +67,10 @@
             </div>
         </div>
         <div class="col-6 p-0 mt-3">
-            <div class="col-12">
+            <div class="col-12 mb-3">
+                <a href="/product-watcher.php" class="btn btn-outline-primary btn-block">Go to Watcher List</a>
+            </div>
+            <div class="col-12 mb-3">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
@@ -96,7 +99,7 @@
                 </div>
             </div>
 
-            <div class="col-12 mt-3">
+            <div class="col-12 mb-3">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">

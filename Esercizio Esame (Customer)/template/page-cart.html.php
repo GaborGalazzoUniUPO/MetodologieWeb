@@ -57,8 +57,11 @@
                     </tr>
                 <?php endforeach; ?>
                 <?php if (count($cart->getProducts()) < 1): ?>
-                
-                
+                <tr>
+                    <td colspan="4">
+                    You have no products in your cart
+                    </td>
+                </tr>
                 <?php endif; ?>
                 </tbody>
             </table>

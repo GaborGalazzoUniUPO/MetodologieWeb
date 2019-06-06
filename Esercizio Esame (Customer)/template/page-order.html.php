@@ -73,10 +73,6 @@
                         </td>
                     </tr>
                 <?php endforeach; ?>
-                <?php if (count($order->getProducts()) < 1): ?>
-                
-                
-                <?php endif; ?>
                 </tbody>
             </table>
         

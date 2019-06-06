@@ -87,6 +87,37 @@ class ProductRepository extends AbstractRepository implements Repository
         return $products;
     }
 
+
+    public function findAllInWatcherList($user_id)
+    {
+        $query = "
+        select p.id,
+            p.code,
+            p.photo_url,
+            p.description,
+            p.name,
+            p.unit_price,
+            p.category,
+            p.date_added,
+            p.small_description,
+            p.category_info,
+            ifnull(count(r.id),0) as review_count,
+            ifnull(avg(r.vote),0) as review_avg,
+            (select count(*) from stock s where s.product_id = p.id and s.status = 0) as stock_count
+        from products p
+            left join reviews r on p.id = r.product_id
+        where p.id in (select product_id from product_watchers where user_id = :user_id)
+        group by p.id;";
+
+        $stm = $this->connection->prepare($query);
+        $stm->execute(['user_id' => $user_id]);
+        $products = [];
+        while ($product = $stm->fetchObject(Product::class)) {
+            $products[] = $product;
+        }
+        return $products;
+    }
+
     public function search($category, $type, $search_text, $order_field, $order_direction, $page)
     {
         $query = "
