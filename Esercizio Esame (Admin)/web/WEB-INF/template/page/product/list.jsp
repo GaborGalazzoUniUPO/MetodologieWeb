@@ -11,7 +11,18 @@
 <div class="card">
 	<div class="card-body">
 		<div class="text-right">
-			<a href="${pageContext.request.contextPath}/product/add" class="btn btn-outline-primary">New</a>
+			<form class="form-inline" action="${pageContext.request.contextPath}/product/add">
+				<select class="form-control" name="category">
+					<option value="1">Book</option>
+					<option value="2">Comic</option>
+					<option value="3">Cd</option>
+					<option value="4">Vinyl</option>
+					<option value="5">Dvd</option>
+					<option value="6">Video Game</option>
+				</select>
+				<button type="submit" class="btn btn-success" >New</button>
+			</form>
+
 		</div>
 	</div>
 </div>

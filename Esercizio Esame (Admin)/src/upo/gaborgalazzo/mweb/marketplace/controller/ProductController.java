@@ -43,12 +43,9 @@ public class ProductController extends RouteHttpServlet
 
 		Map<String, String> errors = product.validate();
 
-		if(errors.size() > 0){
-
-			request.setAttribute("product", product);
-			request.setAttribute("errors", errors);
-			request.getRequestDispatcher("/WEB-INF/template/page/product/add.jsp").forward(request, response);
-		}
+        request.setAttribute("product", product);
+        request.setAttribute("errors", errors);
+        request.getRequestDispatcher("/WEB-INF/template/page/product/form.jsp").forward(request, response);
 
 
 	}
@@ -62,7 +59,7 @@ public class ProductController extends RouteHttpServlet
 
 		request.setAttribute("product", product);
 		request.setAttribute("errors", product.validate());
-		request.getRequestDispatcher("/WEB-INF/template/page/product/add.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/template/page/product/form.jsp").forward(request, response);
 
 
 	}
@@ -72,9 +69,11 @@ public class ProductController extends RouteHttpServlet
 	{
 
 
-		request.setAttribute("product", new Product());
+	    Product product = new Product();
+	    product.setCategory(Integer.parseInt(request.getParameter("category")));
+		request.setAttribute("product", product);
 		request.setAttribute("errors", new HashMap<>());
-		request.getRequestDispatcher("/WEB-INF/template/page/product/add.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/template/page/product/form.jsp").forward(request, response);
 	}
 
 	@RequestMapping(pattern = "/add", method = "POST")
@@ -89,7 +88,7 @@ public class ProductController extends RouteHttpServlet
 
 			request.setAttribute("product", product);
 			request.setAttribute("errors", errors);
-			request.getRequestDispatcher("/WEB-INF/template/page/product/add.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/template/page/product/form.jsp").forward(request, response);
 		}
 
 		/*

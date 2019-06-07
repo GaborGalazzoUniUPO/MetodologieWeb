@@ -144,6 +144,18 @@ public class Product
 		this.qta = qta;
 	}
 
+	public String getCategoryString(){
+		switch (category){
+			case 1: return "Book";
+			case 2: return "Comic";
+			case 3: return "Cd";
+			case 4: return "Vinyl";
+			case 5: return "Dvd";
+			case 6: return "Video game";
+			default: return null;
+		}
+	}
+
 
 	public MixedArray getCategoryInfo()
 	{
