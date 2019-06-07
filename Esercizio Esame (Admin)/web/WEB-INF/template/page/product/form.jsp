@@ -16,6 +16,10 @@
     <p class="alert alert-danger">${errors.exception}</p>
 </c:if>
 
+<c:if test="${errors.success != null}">
+    <p class="alert alert-success">${errors.success}</p>
+</c:if>
+
 <div class="card">
     <header class="card-header">
         <h4 class="card-title mt-2">Product Form (${product.categoryString})</h4>

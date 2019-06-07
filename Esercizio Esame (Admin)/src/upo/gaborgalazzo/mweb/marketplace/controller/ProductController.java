@@ -57,8 +57,20 @@ public class ProductController extends RouteHttpServlet
 
 		Product product = productDAO.get(id);
 
+		Map<String, String> errors = parseProductRequest(product, request);
+
+		if(errors.size() ==  0){
+			try
+			{
+				productDAO.update(product);
+				errors.put("success", "Product Updated");
+			}catch (Exception e){
+				errors.put("exception", e.getMessage());
+			}
+		}
+
 		request.setAttribute("product", product);
-		request.setAttribute("errors", product.validate());
+		request.setAttribute("errors", errors);
 		request.getRequestDispatcher("/WEB-INF/template/page/product/form.jsp").forward(request, response);
 
 
@@ -84,17 +96,21 @@ public class ProductController extends RouteHttpServlet
 
 		Map<String, String> errors = parseProductRequest(product, request);
 
-		if(errors.size() > 0){
+		if(errors.size() ==  0){
 
-			request.setAttribute("product", product);
-			request.setAttribute("errors", errors);
-			request.getRequestDispatcher("/WEB-INF/template/page/product/form.jsp").forward(request, response);
+			ProductDAO productDAO = new ProductDAO();
+			try
+			{
+				productDAO.save(product);
+				errors.put("success", "Product Added");
+			}catch (Exception e){
+				errors.put("exception", e.getMessage());
+			}
 		}
 
-		/*
-		request.setAttribute("product", new Product());
-		request.getRequestDispatcher("/WEB-INF/template/page/product/add.jsp").forward(request, response);
-		*/
+		request.setAttribute("product", product);
+		request.setAttribute("errors", errors);
+		request.getRequestDispatcher("/WEB-INF/template/page/product/form.jsp").forward(request, response);
 	}
 
 	private MixedArray parseVideoGame(HttpServletRequest request)
@@ -119,8 +135,8 @@ public class ProductController extends RouteHttpServlet
 		MixedArray mixedArray = new MixedArray();
 		mixedArray.put("Author", request.getParameter("author"));
 		mixedArray.put("Editor", request.getParameter("editor"));
-		mixedArray.put("ISBN", request.getParameter("ISBN"));
-		mixedArray.put("Print Length", request.getParameter("length"));
+		mixedArray.put("ISBN", request.getParameter("isbn"));
+		mixedArray.put("Print length", request.getParameter("length"));
 		mixedArray.put("Publication year", request.getParameter("pub_year"));
 		return mixedArray;
 	}

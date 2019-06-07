@@ -1,12 +1,10 @@
 package upo.gaborgalazzo.mweb.marketplace.repository;
 
+import de.ailis.pherialize.Pherialize;
 import upo.gaborgalazzo.mweb.marketplace.DatabaseConnection;
 import upo.gaborgalazzo.mweb.marketplace.domain.Product;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class ProductDAO
@@ -41,14 +39,66 @@ public class ProductDAO
 		return result;
 	}
 
-	public Product save(Product product)
+	public Product save(Product product) throws SQLException
 	{
-		return null;
+		Connection connection = DatabaseConnection.initializeDatabase();
+		PreparedStatement preparedStatement
+				= connection.prepareStatement(
+				"insert into products (code, photo_url, description, name, unit_price, category, small_description, category_info) values "
+						+ "(?, ?, ?, ?, ?, ?, ?, ?);",
+				Statement.RETURN_GENERATED_KEYS
+		);
+		bindParameters(product, preparedStatement);
+
+		if (preparedStatement.executeUpdate() == 0)
+		{
+			throw new SQLException("Creating user failed, no rows affected.");
+		}
+
+		try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys())
+		{
+			if (generatedKeys.next())
+			{
+				product.setId(generatedKeys.getInt(1));
+			} else
+			{
+				throw new SQLException("Creating user failed, no ID obtained.");
+			}
+		}
+
+		return product;
 	}
 
-	public Product update(Product product)
+	public Product update(Product product) throws SQLException
 	{
-		return null;
+
+		Connection connection = DatabaseConnection.initializeDatabase();
+		PreparedStatement preparedStatement
+				= connection.prepareStatement(
+				"update products set code = ?, photo_url = ?, description = ?, name = ?, unit_price = ?, category = ?, small_description = ?, category_info = ?" +
+						"where id = ?"
+		);
+		bindParameters(product, preparedStatement);
+		preparedStatement.setInt(9, product.getId());
+
+		if (preparedStatement.executeUpdate() == 0)
+		{
+			throw new SQLException("Creating user failed, no rows affected.");
+		}
+
+		return product;
+	}
+
+	private void bindParameters(Product product, PreparedStatement preparedStatement) throws SQLException
+	{
+		preparedStatement.setString(1, product.getCode());
+		preparedStatement.setString(2, product.getPhotoUrl());
+		preparedStatement.setString(3, product.getDescription());
+		preparedStatement.setString(4, product.getName());
+		preparedStatement.setFloat(5, product.getUnitPrice());
+		preparedStatement.setInt(6, product.getCategory());
+		preparedStatement.setString(7, product.getSmallDescription());
+		preparedStatement.setString(8, Pherialize.serialize(product.getCategoryInfo()));
 	}
 
 	public Product delete(int id)
