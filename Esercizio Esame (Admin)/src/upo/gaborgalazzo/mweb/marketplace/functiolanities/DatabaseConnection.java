@@ -1,4 +1,4 @@
-package upo.gaborgalazzo.mweb.marketplace;
+package upo.gaborgalazzo.mweb.marketplace.functiolanities;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

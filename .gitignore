@@ -9,3 +9,5 @@ WEB-INF/classes
 out/
 
 *.iml
+
+Config.java

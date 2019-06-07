@@ -1,7 +1,7 @@
 package upo.gaborgalazzo.mweb.marketplace.repository;
 
 import de.ailis.pherialize.Pherialize;
-import upo.gaborgalazzo.mweb.marketplace.DatabaseConnection;
+import upo.gaborgalazzo.mweb.marketplace.functiolanities.DatabaseConnection;
 import upo.gaborgalazzo.mweb.marketplace.domain.Product;
 
 import java.sql.*;
@@ -36,6 +36,7 @@ public class ProductDAO
 		{
 		}
 
+
 		return result;
 	}
 
@@ -66,6 +67,8 @@ public class ProductDAO
 			}
 		}
 
+		preparedStatement.close();
+		connection.close();
 		return product;
 	}
 
@@ -85,6 +88,9 @@ public class ProductDAO
 		{
 			throw new SQLException("Creating user failed, no rows affected.");
 		}
+
+		preparedStatement.close();
+		connection.close();
 
 		return product;
 	}

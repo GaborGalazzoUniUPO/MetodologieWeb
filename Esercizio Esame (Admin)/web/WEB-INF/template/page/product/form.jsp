@@ -58,7 +58,8 @@
 			<div class="row">
 				<div class="form-group col-10">
 					<label>Photo Url</label>
-					<input type="text" class="form-control  ${errors.photo_url != null?'is-invalid':''}" oninput="$('#image').attr('src', this.value);" placeholder=""
+					<input type="text" class="form-control  ${errors.photo_url != null?'is-invalid':''}"
+						   oninput="$('#image').attr('src', this.value);" placeholder=""
 						   name="photo_url" value="${product.photoUrl}">
 					<div class="invalid-feedback">
 						${errors.photo_url}
@@ -66,7 +67,8 @@
 
 				</div> <!-- form-group end.// -->
 				<div class="col-2">
-					<div class="img-wrap"><img src="${product.photoUrl}" id="image" class="img-thumbnail img-sm" alt=""></div>
+					<div class="img-wrap"><img src="${product.photoUrl}" id="image" class="img-thumbnail img-sm" alt="">
+					</div>
 				</div>
 			</div>
 			<div class="form-group">
@@ -115,6 +117,17 @@
 					</div>
 
 				</article>
+			</div>
+
+			<div class="row mt-3 text-right d-flex justify-content-end">
+				<div class="col-3 d-flex justify-content-center align-items-center">
+					<div class="h3"><b>Stock count:</b>	${product.qta}</div>
+				</div>
+				<div class="form-group col-2">
+					<label> Increment stock</label>
+					<input type="number" min="0" name="stock_increment"
+						   class="form-control"/>
+				</div>
 			</div>
 
 			<div class="form-group mt-3">

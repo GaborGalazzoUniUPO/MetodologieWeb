@@ -5,13 +5,18 @@ import upo.gaborgalazzo.mweb.marketplace.controller.util.PathParam;
 import upo.gaborgalazzo.mweb.marketplace.controller.util.RequestMapping;
 import upo.gaborgalazzo.mweb.marketplace.controller.util.RouteHttpServlet;
 import upo.gaborgalazzo.mweb.marketplace.domain.Product;
+import upo.gaborgalazzo.mweb.marketplace.domain.User;
+import upo.gaborgalazzo.mweb.marketplace.functiolanities.NotificationService;
 import upo.gaborgalazzo.mweb.marketplace.repository.ProductDAO;
+import upo.gaborgalazzo.mweb.marketplace.repository.ProductWatcherDAO;
+import upo.gaborgalazzo.mweb.marketplace.repository.StockDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.file.attribute.UserPrincipal;
 import java.util.*;
 
 @WebServlet(name = "ProductController", urlPatterns = {"/product/*"})
@@ -32,40 +37,60 @@ public class ProductController extends RouteHttpServlet
 	}
 
 	@RequestMapping(pattern = "/edit/{id}")
-	public void editForm(HttpServletRequest request,  HttpServletResponse response, @PathParam(name="id") int id) throws IOException, ServletException {
-
-        ProductDAO productDAO = new ProductDAO();
-
-        Product product = productDAO.get(id);
-
-
-		Map<String, String> errors = product.validate();
-
-        request.setAttribute("product", product);
-        request.setAttribute("errors", errors);
-        request.getRequestDispatcher("/WEB-INF/template/page/product/form.jsp").forward(request, response);
-
-
-	}
-
-	@RequestMapping(pattern = "/edit/{id}", method = "POST")
-	public void edit(HttpServletRequest request,  HttpServletResponse response, @PathParam(name="id") int id) throws IOException, ServletException {
+	public void editForm(HttpServletRequest request, HttpServletResponse response, @PathParam(name = "id") int id) throws IOException, ServletException
+	{
 
 		ProductDAO productDAO = new ProductDAO();
 
 		Product product = productDAO.get(id);
 
+		if (product == null)
+		{
+			request.getRequestDispatcher("/WEB-INF/template/page/error/not-found.jsp").forward(request, response);
+			return;
+		}
+
+
+		Map<String, String> errors = product.validate();
+
+		request.setAttribute("product", product);
+		request.setAttribute("errors", errors);
+		request.getRequestDispatcher("/WEB-INF/template/page/product/form.jsp").forward(request, response);
+
+
+	}
+
+	@RequestMapping(pattern = "/edit/{id}", method = "POST")
+	public void edit(HttpServletRequest request, HttpServletResponse response, @PathParam(name = "id") int id) throws IOException, ServletException
+	{
+
+		ProductDAO productDAO = new ProductDAO();
+
+		Product product = productDAO.get(id);
+
+		if (product == null)
+		{
+			request.getRequestDispatcher("/WEB-INF/template/page/error/not-found.jsp").forward(request, response);
+			return;
+		}
+
+
 		Map<String, String> errors = parseProductRequest(product, request);
 
-		if(errors.size() ==  0){
+		if (errors.size() == 0)
+		{
 			try
 			{
 				productDAO.update(product);
+				addStockUnits(request, product);
 				errors.put("success", "Product Updated");
-			}catch (Exception e){
+			} catch (Exception e)
+			{
 				errors.put("exception", e.getMessage());
 			}
 		}
+
+
 
 		request.setAttribute("product", product);
 		request.setAttribute("errors", errors);
@@ -75,33 +100,38 @@ public class ProductController extends RouteHttpServlet
 	}
 
 	@RequestMapping(pattern = "/add")
-	public void addForm(HttpServletRequest request,  HttpServletResponse response) throws IOException, ServletException
+	public void addForm(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
 
 
-	    Product product = new Product();
-	    product.setCategory(Integer.parseInt(request.getParameter("category")));
+		Product product = new Product();
+		product.setCategory(Integer.parseInt(request.getParameter("category")));
 		request.setAttribute("product", product);
 		request.setAttribute("errors", new HashMap<>());
 		request.getRequestDispatcher("/WEB-INF/template/page/product/form.jsp").forward(request, response);
 	}
 
 	@RequestMapping(pattern = "/add", method = "POST")
-	public void add(HttpServletRequest request,  HttpServletResponse response) throws IOException, ServletException
+	public void add(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
 
 		Product product = new Product();
 
 		Map<String, String> errors = parseProductRequest(product, request);
 
-		if(errors.size() ==  0){
+		if (errors.size() == 0)
+		{
 
 			ProductDAO productDAO = new ProductDAO();
 			try
 			{
 				productDAO.save(product);
+
+				addStockUnits(request, product);
+
 				errors.put("success", "Product Added");
-			}catch (Exception e){
+			} catch (Exception e)
+			{
 				errors.put("exception", e.getMessage());
 			}
 		}
@@ -109,6 +139,36 @@ public class ProductController extends RouteHttpServlet
 		request.setAttribute("product", product);
 		request.setAttribute("errors", errors);
 		request.getRequestDispatcher("/WEB-INF/template/page/product/form.jsp").forward(request, response);
+	}
+
+	private void addStockUnits(HttpServletRequest request, Product product)
+	{
+		try
+		{
+			int stockCount = Integer.parseInt(request.getParameter("stock_increment"));
+			StockDAO stockDAO = new StockDAO();
+			for (int i = 0; i < stockCount; i++)
+			{
+				stockDAO.add(product.getId());
+			}
+			if(product.getQta() == 0 && stockCount > 0)
+			{
+				ProductWatcherDAO productWatcherDAO = new ProductWatcherDAO();
+				List<User> users = productWatcherDAO.findByProductId(product.getId());
+				for(User user: users){
+					productWatcherDAO.removeWatcher(product.getId(), user.getId());
+					NotificationService.productReturnedAvailable(product, user);
+
+				}
+
+			}
+
+			product.setQta(product.getQta()+stockCount);
+
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private MixedArray parseVideoGame(HttpServletRequest request)
@@ -128,7 +188,7 @@ public class ProductController extends RouteHttpServlet
 		mixedArray.put("Genre", request.getParameter("genre"));
 		mixedArray.put("Publication year", request.getParameter("pub_year"));
 		String[] list = request.getParameterValues("actors");
-		mixedArray.put("Actors", list!=null?Arrays.asList(list):new ArrayList<>());
+		mixedArray.put("Actors", list != null ? Arrays.asList(list) : new ArrayList<>());
 		return mixedArray;
 	}
 
@@ -138,7 +198,7 @@ public class ProductController extends RouteHttpServlet
 		mixedArray.put("Author", request.getParameter("author"));
 		mixedArray.put("Publication year", request.getParameter("pub_year"));
 		String[] list = request.getParameterValues("tracks");
-		mixedArray.put("Tracks", list!=null?Arrays.asList(list):new ArrayList<>());
+		mixedArray.put("Tracks", list != null ? Arrays.asList(list) : new ArrayList<>());
 		return mixedArray;
 	}
 
@@ -154,7 +214,8 @@ public class ProductController extends RouteHttpServlet
 		return mixedArray;
 	}
 
-	private Map<String, String> parseProductRequest(Product product, HttpServletRequest request){
+	private Map<String, String> parseProductRequest(Product product, HttpServletRequest request)
+	{
 		product.setCode(request.getParameter("code"));
 		product.setDescription(request.getParameter("description"));
 		product.setSmallDescription(request.getParameter("small_description"));
@@ -163,7 +224,8 @@ public class ProductController extends RouteHttpServlet
 		product.setCategory(Integer.parseInt(request.getParameter("category")));
 		product.setPhotoUrl(request.getParameter("photo_url"));
 
-		switch (request.getParameter("category")){
+		switch (request.getParameter("category"))
+		{
 			case "1":
 			case "2":
 				product.setCategoryInfo(parseBook(request));
