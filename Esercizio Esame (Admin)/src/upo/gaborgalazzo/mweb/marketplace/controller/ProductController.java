@@ -12,9 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @WebServlet(name = "ProductController", urlPatterns = {"/product/*"})
 public class ProductController extends RouteHttpServlet
@@ -115,13 +113,23 @@ public class ProductController extends RouteHttpServlet
 
 	private MixedArray parseVideoGame(HttpServletRequest request)
 	{
-		return null;
+		MixedArray mixedArray = new MixedArray();
+		mixedArray.put("Platform", request.getParameter("platform"));
+		mixedArray.put("Publisher", request.getParameter("publisher"));
+		mixedArray.put("Publication year", request.getParameter("pub_year"));
+		return mixedArray;
 	}
 
 	private MixedArray parseDVD(HttpServletRequest request)
 	{
 
-		return null;
+		MixedArray mixedArray = new MixedArray();
+		mixedArray.put("Director", request.getParameter("director"));
+		mixedArray.put("Genre", request.getParameter("genre"));
+		mixedArray.put("Publication year", request.getParameter("pub_year"));
+		String[] list = request.getParameterValues("actors");
+		mixedArray.put("Actors", list!=null?Arrays.asList(list):new ArrayList<>());
+		return mixedArray;
 	}
 
 	private MixedArray parseCD(HttpServletRequest request)

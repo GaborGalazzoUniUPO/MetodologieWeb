@@ -184,8 +184,8 @@ public class Product
 			if(unitPrice<1)
 				errors.put("unit_price", "Unit price must be greater than €1");
 
-			if(smallDescription.length() < 10)
-				errors.put("small_description", "Small Description required (10 characters at least)");
+			if(smallDescription.length() < 10  || smallDescription.length() > 300)
+				errors.put("small_description", "Small Description required (minimum 30 chars maximum 300)");
 
 			if(description.length() < 10)
 				errors.put("description", "Small Description required (10 characters at least)");
@@ -217,14 +217,18 @@ public class Product
 						errors.put("director", "Director required (3 characters at least)");
 					if(categoryInfo.getString("Publication year") == null ||  categoryInfo.getString("Publication year").length() < 3)
 						errors.put("pub_year", "Publication year required (4 digits at least)");
-					if(categoryInfo.getString("Genre") == null ||  categoryInfo.getString("Genre").length() < 9)
+					if(categoryInfo.getString("Genre") == null ||  categoryInfo.getString("Genre").length() < 5)
 						errors.put("genre", "Genre required (5 characters at least)");
-					if(categoryInfo.getArray("Actors") == null ||  categoryInfo.getArray("Actors").size() < 3)
-						errors.put("actors", "Actors required (3 actors at least)");
+					if(categoryInfo.getArray("Actors") == null ||  categoryInfo.getArray("Actors").size() < 3 || categoryInfo.getArray("Actors").size() > 6)
+						errors.put("actors", "Actors required (3 actors at least, maximum 6)");
 					break;
 				case 6:
-					if(categoryInfo.getString("Director") == null ||  categoryInfo.getString("Director").length() < 3)
-						errors.put("director", "Director required (3 characters at least)");
+					if(categoryInfo.getString("Platform") == null ||  categoryInfo.getString("Platform").length() < 3)
+						errors.put("platform", "Platform year required (4 digits at least)");
+					if(categoryInfo.getString("Publisher") == null ||  categoryInfo.getString("Publisher").length() < 3)
+						errors.put("publisher", "Publisher year required (4 digits at least)");
+					if(categoryInfo.getString("Publication year") == null ||  categoryInfo.getString("Publication year").length() < 3)
+						errors.put("pub_year", "Publication year required (4 digits at least)");
 			}
 
 		}catch (Exception e){

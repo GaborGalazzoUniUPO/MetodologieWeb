@@ -116,7 +116,8 @@ public class ProductDAO
 			PreparedStatement query = connection.prepareStatement(
 					"select *, " +
 							"(select count(*) from stock s where s.product_id = products.id and s.status = 0) as qta " +
-							"from products"
+							"from products " +
+							"order by date_added desc "
 			);
 			ResultSet resultSet = query.executeQuery();
 			while (resultSet.next())
