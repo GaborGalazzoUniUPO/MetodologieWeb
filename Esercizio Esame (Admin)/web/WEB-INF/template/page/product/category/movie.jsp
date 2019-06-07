@@ -47,10 +47,6 @@
 		</div> <!-- form-group end.// -->
 	</div> <!-- form-row end.// -->
 
-	<div id="actors_form_data">
-
-	</div>
-
 	<div>
 		<ul id="actor_list">
 

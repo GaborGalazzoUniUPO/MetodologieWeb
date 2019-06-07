@@ -211,6 +211,10 @@ public class Product
 				case 4:
 					if(categoryInfo.getString("Author") == null ||  categoryInfo.getString("Author").length() < 3)
 						errors.put("author", "Author required (3 characters at least)");
+					if(categoryInfo.getString("Publication year") == null ||  categoryInfo.getString("Publication year").length() < 3)
+						errors.put("pub_year", "Publication year required (4 digits at least)");
+					if(categoryInfo.getArray("Tracks") == null ||  categoryInfo.getArray("Tracks").size() < 1)
+						errors.put("tracks", "Tracks required (1 actors at least)");
 					break;
 				case 5:
 					if(categoryInfo.getString("Director") == null ||  categoryInfo.getString("Director").length() < 3)

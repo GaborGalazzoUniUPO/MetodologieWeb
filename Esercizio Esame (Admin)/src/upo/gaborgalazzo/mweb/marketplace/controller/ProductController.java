@@ -134,7 +134,12 @@ public class ProductController extends RouteHttpServlet
 
 	private MixedArray parseCD(HttpServletRequest request)
 	{
-		return null;
+		MixedArray mixedArray = new MixedArray();
+		mixedArray.put("Author", request.getParameter("author"));
+		mixedArray.put("Publication year", request.getParameter("pub_year"));
+		String[] list = request.getParameterValues("tracks");
+		mixedArray.put("Tracks", list!=null?Arrays.asList(list):new ArrayList<>());
+		return mixedArray;
 	}
 
 	private MixedArray parseBook(HttpServletRequest request)
