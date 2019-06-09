@@ -49,14 +49,6 @@
 						<div class="img-wrap"><img src="${product.photoUrl}" class="img-thumbnail img-sm" alt=""></div>
 						<figcaption class="media-body">
 							<h6 class="title text-truncate">${product.name}</h6>
-							<dl class="dlist-inline small">
-								<dt>Size:</dt>
-								<dd>XXL</dd>
-							</dl>
-							<dl class="dlist-inline small">
-								<dt>Color:</dt>
-								<dd>Orange color</dd>
-							</dl>
 						</figcaption>
 					</figure>
 				</td>
@@ -65,7 +57,7 @@
 				</td>
 				<td>
 					<div class="price-wrap">
-						<var class="price">€ ${product.unitPrice}</var>
+						<var class="price">€ <fmt:formatNumber type="number" maxFractionDigits="2"  minFractionDigits="2" value="${product.unitPrice}"/></var>
 					</div> <!-- price-wrap .// -->
 				</td>
 				<td class="text-right">
