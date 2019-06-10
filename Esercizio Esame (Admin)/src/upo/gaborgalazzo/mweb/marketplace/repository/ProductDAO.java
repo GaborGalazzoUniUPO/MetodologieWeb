@@ -53,7 +53,7 @@ public class ProductDAO
 
 		if (preparedStatement.executeUpdate() == 0)
 		{
-			throw new SQLException("Creating user failed, no rows affected.");
+			throw new SQLException("Creating product failed, no rows affected.");
 		}
 
 		try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys())
@@ -63,7 +63,7 @@ public class ProductDAO
 				product.setId(generatedKeys.getInt(1));
 			} else
 			{
-				throw new SQLException("Creating user failed, no ID obtained.");
+				throw new SQLException("Creating product failed, no ID obtained.");
 			}
 		}
 
@@ -86,7 +86,7 @@ public class ProductDAO
 
 		if (preparedStatement.executeUpdate() == 0)
 		{
-			throw new SQLException("Creating user failed, no rows affected.");
+			throw new SQLException("Creating product failed, no rows affected.");
 		}
 
 		preparedStatement.close();

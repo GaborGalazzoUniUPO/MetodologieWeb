@@ -16,7 +16,7 @@
 
                     <div class="card-body">
 
-                        <form action="${pageContext.request.contextPath}/orders/manage/${order.id}" method="post">
+                        <form action="${pageContext.request.contextPath}/orders/${order.id}/manage/" method="post">
                             <div class="form-group">
                                 <c:if test="${errors.success != null}">
                                     <div class="alert alert-success">${errors.success}</div>
@@ -154,7 +154,8 @@
             </dl>
         </div>
         <div class="mt-3">
-            <a href="/orders/report/${order.id}" class="btn btn-danger btn-block">Order report</a>
+
+            <a href="${pageContext.request.contextPath}/orders/${order.id}/report/" class="btn btn-outline-danger btn-block">Order report (${order.messagesCount})</a>
         </div>
 
     </aside>

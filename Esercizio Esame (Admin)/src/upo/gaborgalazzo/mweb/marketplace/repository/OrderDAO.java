@@ -41,6 +41,7 @@ public class OrderDAO
 							"                o.delivered_at," +
 							"                concat(u.name, ' ', u.surname, ' (', u.email,')') as owner_info," +
 							"               count(s.id)       as item_count," +
+							"               (select count(*) from report_messages rm where rm.order_id = o.id and type = 0 and `read` = 0)  as messages_count," +
 							"               sum(p.unit_price) as total" +
 							"        from orders o" +
 							"                 inner join order_products op on o.id = op.order_id" +
@@ -90,7 +91,9 @@ public class OrderDAO
 							"                concat(sa.street,', ',sa.zip_code,' ',sa.city,' ',sa.region, ' ', sa.country) as sa_info," +
 							"                o.delivered_at," +
 							"                concat(u.name, ' ', u.surname, ' (', u.email,')') as owner_info," +
+							"               (select count(*) from report_messages rm where rm.order_id = o.id and type = 0 and `read` = 0)  as messages_count," +
 							"               count(s.id)       as item_count," +
+
 							"               sum(p.unit_price) as total" +
 							"        from orders o" +
 							"                 inner join order_products op on o.id = op.order_id" +
@@ -159,7 +162,7 @@ public class OrderDAO
 
 		if (preparedStatement.executeUpdate() == 0)
 		{
-			throw new SQLException("Creating user failed, no rows affected.");
+			throw new SQLException("Creating order failed, no rows affected.");
 		}
 
 		preparedStatement.close();

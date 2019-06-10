@@ -26,6 +26,7 @@ public class Order
 	private String saInfo;
 
 	private List<CartProduct> products = new ArrayList<>();
+	private int messagesCount;
 
 	public static Order fromResultSet(ResultSet resultSet) throws SQLException
 	{
@@ -37,6 +38,7 @@ public class Order
 		order.setPaymentMethodId(resultSet.getInt("payment_method_id"));
 		order.setShippingAddressId(resultSet.getInt("shipping_address_id"));
 		order.setItemCount(resultSet.getInt("item_count"));
+		order.setMessagesCount(resultSet.getInt("messages_count"));
 		order.setTransaction(resultSet.getString("transaction"));
 		order.setCode(resultSet.getString("code"));
 		order.setTrackingCode(resultSet.getString("tracking_code"));
@@ -230,5 +232,15 @@ public class Order
 	public void setProducts(List<CartProduct> products)
 	{
 		this.products = products;
+	}
+
+	public void setMessagesCount(int messagesCount)
+	{
+		this.messagesCount = messagesCount;
+	}
+
+	public int getMessagesCount()
+	{
+		return messagesCount;
 	}
 }

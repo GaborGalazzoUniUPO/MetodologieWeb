@@ -13,6 +13,7 @@
 
 
 			<th scope="col" >Items</th>
+			<th scope="col" >Messages</th>
 			<th scope="col" >Total</th>
 			<th scope="col" class="text-right">Action</th>
 		</tr>
@@ -41,12 +42,15 @@
 						${order.itemCount}
 				</td>
 				<td>
+						${order.messagesCount}
+				</td>
+				<td>
 					<div class="price-wrap">
 						<var class="price">€ <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${order.total}"/></var>
 					</div> <!-- price-wrap .// -->
 				</td>
 				<td class="text-right">
-					<a href="${pageContext.request.contextPath}/orders/manage/${order.id}" class="btn btn-outline-success"> Manage</a>
+					<a href="${pageContext.request.contextPath}/orders/${order.id}/manage/" class="btn btn-outline-success"> Manage</a>
 				</td>
 			</tr>
 		</c:forEach>
