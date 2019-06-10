@@ -1,6 +1,7 @@
 package upo.gaborgalazzo.mweb.marketplace.repository;
 
 
+import de.ailis.pherialize.Pherialize;
 import upo.gaborgalazzo.mweb.marketplace.domain.CartProduct;
 import upo.gaborgalazzo.mweb.marketplace.domain.Order;
 import upo.gaborgalazzo.mweb.marketplace.functiolanities.DatabaseConnection;
@@ -144,6 +145,40 @@ public class OrderDAO
 		query.close();
 		connection.close();
 
+	}
+
+	public Order update(Order order) throws SQLException {
+		Connection connection = DatabaseConnection.initializeDatabase();
+		PreparedStatement preparedStatement
+				= connection.prepareStatement(
+				"UPDATE orders SET transaction = ?, status = ?, owner_id = ?, created_at = ?, shipment_type = ?, payment_method_id = ?, shipping_address_id = ?, code = ?, delivered_at = ?, tracking_code = ?" +
+						" WHERE id = ?;"
+		);
+		bindParameters(order, preparedStatement);
+		preparedStatement.setInt(11, order.getId());
+
+		if (preparedStatement.executeUpdate() == 0)
+		{
+			throw new SQLException("Creating user failed, no rows affected.");
+		}
+
+		preparedStatement.close();
+		connection.close();
+
+		return order;
+	}
+
+	private void bindParameters(Order order, PreparedStatement preparedStatement) throws SQLException {
+		preparedStatement.setString(1, order.getTransaction());
+		preparedStatement.setInt(2, order.getStatus());
+		preparedStatement.setInt(3, order.getOwnerId());
+		preparedStatement.setDate(4, order.getCreatedAt());
+		preparedStatement.setInt(5, order.getShipmentType());
+		preparedStatement.setInt(6, order.getPaymentMethodId());
+		preparedStatement.setInt(7, order.getShippingAddressId());
+		preparedStatement.setString(8, order.getCode());
+		preparedStatement.setDate(9, order.getDeliveredAt());
+		preparedStatement.setString(10, order.getTrackingCode());
 	}
 }
 
