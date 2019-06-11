@@ -76,6 +76,10 @@
                             <dd>${order.transaction}</dd>
                         </dl>
                         <dl>
+                            <dt>Creation Date:</dt>
+                            <dd>${order.createdAt}</dd>
+                        </dl>
+                        <dl>
                             <dt>Delivery Date:</dt>
                             <dd>${order.deliveredAt==null?'NOT DELIVERED':order.deliveredAt}</dd>
                         </dl>

@@ -23,11 +23,33 @@
 	<link href="${pageContext.request.contextPath}/assets/css/responsive.css" rel="stylesheet" media="only screen and (max-width: 1200px)">
 	<link href="${pageContext.request.contextPath}/assets/css/dashboard.css" rel="stylesheet">
 
+	<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+
 	<!-- custom javascript -->
 	<script src="${pageContext.request.contextPath}/assets/js/script.js" category="text/javascript"></script>
 
 	<script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script>
 
 	<style>
+		i.fa {
+			margin: 0px 4px;
+		}
+		span.sort > i.fa-sort-up,
+		span.sort > i.fa-sort-down {
+			display: none;
+		}
+		span.sort.asc > i.fa-sort {
+			display: none;
+		}
+		span.sort.asc > i.fa-sort-up {
+			display: inherit;
+		}
+		span.sort.desc > i.fa-sort {
+			display: none;
+		}
+		span.sort.desc > i.fa-sort-down {
+			display: inherit;
+		}
+
 	</style>
 </head>

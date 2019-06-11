@@ -109,7 +109,7 @@ public class OrderController extends RouteHttpServlet
 			return;
 		}
 
-		ReportMessageDAO reportMessageDAO = new ReportMessageDAO();
+ 		ReportMessageDAO reportMessageDAO = new ReportMessageDAO();
 		List<Message> messages = reportMessageDAO.findByOrderId(order.getId());
 		try
 		{
