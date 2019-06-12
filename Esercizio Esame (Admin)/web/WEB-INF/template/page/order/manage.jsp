@@ -159,7 +159,7 @@
         </div>
         <div class="mt-3">
 
-            <a href="${pageContext.request.contextPath}/orders/${order.id}/report/" class="btn btn-outline-danger btn-block">Order report (${order.messagesCount})</a>
+            <a href="${pageContext.request.contextPath}/orders/${order.id}/report/" class="btn btn-outline-danger btn-block">Open report (${order.messagesCount})</a>
         </div>
 
     </aside>

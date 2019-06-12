@@ -45,7 +45,8 @@ public class OrderController extends RouteHttpServlet
 
 		Order order = orderDAO.findById(id);
 
-		if(order == null) {
+		if (order == null)
+		{
 			request.getRequestDispatcher("/WEB-INF/template/page/error/not-found.jsp").forward(request, response);
 			return;
 		}
@@ -70,23 +71,27 @@ public class OrderController extends RouteHttpServlet
 		Order order = orderDAO.findById(id);
 
 
-		if(order == null) {
+		if (order == null)
+		{
 			request.getRequestDispatcher("/WEB-INF/template/page/error/not-found.jsp").forward(request, response);
 			return;
 		}
 
 		int status = Integer.parseInt(request.getParameter("status"));
-		if(order.getStatus() != 2 && status == 2){
+		if (order.getStatus() != 2 && status == 2)
+		{
 			order.setDeliveredAt(new Date(Calendar.getInstance().getTime().getTime()));
 		}
 		order.setStatus(status);
 		order.setTrackingCode(request.getParameter("tracking_code"));
 
 		Map<String, String> errors = new HashMap<String, String>();
-		try {
+		try
+		{
 			order = orderDAO.update(order);
 			errors.put("success", "Order updated");
-		} catch (SQLException e) {
+		} catch (SQLException e)
+		{
 			e.printStackTrace();
 			errors.put("exception", e.getMessage());
 		}
@@ -104,20 +109,15 @@ public class OrderController extends RouteHttpServlet
 
 		Order order = orderDAO.findById(id);
 
-		if(order == null) {
+		if (order == null)
+		{
 			request.getRequestDispatcher("/WEB-INF/template/page/error/not-found.jsp").forward(request, response);
 			return;
 		}
 
- 		ReportMessageDAO reportMessageDAO = new ReportMessageDAO();
+		ReportMessageDAO reportMessageDAO = new ReportMessageDAO();
 		List<Message> messages = reportMessageDAO.findByOrderId(order.getId());
-		try
-		{
-			reportMessageDAO.setRead(order.getId());
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
+
 
 		request.setAttribute("order", order);
 		request.setAttribute("msgs", messages);
@@ -131,7 +131,8 @@ public class OrderController extends RouteHttpServlet
 
 		Order order = orderDAO.findById(id);
 
-		if(order == null) {
+		if (order == null)
+		{
 			request.getRequestDispatcher("/WEB-INF/template/page/error/not-found.jsp").forward(request, response);
 			return;
 		}
@@ -143,12 +144,13 @@ public class OrderController extends RouteHttpServlet
 		try
 		{
 			reportMessageDAO.save(message);
+			reportMessageDAO.setRead(order.getId());
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
 		}
 
-		response.sendRedirect(request.getContextPath()+"/orders/"+order.getId()+"/report/");
+		response.sendRedirect(request.getContextPath() + "/orders/" + order.getId() + "/report/");
 	}
 
 

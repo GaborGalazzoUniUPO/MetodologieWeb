@@ -68,6 +68,113 @@ public class OrderDAO
 		return result;
 	}
 
+	public List<Order> findAllToPtocess()
+	{
+
+		Connection connection = DatabaseConnection.initializeDatabase();
+
+		ArrayList<Order> result = new ArrayList<Order>();
+		try
+		{
+			PreparedStatement query = connection.prepareStatement(
+					"select o.id," +
+							"                o.code," +
+							"                o.created_at," +
+							"                o.status," +
+							"                o.shipment_type," +
+							"                o.transaction," +
+							"                o.shipping_address_id," +
+							"                o.payment_method_id," +
+							"                o.owner_id," +
+							"                o.tracking_code," +
+							"                o.delivered_at," +
+							"                concat(pm.card_type, ' - **** **** **** ', pm.last_digits, ' (',pm.expiry,') - ', UPPER(pm.full_name)) as pm_info," +
+							"                concat(sa.street,', ',sa.zip_code,' ',sa.city,' ',sa.region, ' ', sa.country) as sa_info," +
+							"                o.delivered_at," +
+							"                concat(u.name, ' ', u.surname, ' (', u.email,')') as owner_info," +
+							"               count(s.id)       as item_count," +
+							"               (select count(*) from report_messages rm where rm.order_id = o.id and type = 0 and `read` = 0)  as messages_count," +
+							"               sum(p.unit_price) as total" +
+							"        from orders o" +
+							"                 inner join order_products op on o.id = op.order_id" +
+							"                 inner join stock s on s.id = op.stock_unit" +
+							"                 inner join products p on p.id = s.product_id" +
+							"                 inner join users u on o.owner_id = u.id" +
+							"                 inner join payment_methods pm on pm.id = o.payment_method_id" +
+							"                 inner join shipping_addresses sa on sa.id = o.shipping_address_id" +
+							"				  where o.status = 0" +
+							"        group by o.id"
+			);
+			ResultSet resultSet = query.executeQuery();
+			while (resultSet.next())
+			{
+				result.add(Order.fromResultSet(resultSet));
+
+			}
+			query.close();
+			connection.close();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public List<Order> findAllNewReport()
+	{
+
+		Connection connection = DatabaseConnection.initializeDatabase();
+
+		ArrayList<Order> result = new ArrayList<Order>();
+		try
+		{
+			PreparedStatement query = connection.prepareStatement(
+					"select o.id," +
+							"                o.code," +
+							"                o.created_at," +
+							"                o.status," +
+							"                o.shipment_type," +
+							"                o.transaction," +
+							"                o.shipping_address_id," +
+							"                o.payment_method_id," +
+							"                o.owner_id," +
+							"                o.tracking_code," +
+							"                o.delivered_at," +
+							"                concat(pm.card_type, ' - **** **** **** ', pm.last_digits, ' (',pm.expiry,') - ', UPPER(pm.full_name)) as pm_info," +
+							"                concat(sa.street,', ',sa.zip_code,' ',sa.city,' ',sa.region, ' ', sa.country) as sa_info," +
+							"                o.delivered_at," +
+							"                concat(u.name, ' ', u.surname, ' (', u.email,')') as owner_info," +
+							"               count(s.id)       as item_count," +
+							"               (select count(*) from report_messages rm where rm.order_id = o.id and type = 0 and `read` = 0)  as messages_count," +
+							"               (select max(rm.created_at) from report_messages rm where rm.order_id = o.id and type = 0 and `read` = 0)  as last_message," +
+							"               sum(p.unit_price) as total" +
+							"        from orders o" +
+							"                 inner join order_products op on o.id = op.order_id" +
+							"                 inner join stock s on s.id = op.stock_unit" +
+							"                 inner join products p on p.id = s.product_id" +
+							"                 inner join users u on o.owner_id = u.id" +
+							"                 inner join payment_methods pm on pm.id = o.payment_method_id" +
+							"                 inner join shipping_addresses sa on sa.id = o.shipping_address_id" +
+							"				  where (select count(*) from report_messages rm where rm.order_id = o.id and type = 0 and `read` = 0) > 0 " +
+							"        group by o.id order by last_message"
+			);
+			ResultSet resultSet = query.executeQuery();
+			while (resultSet.next())
+			{
+				result.add(Order.fromResultSet(resultSet));
+
+			}
+			query.close();
+			connection.close();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
 	public Order findById(int id)
 	{
 
