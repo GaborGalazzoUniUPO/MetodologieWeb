@@ -11,7 +11,7 @@
  Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 06/06/2019 08:56:46
+ Date: 12/06/2019 23:26:36
 */
 
 SET NAMES utf8mb4;
@@ -28,8 +28,9 @@ CREATE TABLE `cart_products`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `cart_products_stock_unit_uindex`(`stock_unit`) USING BTREE,
   UNIQUE INDEX `cart_products_cart_id_stock_unit_uindex`(`cart_id`, `stock_unit`) USING BTREE,
-  CONSTRAINT `cart_products_carts_id_fk` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `cart_products_carts_id_fk` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `cart_products_ibfk_1` FOREIGN KEY (`stock_unit`) REFERENCES `stock` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for carts
@@ -66,7 +67,7 @@ CREATE TABLE `cookies`  (
   UNIQUE INDEX `cookies_cookie_session_uindex`(`cookie_session`) USING BTREE,
   INDEX `cookies_users_id_fk`(`user_id`) USING BTREE,
   CONSTRAINT `cookies_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of cookies
@@ -99,6 +100,8 @@ INSERT INTO `cookies` VALUES (25, '5cf2b38e5d89c', 9, '2019-06-01 19:19:10');
 INSERT INTO `cookies` VALUES (26, '5cf2b399c6ed6', 9, '2019-06-01 19:19:21');
 INSERT INTO `cookies` VALUES (27, '5cf2b3b38352d', 9, '2019-06-01 19:19:47');
 INSERT INTO `cookies` VALUES (28, '5cf80bca27e20', 9, '2019-06-05 20:36:58');
+INSERT INTO `cookies` VALUES (29, '5cfada468ddce', 9, '2019-06-07 23:42:30');
+INSERT INTO `cookies` VALUES (30, '5d01665daabec', 9, '2019-06-12 22:53:49');
 
 -- ----------------------------
 -- Table structure for order_products
@@ -110,8 +113,10 @@ CREATE TABLE `order_products`  (
   `order_id` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `order_products_orders_id_fk`(`order_id`) USING BTREE,
-  CONSTRAINT `order_products_orders_id_fk` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+  INDEX `stock_unit`(`stock_unit`) USING BTREE,
+  CONSTRAINT `order_products_orders_id_fk` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `order_products_ibfk_1` FOREIGN KEY (`stock_unit`) REFERENCES `stock` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of order_products
@@ -124,6 +129,7 @@ INSERT INTO `order_products` VALUES (8, 5, 6);
 INSERT INTO `order_products` VALUES (9, 11, 7);
 INSERT INTO `order_products` VALUES (10, 17, 8);
 INSERT INTO `order_products` VALUES (11, 39, 9);
+INSERT INTO `order_products` VALUES (12, 63, 10);
 
 -- ----------------------------
 -- Table structure for orders
@@ -150,16 +156,17 @@ CREATE TABLE `orders`  (
   CONSTRAINT `orders_payment_methods_id_fk` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_methods` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `orders_shipping_addresses_id_fk` FOREIGN KEY (`shipping_address_id`) REFERENCES `shipping_addresses` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `orders_users_id_fk` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES (5, 'transaction_5cf05a97bf1b3', 0, 9, '2019-05-31 00:35:03', 0, 1, 1, 'ord_5cf05a97bf26f', NULL, ' ');
-INSERT INTO `orders` VALUES (6, 'transaction_5cf05b1e1d725', 0, 9, '2019-05-31 00:37:18', 0, 1, 1, 'ord_5cf05b1e1d820', NULL, 'none');
-INSERT INTO `orders` VALUES (7, 'transaction_5cf05c0fdfcea', 0, 9, '2019-05-31 00:41:19', 0, 1, 1, 'ord_5cf05c0fdfde5', NULL, 'none');
+INSERT INTO `orders` VALUES (5, 'transaction_5cf05a97bf1b3', 2, 9, '2019-05-31 00:00:00', 0, 1, 1, 'ord_5cf05a97bf26f', '2019-06-11 00:00:00', ' 4556278');
+INSERT INTO `orders` VALUES (6, 'transaction_5cf05b1e1d725', 1, 9, '2019-05-31 00:00:00', 0, 1, 1, 'ord_5cf05b1e1d820', NULL, 'none');
+INSERT INTO `orders` VALUES (7, 'transaction_5cf05c0fdfcea', 1, 9, '2019-05-31 00:00:00', 0, 1, 1, 'ord_5cf05c0fdfde5', NULL, 'none');
 INSERT INTO `orders` VALUES (8, 'transaction_5cf2633a4b099', 0, 9, '2019-06-01 13:36:26', 0, 1, 1, 'ord_5cf2633a4f3b0', NULL, 'none');
 INSERT INTO `orders` VALUES (9, 'transaction_5cf27e88a3963', 0, 9, '2019-06-01 15:32:56', 0, 1, 1, 'ord_5cf27e88a3a64', NULL, 'none');
+INSERT INTO `orders` VALUES (10, 'transaction_5d01668df3be4', 0, 9, '2019-06-12 22:54:37', 0, 2, 2, 'ord_5d01668df3cc1', NULL, 'none');
 
 -- ----------------------------
 -- Table structure for payment_methods
@@ -177,19 +184,20 @@ CREATE TABLE `payment_methods`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK_payment_methods_users`(`owner_id`) USING BTREE,
   CONSTRAINT `FK_payment_methods_users` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of payment_methods
 -- ----------------------------
 INSERT INTO `payment_methods` VALUES (1, 'Visa', '4242', '2020-02-01', 9, '5cf0413ecd373', 'Gabor Galazzo', '2019-06-03 23:23:38');
+INSERT INTO `payment_methods` VALUES (2, 'Visa', '4242', '2020-02-01', 9, '5d01668bb13a0', 'GABOR GALAZZO', NULL);
 
 -- ----------------------------
 -- Table structure for product_watchers
 -- ----------------------------
 DROP TABLE IF EXISTS `product_watchers`;
 CREATE TABLE `product_watchers`  (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
@@ -197,7 +205,7 @@ CREATE TABLE `product_watchers`  (
   INDEX `user_id`(`user_id`) USING BTREE,
   CONSTRAINT `product_watchers_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `product_watchers_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for products
@@ -217,7 +225,7 @@ CREATE TABLE `products`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `code`(`code`) USING BTREE,
   FULLTEXT INDEX `search_index`(`name`, `description`, `small_description`, `category_info`)
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of products
@@ -244,6 +252,11 @@ INSERT INTO `products` VALUES (29, 'B07HN2XHVC', 'https://images-na.ssl-images-a
 INSERT INTO `products` VALUES (31, 'B0041KVZ1I', 'https://images-na.ssl-images-amazon.com/images/I/81oFpzU4d3L._SX522_PJautoripBadge,BottomRight,4,-40_OU11__.jpg', '', 'Abbey Road', 22.99, 4, '2019-05-29 22:36:55', '', 'a:1:{s:6:\"Tracks\";a:15:{i:0;s:27:\"\"Come Together\"	Lennon	4:19\";i:1;s:43:\"\"Something\" (George Harrison)	Harrison	3:02\";i:2;s:40:\"\"Maxwell\'s Silver Hammer\"	McCartney	3:27\";i:3;s:28:\"\"Oh! Darling\"	McCartney	3:27\";i:4;s:47:\"\"Octopus\'s Garden\" (Richard Starkey)	Starr	2:51\";i:5;s:41:\"\"I Want You (She\'s So Heavy)\"	Lennon	7:47\";i:6;s:52:\"\"Here Comes the Sun\" (George Harrison)	Harrison	3:05\";i:7;s:45:\"\"Because\"	Lennon, McCartney and Harrison	2:45\";i:8;s:51:\"\"Sun King\"	Lennon, with McCartney and Harrison	2:26\";i:10;s:30:\"\"Mean Mr. Mustard\"	Lennon	1:06\";i:11;s:27:\"\"Polythene Pam\"	Lennon	1:13\";i:12;s:56:\"\"She Came In Through the Bathroom Window\"	McCartney	1:58\";i:13;s:32:\"\"Golden Slumbers\"	McCartney	1:31\";i:14;s:67:\"\"Carry That Weight\"	McCartney, with Lennon, Harrison and Starr	1:36\";i:15;s:24:\"\"The End\"	McCartney	2:05\";}}');
 INSERT INTO `products` VALUES (32, 'B00K6IU3MG', 'https://images-na.ssl-images-amazon.com/images/I/91iW%2BpWm6WL._AC_SX215_.jpg', 'Nintendo Super Mario Galaxy 2, Wii. Piattaforma: Nintendo Wii, Genere: Piattaforma, Classificazione ESRB: E (tutti)', 'Super Mario: Galaxy 2', 27.9, 6, '2019-05-29 22:42:51', 'Nintendo Super Mario Galaxy 2, Wii. Piattaforma: Nintendo Wii, Genere: Piattaforma, Classificazione ESRB: E (tutti)', 'a:3:{s:8:\"Platform\";s:12:\"Nintendo Wii\";s:9:\"Publisher\";s:8:\"Nintendo\";s:16:\"Publication year\";s:4:\"2014\";}');
 INSERT INTO `products` VALUES (33, 'B005KJG6TA', 'https://images-na.ssl-images-amazon.com/images/I/51JaVWRVHwL._AC_SX215_.jpg', 'Super Mario Galaxy, Nintendo Wii', 'Super Mario Galaxy - Nintendo Selects Edition', 27.98, 6, '2019-05-29 22:43:50', 'Super Mario Galaxy, Nintendo Wii', 'a:3:{s:8:\"Platform\";s:12:\"Nintendo Wii\";s:9:\"Publisher\";s:8:\"Nintendo\";s:16:\"Publication year\";s:4:\"2011\";}');
+INSERT INTO `products` VALUES (34, '0694003611', 'https://images-na.ssl-images-amazon.com/images/I/51%2BmV1XUUQL._SY432_BO1,204,203,200_.jpg', 'In a great green room, tucked away in bed, is a little bunny. \"Goodnight room, goodnight moon.\" And to all the familiar things in the softly lit room - to the picture of the three little bears sitting on chairs, to the clocks and his socks, to the mittens and the kittens, to everything one by one - the little bunny says goodnight.\r\n\r\nIn this classic of children\'s literature, beloved by generations of readers and listeners, the quiet poetry of the words and the gentle, lulling illustrations combine to make a perfect book for the end of the day.\r\n\r\nThis board book edition is the perfect size for little hands.', 'Goodnight Moon', 6.53, 1, '2019-06-07 17:09:30', 'In this classic of children\'s literature, beloved by generations of readers and listeners, the quiet poetry of the words and the gentle, lulling illustrations combine to make a perfect book for the end of the day.', 'a:5:{s:6:\"Author\";s:19:\"Margaret Wise Brown\";s:6:\"Editor\";s:14:\"HarperFestival\";s:4:\"ISBN\";s:14:\"978-0694003617\";s:12:\"Print length\";s:2:\"30\";s:16:\"Publication year\";s:4:\"2007\";}');
+INSERT INTO `products` VALUES (35, '1465453571', 'https://images-na.ssl-images-amazon.com/images/I/61IJJuZaKiL._SX424_BO1,204,203,200_.jpg', 'Revamped, redesigned, and fully updated to include the New 52 and Rebirth storylines, this is the definitive and indispensable guide to the characters and worlds of the DC Comics Universe.\r\n\r\nCreated in full collaboration with DC Comics, this comprehensive reference book has The Washington Post saying, \"The DC Comics Encyclopedia is a must.\" Formatted in an easy-to use A-to-Z layout, this guide is packed with information and thrilling comic book art and features more than 1,100 characters including Batman, Superman, Wonder Woman, The Joker, and much more.\r\n\r\nThe DC Comics Encyclopedia All-New Edition brings everything up to date, providing an accessible, compelling, and lavishly illustrated guide to the dynamics of the DC Comics Universe.', 'DC Comics Encyclopedia All-New Edition: The Definitive Guide to the Characters of the DC Universe', 22.97, 2, '2019-06-07 17:16:39', 'Revamped, redesigned, and fully updated to include the New 52 and Rebirth storylines, this is the definitive and indispensable guide to the characters and worlds of the DC Comics Universe.', 'a:5:{s:6:\"Author\";s:19:\"Matthew K. Manning \";s:6:\"Editor\";s:2:\"DK\";s:4:\"ISBN\";s:14:\"978-1465453570\";s:12:\"Print length\";s:3:\"368\";s:16:\"Publication year\";s:4:\"2016\";}');
+INSERT INTO `products` VALUES (36, 'B000P46NMK', 'https://images-na.ssl-images-amazon.com/images/I/91VqJgxddAL._AC_SX215_.jpg', 'Assassin\'s Creed is the next-gen game developed by Ubisoft Montreal that will redefine the action genre. While other games claim to be next-gen with impressive graphics and physics, Assassin\'s Creed merges technology, game design, theme, and emotions into a world where you instigate chaos and become a vulnerable, yet powerful, agent of change. The setting is 1191 AD. The Third Crusade is tearing the Holy Land apart. You, Altair, intend to stop the hostilities by suppressing both sides of the conflict. You are an Assassin, a warrior shrouded in secrecy and feared for your ruthlessness. Your actions can throw your immediate environment into chaos, and your existence will shape events during this pivotal moment in history. Key Features Be an Assassin Master the skills, tactics, and weapons of history\'s deadliest and most secretive clan of warriors. Plan your attacks, strike without mercy, and fight your way to escape. Realistic and responsive environments Crowds react to your moves and will either help or hinder you on your quests. Action with a new dimension total freedom Eliminate your targets wherever, whenever, and however. Stalk your prey through richly detailed, historically accurate, open-ended environments. Scale buildings, mount horses, blend in with crowds. Do whatever it takes to achieve your objectives. Relive the epic times of the Crusades Assassin\'s Creed immerses you in the realistic and historical Holy Land of the 12th century, featuring life-like graphics, ambience, and the subtle, yet detailed nuances of a living world. Intense action rooted in reality Experience heavy action blended with fluid and precise animations. Use a wide range of medieval weapons, and face your enemies in realistic swordfight duels. Next-gen gameplay The proprietary engine developed from the ground up for the next-gen console allows organic game design featuring open gameplay, intuitive control scheme, realistic interaction with environment, and a fluid, yet sharp, combat mechanic. ', 'Assassin\'s Creed', 15.35, 6, '2019-06-07 17:30:52', 'Assassin\'s Creed is the next-gen game developed by Ubisoft Montreal that will redefine the action genre. ', 'a:3:{s:8:\"Platform\";s:8:\"XBOX 360\";s:9:\"Publisher\";s:8:\" Ubisoft\";s:16:\"Publication year\";s:5:\"2007 \";}');
+INSERT INTO `products` VALUES (38, 'B000E8M0VA', 'https://images-na.ssl-images-amazon.com/images/I/519BHPC8P2L.jpg', 'During World War II, the Pevensie children, Peter, Susan, Edmund and Lucy, are evacuated from a London suburb to Professor Digory Kirke\'s country home. Mrs Macready, the strict housekeeper, explains he is unaccustomed to hosting children.\r\n\r\nWhile the Pevensies play hide-and-seek, Lucy discovers a wardrobe and enters the fantasy world called Narnia. Seeing a lamppost, Lucy encounters the faun Mr. Tumnus, who invites her to his home. He puts Lucy to sleep by playing a lullaby on his flute. When Lucy wakes up, she finds Tumnus grieving. He explains that Jadis, the White Witch, has cursed Narnia to a hundred years of winter. If a human is encountered, they are to be brought to her. Tumnus cannot bring himself to kidnap Lucy, so he sends her home. When she returns to Professor Kirke\'s house, hardly any time has passed, and her siblings disbelieve her story.\r\n\r\nOne night, Edmund follows Lucy into the wardrobe, entering Narnia. While searching for Lucy, he meets the White Witch, who claims to be queen. She offers him tea and Turkish Delight and the prospect of becoming king if he brings his siblings to her castle. After she departs, Edmund and Lucy meet again and return. Lucy tells Peter and Susan what happened, but Edmund lies. Professor Kirke suggests she is telling the truth, though they remain unconvinced.\r\n\r\nWhile running away from Mrs. Macready after accidentally breaking a window, the four siblings retreat to the wardrobe and enter Narnia. They discover the Witch has taken Mr. Tumnus, and they meet Mr. and Mrs. Beaver, who tell them about Aslan. According to the beavers, Aslan intends to take control of Narnia from the Witch. The four must help Aslan; it has been prophesied that if two sons of Adam and two daughters of Eve sit in the four thrones, the White Witch\'s reign will end.\r\n\r\nEdmund sneaks off to visit the Witch. When he arrives at her castle, she is furious he has not delivered his siblings. The Witch sends wolves to track down the children and the beavers, who barely escape. Edmund is chained in the Witch\'s dungeon, where he meets Tumnus. The Witch demands Edmund reveal his siblings\' location. After Tumnus claims that Edmund knows nothing, The Witch tells Mr. Tumnus Edmund betrayed him, then turns Tumnus to stone.\r\n\r\nWhile Peter, Lucy, Susan, and the beavers travel, they hide from what they believe to be the White Witch. It is really Father Christmas, a sign that the Witch\'s reign is ending. Father Christmas gives them weapons to defend themselves. Lucy receives a healing cordial that can heal any injury. Susan receives a magical horn that will summon help and a bow and quiver full of arrows. Peter receives a sword and a shield. After evading wolves led by Maugrim, the group reaches Aslan\'s camp. Aslan is revealed as a huge and noble lion, who promises to help Edmund. Later, two wolves ambush Lucy and Susan. When Peter intervenes, Maugrim attacks him, and Peter kills him. Some of Aslan\'s troops follow the other wolf to the witch\'s camp and rescue Edmund. Peter is knighted by Aslan.\r\n\r\nThe White Witch journeys to Aslan\'s camp and claims Edmund, but Aslan secretly offers to sacrifice himself instead. That night, as Lucy and Susan covertly watch, the White Witch fatally stabs Aslan. In the morning, he is resurrected, citing magic beyond the Witch\'s understanding. Aslan takes Susan and Lucy to the Witch\'s castle, where he frees the prisoners she turned to stone. Edmund persuades Peter to lead Aslan\'s army. While saving Peter from the Witch by destroying her wand, Edmund is mortally wounded. As the Witch fights Peter, Aslan arrives with reinforcements and kills her. After Edmund is revived by Lucy\'s cordial, the Pevensies are crowned King Peter the Magnificent, Queen Susan the Gentle, King Edmund the Just, and Queen Lucy the Valiant.\r\n\r\nFifteen years later, the Pevensie children, now young adults, chase a white stag through the forest. They encounter the lamppost Lucy saw earlier and suddenly tumble out of the wardrobe at the same time and day they left, becoming children again. Lucy later attempts to return to Narnia via the wardrobe. Professor Kirke tells her he has tried for many years, and they will probably return to Narnia when they least expect it. ', 'The Chronicles of Narnia: The Lion, the Witch and the Wardrobe ', 4.99, 5, '2019-06-07 18:25:48', 'During World War II, the Pevensie children, Peter, Susan, Edmund and Lucy, are evacuated from a London suburb to Professor Digory Kirke\'s country home. Mrs Macready, the strict housekeeper, explains he is unaccustomed to hosting children. ', 'a:4:{s:8:\"Director\";s:14:\"Andrew Adamson\";s:5:\"Genre\";s:7:\"Fantasy\";s:16:\"Publication year\";s:4:\"2006\";s:6:\"Actors\";a:5:{i:0;s:14:\"Georgie Henley\";i:1;s:15:\" Skandar Keynes\";i:2;s:15:\" William Mosley\";i:3;s:16:\" Anna Popplewell\";i:4;s:14:\" Tilda Swinton\";}}');
+INSERT INTO `products` VALUES (39, 'B015GNBDN8', 'https://images-na.ssl-images-amazon.com/images/I/8138lvhwa1L._SX522_.jpg', 'Four Classic Disney soundtracks together housed in a slimline slipcase - Aladdin, Beauty and The Beast, The Jungle Book and The Lion King. Across the four discs are some of Disneys most loved songs including A Whole New World, Circle of Life, The Bare Necessities, Beauty and The Beast, Friend Like Me, Hakuna Mutata and many more Disney favourites. With artists such as Elton John, Celine Dion, Peabo Bryson, Robin Williams and Rowan Atkinson featured. ', 'Disney Classics Original Soundtrack ', 9.74, 3, '2019-06-07 19:23:51', 'Four Classic Disney soundtracks together housed in a slimline slipcase - Aladdin, Beauty and The Beast, The Jungle Book and The Lion King. ', 'a:3:{s:6:\"Author\";s:25:\"Disney Classics / O.S.T. \";s:16:\"Publication year\";s:4:\"2015\";s:6:\"Tracks\";a:2:{i:0;s:38:\"Arabian Nights - Bruce Adler - (03:06)\";i:1;s:49:\"Circle of Life - Carmen Twillie, Lebo M - (03:05)\";}}');
 
 -- ----------------------------
 -- Table structure for report_messages
@@ -256,15 +269,21 @@ CREATE TABLE `report_messages`  (
   `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
   `read` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `order_id`(`order_id`) USING BTREE,
+  CONSTRAINT `report_messages_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of report_messages
 -- ----------------------------
-INSERT INTO `report_messages` VALUES (1, 5, 0, 'mi Ã¨ arrivato l\'album sbagliato', '2019-06-05 21:21:01', 0);
-INSERT INTO `report_messages` VALUES (2, 5, 0, 'mi rispondete!\r\n', '2019-06-05 21:21:11', 0);
-INSERT INTO `report_messages` VALUES (3, 5, 0, 'Mi fa tutto schifo', '2019-06-05 21:22:04', 0);
+INSERT INTO `report_messages` VALUES (1, 5, 0, 'mi è arrivato l\'album sbagliato', '2019-06-05 21:21:01', 1);
+INSERT INTO `report_messages` VALUES (2, 5, 0, 'mi rispondete!\r\n', '2019-06-05 21:21:11', 1);
+INSERT INTO `report_messages` VALUES (3, 5, 0, 'Mi fa tutto schifo', '2019-06-05 21:22:04', 1);
+INSERT INTO `report_messages` VALUES (4, 5, 1, 'mi spiace , le manderemo un alto articolo non peena riceveremo il suo ordine indietro al seguente indirizzo: ...', '2019-06-10 20:36:06', 0);
+INSERT INTO `report_messages` VALUES (5, 6, 0, 'oilaaaaa', '2019-06-12 22:29:03', 1);
+INSERT INTO `report_messages` VALUES (6, 6, 0, 'mi sentitee', '2019-06-12 22:33:51', 1);
+INSERT INTO `report_messages` VALUES (7, 6, 1, 'si si', '2019-06-12 22:34:08', 1);
 
 -- ----------------------------
 -- Table structure for reviews
@@ -508,12 +527,13 @@ CREATE TABLE `shipping_addresses`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK_shipping_addresses_users`(`owner_id`) USING BTREE,
   CONSTRAINT `FK_shipping_addresses_users` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of shipping_addresses
 -- ----------------------------
 INSERT INTO `shipping_addresses` VALUES (1, 'Via Wagner 51', 'Alessandria', 'AL', 'Italia', '15121', 9, 'Gabor Galazzo', '2019-06-05 21:32:17');
+INSERT INTO `shipping_addresses` VALUES (2, 'Wagner 51', 'Alessandria', 'AL', 'Ita', '15121', 9, 'Gabor Galazzo', NULL);
 
 -- ----------------------------
 -- Table structure for stock
@@ -521,74 +541,113 @@ INSERT INTO `shipping_addresses` VALUES (1, 'Via Wagner 51', 'Alessandria', 'AL'
 DROP TABLE IF EXISTS `stock`;
 CREATE TABLE `stock`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sku` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_id` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `stock_sku_uindex`(`sku`) USING BTREE,
   INDEX `FK_stock_productd`(`product_id`) USING BTREE,
   CONSTRAINT `FK_stock_productd` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 57 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 104 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of stock
 -- ----------------------------
-INSERT INTO `stock` VALUES (1, '19UUA9F70DA886121', 7, 0);
-INSERT INTO `stock` VALUES (2, '1D7RV1CTXBS811810', 22, 0);
-INSERT INTO `stock` VALUES (3, '1FBNE3BL8DD202648', 26, 1);
-INSERT INTO `stock` VALUES (4, '1FMCU4K30AK453436', 22, 0);
-INSERT INTO `stock` VALUES (5, '1FMCU4K34AK849014', 20, 1);
-INSERT INTO `stock` VALUES (6, '1FTEW1CM3EK881407', 10, 0);
-INSERT INTO `stock` VALUES (7, '1FTMF1C83AK748476', 7, 0);
-INSERT INTO `stock` VALUES (8, '1FTMF1EW4AF413554', 21, 0);
-INSERT INTO `stock` VALUES (9, '1FTSW2B50AE116621', 20, 0);
-INSERT INTO `stock` VALUES (10, '1FTWW3B51AE053083', 13, 0);
-INSERT INTO `stock` VALUES (11, '1G4HR57Y16U050016', 19, 1);
-INSERT INTO `stock` VALUES (12, '1G6AH5R35E0244048', 11, 0);
-INSERT INTO `stock` VALUES (13, '1G6DC8EY0B0707787', 11, 0);
-INSERT INTO `stock` VALUES (14, '1G6DH5E5XD0909710', 7, 0);
-INSERT INTO `stock` VALUES (15, '1G6YV36AX75719908', 13, 0);
-INSERT INTO `stock` VALUES (16, '1GD12ZCG4CF534398', 19, 0);
-INSERT INTO `stock` VALUES (17, '1GTG5BE3XF1000654', 28, 1);
-INSERT INTO `stock` VALUES (18, '1N6AF0KX1FN177582', 9, 0);
-INSERT INTO `stock` VALUES (19, '2C3CDXGJ6DH297998', 18, 0);
-INSERT INTO `stock` VALUES (20, '2C3CK5CV7AH660288', 19, 0);
-INSERT INTO `stock` VALUES (21, '2G4GX5GV4B9967353', 17, 0);
-INSERT INTO `stock` VALUES (22, '2T3BFREV7FW205402', 18, 0);
-INSERT INTO `stock` VALUES (23, '3D73Y4HL6BG121373', 10, 0);
-INSERT INTO `stock` VALUES (24, '3GYFNEEY9AS457157', 16, 0);
-INSERT INTO `stock` VALUES (25, '3N1CN7AP6FL423134', 28, 0);
-INSERT INTO `stock` VALUES (26, '3VW517AT9FM291007', 21, 0);
-INSERT INTO `stock` VALUES (27, '4T1BD1EB3DU651209', 10, 0);
-INSERT INTO `stock` VALUES (28, '5UXZW0C53BL655234', 21, 0);
-INSERT INTO `stock` VALUES (29, 'JH4CU26649C970274', 13, 0);
-INSERT INTO `stock` VALUES (30, 'JN1AZ4EH8FM373954', 21, 0);
-INSERT INTO `stock` VALUES (31, 'JN8AF5MR1CT602924', 28, 0);
-INSERT INTO `stock` VALUES (32, 'JTEBU4BFXAK344197', 9, 0);
-INSERT INTO `stock` VALUES (33, 'KMHHT6KD2BU402087', 28, 0);
-INSERT INTO `stock` VALUES (34, 'SCBLC43F15C164457', 17, 0);
-INSERT INTO `stock` VALUES (35, 'SCFEBBCF9CG561189', 12, 0);
-INSERT INTO `stock` VALUES (36, 'TRURD28N261244474', 26, 1);
-INSERT INTO `stock` VALUES (37, 'VNKJTUD37FA655595', 12, 0);
-INSERT INTO `stock` VALUES (38, 'WA1CGAFE2DD084042', 18, 0);
-INSERT INTO `stock` VALUES (39, 'WA1EY74L78D614957', 26, 1);
-INSERT INTO `stock` VALUES (40, 'WA1VGBFP7EA117894', 28, 0);
-INSERT INTO `stock` VALUES (41, 'WA1VMAFP1EA855998', 17, 0);
-INSERT INTO `stock` VALUES (42, 'WA1VMBFE8BD068478', 7, 0);
-INSERT INTO `stock` VALUES (43, 'WAUCFAFR7CA333928', 16, 0);
-INSERT INTO `stock` VALUES (44, 'WAUFFAFL9EA815473', 16, 0);
-INSERT INTO `stock` VALUES (45, 'WAUFGAFC5DN260204', 9, 0);
-INSERT INTO `stock` VALUES (46, 'WAUGL58EX5A567043', 23, 1);
-INSERT INTO `stock` VALUES (47, 'WAUGU44D82N754466', 9, 0);
-INSERT INTO `stock` VALUES (48, 'WAUNF98P48A372230', 17, 0);
-INSERT INTO `stock` VALUES (49, 'WAURD68D02A908125', 8, 0);
-INSERT INTO `stock` VALUES (50, 'WAURD68D92A675684', 28, 0);
-INSERT INTO `stock` VALUES (51, 'WAUUL68E05A771794', 20, 0);
-INSERT INTO `stock` VALUES (52, 'WBABD53464P771274', 21, 0);
-INSERT INTO `stock` VALUES (53, 'WBAEP33412P992075', 23, 1);
-INSERT INTO `stock` VALUES (54, 'WBAVC93597K465705', 25, 0);
-INSERT INTO `stock` VALUES (55, 'WP0AB2A90AS594196', 13, 0);
-INSERT INTO `stock` VALUES (56, 'WVGAV7AX6FW296220', 9, 0);
+INSERT INTO `stock` VALUES (1, 7, 0);
+INSERT INTO `stock` VALUES (2, 22, 0);
+INSERT INTO `stock` VALUES (3, 26, 1);
+INSERT INTO `stock` VALUES (4, 22, 0);
+INSERT INTO `stock` VALUES (5, 20, 1);
+INSERT INTO `stock` VALUES (6, 10, 0);
+INSERT INTO `stock` VALUES (7, 7, 0);
+INSERT INTO `stock` VALUES (8, 21, 0);
+INSERT INTO `stock` VALUES (9, 20, 0);
+INSERT INTO `stock` VALUES (10, 13, 0);
+INSERT INTO `stock` VALUES (11, 19, 1);
+INSERT INTO `stock` VALUES (12, 11, 0);
+INSERT INTO `stock` VALUES (13, 11, 0);
+INSERT INTO `stock` VALUES (14, 7, 0);
+INSERT INTO `stock` VALUES (15, 13, 0);
+INSERT INTO `stock` VALUES (16, 19, 0);
+INSERT INTO `stock` VALUES (17, 28, 1);
+INSERT INTO `stock` VALUES (18, 9, 0);
+INSERT INTO `stock` VALUES (19, 18, 0);
+INSERT INTO `stock` VALUES (20, 19, 0);
+INSERT INTO `stock` VALUES (21, 17, 0);
+INSERT INTO `stock` VALUES (22, 18, 0);
+INSERT INTO `stock` VALUES (23, 10, 0);
+INSERT INTO `stock` VALUES (24, 16, 0);
+INSERT INTO `stock` VALUES (25, 28, 0);
+INSERT INTO `stock` VALUES (26, 21, 0);
+INSERT INTO `stock` VALUES (27, 10, 0);
+INSERT INTO `stock` VALUES (28, 21, 0);
+INSERT INTO `stock` VALUES (29, 13, 0);
+INSERT INTO `stock` VALUES (30, 21, 0);
+INSERT INTO `stock` VALUES (31, 28, 0);
+INSERT INTO `stock` VALUES (32, 9, 0);
+INSERT INTO `stock` VALUES (33, 28, 0);
+INSERT INTO `stock` VALUES (34, 17, 0);
+INSERT INTO `stock` VALUES (35, 12, 0);
+INSERT INTO `stock` VALUES (36, 26, 1);
+INSERT INTO `stock` VALUES (37, 12, 0);
+INSERT INTO `stock` VALUES (38, 18, 0);
+INSERT INTO `stock` VALUES (39, 26, 1);
+INSERT INTO `stock` VALUES (40, 28, 0);
+INSERT INTO `stock` VALUES (41, 17, 0);
+INSERT INTO `stock` VALUES (42, 7, 0);
+INSERT INTO `stock` VALUES (43, 16, 0);
+INSERT INTO `stock` VALUES (44, 16, 0);
+INSERT INTO `stock` VALUES (45, 9, 0);
+INSERT INTO `stock` VALUES (46, 23, 1);
+INSERT INTO `stock` VALUES (47, 9, 0);
+INSERT INTO `stock` VALUES (48, 17, 0);
+INSERT INTO `stock` VALUES (49, 8, 0);
+INSERT INTO `stock` VALUES (50, 28, 0);
+INSERT INTO `stock` VALUES (51, 20, 0);
+INSERT INTO `stock` VALUES (52, 21, 0);
+INSERT INTO `stock` VALUES (53, 23, 1);
+INSERT INTO `stock` VALUES (54, 25, 0);
+INSERT INTO `stock` VALUES (55, 13, 0);
+INSERT INTO `stock` VALUES (56, 9, 0);
+INSERT INTO `stock` VALUES (57, 39, 0);
+INSERT INTO `stock` VALUES (58, 39, 0);
+INSERT INTO `stock` VALUES (59, 39, 0);
+INSERT INTO `stock` VALUES (60, 39, 0);
+INSERT INTO `stock` VALUES (61, 39, 0);
+INSERT INTO `stock` VALUES (62, 39, 0);
+INSERT INTO `stock` VALUES (63, 38, 1);
+INSERT INTO `stock` VALUES (64, 38, 0);
+INSERT INTO `stock` VALUES (65, 38, 0);
+INSERT INTO `stock` VALUES (66, 38, 0);
+INSERT INTO `stock` VALUES (67, 38, 0);
+INSERT INTO `stock` VALUES (68, 38, 0);
+INSERT INTO `stock` VALUES (69, 38, 0);
+INSERT INTO `stock` VALUES (70, 38, 0);
+INSERT INTO `stock` VALUES (71, 38, 0);
+INSERT INTO `stock` VALUES (72, 38, 0);
+INSERT INTO `stock` VALUES (73, 38, 0);
+INSERT INTO `stock` VALUES (74, 38, 0);
+INSERT INTO `stock` VALUES (75, 38, 0);
+INSERT INTO `stock` VALUES (76, 38, 0);
+INSERT INTO `stock` VALUES (77, 38, 0);
+INSERT INTO `stock` VALUES (78, 38, 0);
+INSERT INTO `stock` VALUES (79, 38, 0);
+INSERT INTO `stock` VALUES (80, 38, 0);
+INSERT INTO `stock` VALUES (81, 38, 0);
+INSERT INTO `stock` VALUES (82, 38, 0);
+INSERT INTO `stock` VALUES (83, 38, 0);
+INSERT INTO `stock` VALUES (84, 36, 0);
+INSERT INTO `stock` VALUES (85, 36, 0);
+INSERT INTO `stock` VALUES (86, 36, 0);
+INSERT INTO `stock` VALUES (87, 36, 0);
+INSERT INTO `stock` VALUES (88, 36, 0);
+INSERT INTO `stock` VALUES (89, 35, 0);
+INSERT INTO `stock` VALUES (90, 35, 0);
+INSERT INTO `stock` VALUES (91, 35, 0);
+INSERT INTO `stock` VALUES (92, 35, 0);
+INSERT INTO `stock` VALUES (93, 35, 0);
+INSERT INTO `stock` VALUES (94, 35, 0);
+INSERT INTO `stock` VALUES (95, 34, 0);
+INSERT INTO `stock` VALUES (96, 33, 0);
+INSERT INTO `stock` VALUES (103, 32, 0);
 
 -- ----------------------------
 -- Table structure for users
@@ -603,6 +662,7 @@ CREATE TABLE `users`  (
   `secret` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `default_payment_method` int(11) NULL DEFAULT NULL,
   `default_shipping_address` int(11) NULL DEFAULT NULL,
+  `created_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `users_email_uindex`(`email`) USING BTREE,
   INDEX `FK_users_payment_methods`(`default_payment_method`) USING BTREE,
@@ -614,109 +674,109 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (9, 'Gabor', 'Galazzo', 'gabor.galazzo@gmail.com', 8866424, '$2y$12$bj5wurPlxQnTB4EojGM4febvXNiywv040h28vpSoCORrI0.x903w6', 1, 1);
-INSERT INTO `users` VALUES (11, 'Gabor', 'Galazzo', 'gaborando@live.it', 4393958, '$2y$12$oHUwQ.YZYQorATYaMvIDYORGyxJE5yQPTucDbmexOXZiIQAg3gHYy', NULL, NULL);
-INSERT INTO `users` VALUES (12, 'Michela', 'Galazzo', 'michelagalazzo@icloud.com', 2196061, '$2y$12$OWx3dhFC/fnV/RZB2ftGcOurN1agSNJ2gTPGCwZ2s3ejaeNoAl6d2', NULL, NULL);
-INSERT INTO `users` VALUES (14, 'Mario', 'Galazzo', 'mariogalazzo@libero.it', 4130327, '$2y$12$0ulOIDL0sLXQWZtcvn/eU.0l8epRlsejZMZuUgR06C.cPRAlP7uyu', NULL, NULL);
-INSERT INTO `users` VALUES (15, 'Kaycee', 'Mendenhall', 'kmendenhall0@symantec.com', 4482847, '318a45920a7013344896d01eab384dff8a9b76e0', NULL, NULL);
-INSERT INTO `users` VALUES (16, 'Derrek', 'Caitlin', 'dcaitlin1@odnoklassniki.ru', 2308963, '2bf08d7402cd6f6966bdbfdb43a6eeb5569275f7', NULL, NULL);
-INSERT INTO `users` VALUES (17, 'Winslow', 'Renzullo', 'wrenzullo2@sohu.com', 5685668, 'ea14f13161b744c140b7322d5cfdc7850da8eacc', NULL, NULL);
-INSERT INTO `users` VALUES (18, 'Cchaddie', 'Losano', 'closano3@gov.uk', 4650503, 'b79100ee7ecb5e1a3025aa3b36d200d5abe97fc7', NULL, NULL);
-INSERT INTO `users` VALUES (19, 'Glory', 'Jowett', 'gjowett4@japanpost.jp', 5800603, '19d3e5453885658c8060ae2cfa22791c5702743a', NULL, NULL);
-INSERT INTO `users` VALUES (20, 'Celie', 'Closs', 'ccloss5@techcrunch.com', 4768633, '4b2e1d795568d060a13f19c8530028da9bb33d16', NULL, NULL);
-INSERT INTO `users` VALUES (21, 'Cordula', 'Caldaro', 'ccaldaro6@feedburner.com', 6332601, '4bfa8cd73038b1c164ab7ce2361e2917cbf1ef35', NULL, NULL);
-INSERT INTO `users` VALUES (22, 'Ryan', 'Whitcomb', 'rwhitcomb7@techcrunch.com', 2344315, 'a8b12e5f5d962e290aaaf2bd03684fe21a2fadf2', NULL, NULL);
-INSERT INTO `users` VALUES (23, 'Gus', 'Ortells', 'gortells8@oaic.gov.au', 1208066, 'e8dcd1d3704418fb66bcb5dd7a2efeda9ff0e500', NULL, NULL);
-INSERT INTO `users` VALUES (24, 'Sterne', 'Kittles', 'skittles9@nymag.com', 2406737, '725e9686c34754eda1406e18b47e59ea3bc00f37', NULL, NULL);
-INSERT INTO `users` VALUES (25, 'Harman', 'Battersby', 'hbattersbya@mediafire.com', 9806927, '72c98bf151c588b62b0cd3c2409bacc4425bcf96', NULL, NULL);
-INSERT INTO `users` VALUES (26, 'Serene', 'McGarvie', 'smcgarvieb@wunderground.com', 3642151, '023bdbe616e3e44b75294b0a1bbfafc1f9bb2ef9', NULL, NULL);
-INSERT INTO `users` VALUES (27, 'Francisco', 'Conisbee', 'fconisbeec@go.com', 4396988, '211f79a2fc6f190a0d9d225a38e7876c4d58fb7f', NULL, NULL);
-INSERT INTO `users` VALUES (28, 'Ettore', 'Madill', 'emadilld@domainmarket.com', 9189506, '9ea2e984499a6f56245a752fa703ba7d819d7653', NULL, NULL);
-INSERT INTO `users` VALUES (29, 'Mohammed', 'Gallamore', 'mgallamoree@ifeng.com', 1549089, '5cb7b4a8840e03d0bf4708b9a5e43735fd6b8b3e', NULL, NULL);
-INSERT INTO `users` VALUES (30, 'Annemarie', 'Lambird', 'alambirdf@trellian.com', 2100015, 'd021b985893de0b23c9fd735e744e1bb34a56e24', NULL, NULL);
-INSERT INTO `users` VALUES (31, 'Jens', 'Milmoe', 'jmilmoeg@facebook.com', 4471837, 'c1ad8afbfdeaac950e570e6967a0f6b0dd61dc7a', NULL, NULL);
-INSERT INTO `users` VALUES (32, 'Larine', 'Sell', 'lsellh@cdbaby.com', 9455003, '8177de2ec5c0c001019924dd87750a12ad38a3f7', NULL, NULL);
-INSERT INTO `users` VALUES (33, 'Laurene', 'Denziloe', 'ldenziloei@163.com', 3743091, 'dce389656544c7d2e1a3de18ac99c88493da60ef', NULL, NULL);
-INSERT INTO `users` VALUES (34, 'Kelsy', 'Tickle', 'kticklej@flavors.me', 8117254, 'ca2a85fbb4956e2fa7ec5540e9d5a32ba844a6c3', NULL, NULL);
-INSERT INTO `users` VALUES (35, 'Gretchen', 'Borne', 'gbornek@fc2.com', 1876691, '362f9781697c3ce5063e091db1a0cc88665b2f22', NULL, NULL);
-INSERT INTO `users` VALUES (36, 'Michaeline', 'Kiraly', 'mkiralyl@ebay.com', 2495344, '98fd3233004db92f7ee92a62fa7c00b1ee89d590', NULL, NULL);
-INSERT INTO `users` VALUES (37, 'Natty', 'Sinclair', 'nsinclairm@e-recht24.de', 2394746, '06b7fb85885df4a5d7cf2fa7781bc58031028810', NULL, NULL);
-INSERT INTO `users` VALUES (38, 'Demott', 'Moth', 'dmothn@aol.com', 2669782, '31fb89437aea6ca1c7fd8240d5c058b3c24d7ec7', NULL, NULL);
-INSERT INTO `users` VALUES (39, 'Rosita', 'Hayton', 'rhaytono@icio.us', 9432003, '317b77e0790231ed053ae2331773e1bb38493ad3', NULL, NULL);
-INSERT INTO `users` VALUES (40, 'Julius', 'Oehme', 'joehmep@cloudflare.com', 9229565, '66ff3c5c36148eb8e8ec87b59aa61ca1822a5dd0', NULL, NULL);
-INSERT INTO `users` VALUES (41, 'Page', 'Martino', 'pmartinoq@posterous.com', 5399438, '5617cd22c2ff5e707331446052461a6f1371b89e', NULL, NULL);
-INSERT INTO `users` VALUES (42, 'Cicely', 'Sheahan', 'csheahanr@booking.com', 3666642, 'cc9d9d9fc6098bc56849cd54f2a59d980cbe9f04', NULL, NULL);
-INSERT INTO `users` VALUES (43, 'Inesita', 'Yakubov', 'iyakubovs@furl.net', 5720337, '51b04fc49a4899869569cf4856040070e563b951', NULL, NULL);
-INSERT INTO `users` VALUES (44, 'Pattie', 'Lindenblatt', 'plindenblattt@biglobe.ne.jp', 7426297, '9ff4c22b9dc1684993a2e867294f1b447803f4c1', NULL, NULL);
-INSERT INTO `users` VALUES (45, 'Nicolais', 'Gunn', 'ngunnu@ihg.com', 4281093, '7b1cab0341e0389a21c2b365af45c51c09d63850', NULL, NULL);
-INSERT INTO `users` VALUES (46, 'Hamish', 'Garrand', 'hgarrandv@t.co', 4543816, '3121578d3be03b12b03eda07b1e412b78bcc6b53', NULL, NULL);
-INSERT INTO `users` VALUES (47, 'Ariel', 'Sans', 'asansw@ed.gov', 1682101, '7ce1a68c892ec97aacdf5775e3de6aa2a508fbc4', NULL, NULL);
-INSERT INTO `users` VALUES (48, 'Vivienne', 'Shewan', 'vshewanx@homestead.com', 9326719, 'cd2ae77ca4200908615c4bb254833da9be205de8', NULL, NULL);
-INSERT INTO `users` VALUES (49, 'Shae', 'Spikins', 'sspikinsy@weebly.com', 1923726, '11652f3338c462b2556730f2a2c699c647d197fa', NULL, NULL);
-INSERT INTO `users` VALUES (50, 'Kellsie', 'McKeurton', 'kmckeurtonz@squidoo.com', 5970163, '88becb1ae8462f6347f93cd10391c5aaa777390b', NULL, NULL);
-INSERT INTO `users` VALUES (51, 'Elset', 'Pease', 'epease10@paginegialle.it', 8004599, '550df70c2592ec526de0630fc08a98072339049b', NULL, NULL);
-INSERT INTO `users` VALUES (52, 'Angel', 'Ennew', 'aennew11@xrea.com', 2325906, '183020607923fc35d82207a3d5764f804f75811e', NULL, NULL);
-INSERT INTO `users` VALUES (53, 'Oona', 'Brainsby', 'obrainsby12@cloudflare.com', 6498639, 'f77478cdf40691af33be28fa523c7024df454fd9', NULL, NULL);
-INSERT INTO `users` VALUES (54, 'Melania', 'Nieass', 'mnieass13@simplemachines.org', 4229187, 'beb05b712c1ef2a2f151068dc55456c32f3da48a', NULL, NULL);
-INSERT INTO `users` VALUES (55, 'Brett', 'Beavors', 'bbeavors14@sakura.ne.jp', 8933108, '5e26b57ec11633df0e00bbf0630c765e7559ef9f', NULL, NULL);
-INSERT INTO `users` VALUES (56, 'Gennifer', 'Auguste', 'gauguste15@hp.com', 3105136, '1a7831c9e09d4c130d73bb3dcecbf4af91c8b7fc', NULL, NULL);
-INSERT INTO `users` VALUES (57, 'Kally', 'Gobeau', 'kgobeau16@tuttocitta.it', 9120665, 'e8532bd51f623b32d578d0ef1a277037efabdd82', NULL, NULL);
-INSERT INTO `users` VALUES (58, 'Pollyanna', 'Danahar', 'pdanahar17@surveymonkey.com', 5572765, '36884150f77b0683bc7dafa709f4a46e6063c81f', NULL, NULL);
-INSERT INTO `users` VALUES (59, 'Drusilla', 'McIlory', 'dmcilory18@mac.com', 6815671, '3d8540f8b8f101e34a82f6f1b57fdd96e7fc5593', NULL, NULL);
-INSERT INTO `users` VALUES (60, 'Mikael', 'Carty', 'mcarty19@foxnews.com', 1673990, '625a6ca4501698a8c45a09c8f74f590eeebfc4e3', NULL, NULL);
-INSERT INTO `users` VALUES (61, 'Angelia', 'Humble', 'ahumble1a@vimeo.com', 3391140, '7b0ce0f326b28b57115da64784dbb5813010d2b7', NULL, NULL);
-INSERT INTO `users` VALUES (62, 'Malinde', 'Van Oord', 'mvanoord1b@mail.ru', 1647773, 'f8328f0f52703a2e3dab3269f5e2cc126f2d35ee', NULL, NULL);
-INSERT INTO `users` VALUES (63, 'Shalne', 'Heaviside', 'sheaviside1c@dailymotion.com', 2983351, 'e21133f86d1afa5a9afb7edd3c41502a5abb00c7', NULL, NULL);
-INSERT INTO `users` VALUES (64, 'Guntar', 'Cassimer', 'gcassimer1d@engadget.com', 5631115, 'c49e243588bab9b6db001f5adc71d7822527788e', NULL, NULL);
-INSERT INTO `users` VALUES (65, 'Junette', 'Plewright', 'jplewright1e@google.it', 2776537, '08c9c1e373cd70e9fcc0fd9476fb572fdb493662', NULL, NULL);
-INSERT INTO `users` VALUES (66, 'Vikky', 'Sibbons', 'vsibbons1f@amazonaws.com', 7632534, '4c2c34ae2fc7fa45a71ea6cb786478f8845037e0', NULL, NULL);
-INSERT INTO `users` VALUES (67, 'Orv', 'Siaspinski', 'osiaspinski1g@princeton.edu', 7027646, 'a1a4f75b30e396af63dffe08e8366825dbe0b1eb', NULL, NULL);
-INSERT INTO `users` VALUES (68, 'Garwin', 'Brands', 'gbrands1h@redcross.org', 6247348, 'eaf1f1b3e6acde56af405cd387767250591860f7', NULL, NULL);
-INSERT INTO `users` VALUES (69, 'Jannelle', 'Philler', 'jphiller1i@gmpg.org', 9111631, '199f4ac1a8304fb398afe2be2c4ae5c679bf7772', NULL, NULL);
-INSERT INTO `users` VALUES (70, 'Florinda', 'Deering', 'fdeering1j@ed.gov', 9573965, 'e51bfb02234fc5d2e70700b2356d997e129cf2a4', NULL, NULL);
-INSERT INTO `users` VALUES (71, 'Harris', 'Sidebottom', 'hsidebottom1k@live.com', 2187226, 'eada53ac410244b23b527f1100fe2a7e7ffa93a8', NULL, NULL);
-INSERT INTO `users` VALUES (72, 'Alric', 'Yele', 'ayele1l@who.int', 7569427, 'b9f92ec9e51c4cda48df0ee131699e654addeb65', NULL, NULL);
-INSERT INTO `users` VALUES (73, 'Gretal', 'Attyeo', 'gattyeo1m@nhs.uk', 5274778, 'ae9978e63520c8c8079d5ea2eddf2dcb106bf901', NULL, NULL);
-INSERT INTO `users` VALUES (74, 'Amie', 'Goldes', 'agoldes1n@miibeian.gov.cn', 4186126, 'cffc7ed376b7e7968187ba05a98440fb18c984d4', NULL, NULL);
-INSERT INTO `users` VALUES (75, 'Maximilianus', 'Thomelin', 'mthomelin1o@wikipedia.org', 2800749, 'ecc05b1e3f4ea03f90bb16684734a0d50095ad3a', NULL, NULL);
-INSERT INTO `users` VALUES (76, 'Coreen', 'Stapele', 'cstapele1p@slate.com', 2325521, 'a90f2ea1a90da7d609d7cbf9635b016c7cb7b473', NULL, NULL);
-INSERT INTO `users` VALUES (77, 'Rudd', 'Luc', 'rluc1q@mlb.com', 1769580, '0d08270568e3f20a7def808a7a34e06a7f6dd96d', NULL, NULL);
-INSERT INTO `users` VALUES (78, 'Chrissie', 'Roser', 'croser1r@columbia.edu', 2154436, '89dbef0512a847bdc072fd788ee0c10ab8353830', NULL, NULL);
-INSERT INTO `users` VALUES (79, 'Janeva', 'Czaple', 'jczaple1s@csmonitor.com', 8277396, '6593b42702333952a46293470dd5555d3c643b7b', NULL, NULL);
-INSERT INTO `users` VALUES (80, 'Marrilee', 'Abbado', 'mabbado1t@tripod.com', 5088814, '8c8dd0c8642a189cbafece313c02070794a16205', NULL, NULL);
-INSERT INTO `users` VALUES (81, 'Corenda', 'Derisley', 'cderisley1u@bloglines.com', 1531475, '62407c53cdcadf788590f65d406b483110f946ab', NULL, NULL);
-INSERT INTO `users` VALUES (82, 'Shaina', 'Held', 'sheld1v@java.com', 5821488, 'bc5981e90b42c7a5edd61dd18803500943c94b42', NULL, NULL);
-INSERT INTO `users` VALUES (83, 'Issiah', 'Stienham', 'istienham1w@freewebs.com', 8187872, '0059eba2769b4b4a200ab661ff59d54754513130', NULL, NULL);
-INSERT INTO `users` VALUES (84, 'Ewen', 'Eastop', 'eeastop1x@army.mil', 4664049, '05ba7067c39a3a2a66aefe3e963bf467a9b0b0cd', NULL, NULL);
-INSERT INTO `users` VALUES (85, 'Brian', 'Catterill', 'bcatterill1y@marriott.com', 9556340, 'e6ba459424444323f2eb82bcf6c943b3ce29604b', NULL, NULL);
-INSERT INTO `users` VALUES (86, 'Terry', 'Ziemsen', 'tziemsen1z@thetimes.co.uk', 8830146, '7c760a640621f3f9e85955a494203f89f11bd0e9', NULL, NULL);
-INSERT INTO `users` VALUES (87, 'Donall', 'Hendrik', 'dhendrik20@un.org', 5510874, '8f402e6ddb04a742c71396f787deadbcd2e37d2a', NULL, NULL);
-INSERT INTO `users` VALUES (88, 'Vick', 'Tyrrell', 'vtyrrell21@hao123.com', 2334018, '3008661a58df05e186c79268065dda003d9af880', NULL, NULL);
-INSERT INTO `users` VALUES (89, 'Alexia', 'Durrance', 'adurrance22@comsenz.com', 1785250, '53281e04766e67d3c70b3531c48c00ad3f82cf63', NULL, NULL);
-INSERT INTO `users` VALUES (90, 'Farah', 'Andrieux', 'fandrieux23@woothemes.com', 2308429, '39ece9313e09b19eff5556ad0b5b2c2c3d562105', NULL, NULL);
-INSERT INTO `users` VALUES (91, 'Priscella', 'Stanlick', 'pstanlick24@kickstarter.com', 2455110, '78519209cd858944194b0b9f7a482d887253675c', NULL, NULL);
-INSERT INTO `users` VALUES (92, 'Mill', 'Everleigh', 'meverleigh25@irs.gov', 7977652, 'c54cee82172701b339bc431d974e22b67e4f8237', NULL, NULL);
-INSERT INTO `users` VALUES (93, 'Saundra', 'Koeppe', 'skoeppe26@dropbox.com', 9892485, 'bf4acc2a4609e22082262e09fe65eab18e2660e1', NULL, NULL);
-INSERT INTO `users` VALUES (94, 'Donnie', 'Knowlman', 'dknowlman27@fda.gov', 2175951, 'a774c98ecee4375f773bb7c01abd84d71175bff5', NULL, NULL);
-INSERT INTO `users` VALUES (95, 'Annamarie', 'Elman', 'aelman28@reddit.com', 3182765, 'e0be533e0f831f56cbe262c4e6976819aad742c2', NULL, NULL);
-INSERT INTO `users` VALUES (96, 'Kris', 'Gregol', 'kgregol29@wunderground.com', 7432251, '2eab464716e13c4c36b535010561fb25f0e52643', NULL, NULL);
-INSERT INTO `users` VALUES (97, 'Jodi', 'Tassel', 'jtassel2a@indiatimes.com', 5798228, 'd95ba45e91c58320b455cbd76b6396e64aa29bfd', NULL, NULL);
-INSERT INTO `users` VALUES (98, 'Karlik', 'Kettlesting', 'kkettlesting2b@uiuc.edu', 3488696, '24b62189c2c4cefb46ff09cc1bb928ef719254ec', NULL, NULL);
-INSERT INTO `users` VALUES (99, 'Haydon', 'Brandone', 'hbrandone2c@shinystat.com', 9844953, '26aca81f01c4b7c6176d5a3921ac22dda1cb9653', NULL, NULL);
-INSERT INTO `users` VALUES (100, 'Rozella', 'Ford', 'rford2d@seattletimes.com', 2941584, 'b43b120240175495ac1e68393aa4f6c1de51b6d1', NULL, NULL);
-INSERT INTO `users` VALUES (101, 'Sharyl', 'McGeachie', 'smcgeachie2e@opera.com', 8566119, 'a6e7d1427a019ca28bf08def97bbc67a4b8871cf', NULL, NULL);
-INSERT INTO `users` VALUES (102, 'Gerick', 'Annice', 'gannice2f@eepurl.com', 9096106, '2f8a38dcafb63aa95d7046b18c73d4815f3048b3', NULL, NULL);
-INSERT INTO `users` VALUES (103, 'Ronnie', 'Lindenstrauss', 'rlindenstrauss2g@blog.com', 3340187, 'ab48feaefef60ea433571f9919e5f0304111210c', NULL, NULL);
-INSERT INTO `users` VALUES (104, 'Georgette', 'Bosanko', 'gbosanko2h@163.com', 9130314, '7609830ea89d49cb2975d6b5188db751da60baa3', NULL, NULL);
-INSERT INTO `users` VALUES (105, 'Josi', 'Gounel', 'jgounel2i@google.pl', 6964126, '273f5200c1d92f34a4eb13f9ba9a7603197704ba', NULL, NULL);
-INSERT INTO `users` VALUES (106, 'Maury', 'Sellner', 'msellner2j@cdc.gov', 8525892, '081fca041b25452eea5de48a8a4bae956b8b3e25', NULL, NULL);
-INSERT INTO `users` VALUES (107, 'Jeramey', 'Folkerts', 'jfolkerts2k@yale.edu', 4482440, 'fc076d0148203a16176e2e90f42d780e68893c6c', NULL, NULL);
-INSERT INTO `users` VALUES (108, 'Orion', 'Pettengell', 'opettengell2l@stumbleupon.com', 1012557, '0c2aeecb284cf6036ae6ed185dcf08ecb36d1aed', NULL, NULL);
-INSERT INTO `users` VALUES (109, 'Bevin', 'Spatig', 'bspatig2m@adobe.com', 1898118, '97daad6e6926e1f175d7c04897badecc577bfc58', NULL, NULL);
-INSERT INTO `users` VALUES (110, 'Stephine', 'Gammons', 'sgammons2n@multiply.com', 2185462, '9508af83f97222ed3370e88cac72fb31d8775c5e', NULL, NULL);
-INSERT INTO `users` VALUES (111, 'Michaelina', 'Cartan', 'mcartan2o@ycombinator.com', 5201914, '3d39fed9012c21e4546d29e033499cd0da7e4413', NULL, NULL);
-INSERT INTO `users` VALUES (112, 'Hamlin', 'Polglaze', 'hpolglaze2p@answers.com', 3864838, '1eee93d2e5f2e5df35991c917e924d2e28a58ac5', NULL, NULL);
-INSERT INTO `users` VALUES (113, 'Lorenzo', 'Pyle', 'lpyle2q@mashable.com', 1346957, 'ee688a4732eeb618ccfc937afafdefc42b907c4b', NULL, NULL);
-INSERT INTO `users` VALUES (114, 'Linnea', 'Sear', 'lsear2r@weibo.com', 8714392, 'f71ab65b7e03c506a7ee33fa22f99e7b13629928', NULL, NULL);
+INSERT INTO `users` VALUES (9, 'Gabor', 'Galazzo', 'gabor.galazzo@gmail.com', 8866424, '$2y$12$bj5wurPlxQnTB4EojGM4febvXNiywv040h28vpSoCORrI0.x903w6', 2, 2, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (11, 'Gabor', 'Galazzo', 'gaborando@live.it', 4393958, '$2y$12$oHUwQ.YZYQorATYaMvIDYORGyxJE5yQPTucDbmexOXZiIQAg3gHYy', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (12, 'Michela', 'Galazzo', 'michelagalazzo@icloud.com', 2196061, '$2y$12$OWx3dhFC/fnV/RZB2ftGcOurN1agSNJ2gTPGCwZ2s3ejaeNoAl6d2', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (14, 'Mario', 'Galazzo', 'mariogalazzo@libero.it', 4130327, '$2y$12$0ulOIDL0sLXQWZtcvn/eU.0l8epRlsejZMZuUgR06C.cPRAlP7uyu', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (15, 'Kaycee', 'Mendenhall', 'kmendenhall0@symantec.com', 4482847, '318a45920a7013344896d01eab384dff8a9b76e0', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (16, 'Derrek', 'Caitlin', 'dcaitlin1@odnoklassniki.ru', 2308963, '2bf08d7402cd6f6966bdbfdb43a6eeb5569275f7', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (17, 'Winslow', 'Renzullo', 'wrenzullo2@sohu.com', 5685668, 'ea14f13161b744c140b7322d5cfdc7850da8eacc', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (18, 'Cchaddie', 'Losano', 'closano3@gov.uk', 4650503, 'b79100ee7ecb5e1a3025aa3b36d200d5abe97fc7', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (19, 'Glory', 'Jowett', 'gjowett4@japanpost.jp', 5800603, '19d3e5453885658c8060ae2cfa22791c5702743a', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (20, 'Celie', 'Closs', 'ccloss5@techcrunch.com', 4768633, '4b2e1d795568d060a13f19c8530028da9bb33d16', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (21, 'Cordula', 'Caldaro', 'ccaldaro6@feedburner.com', 6332601, '4bfa8cd73038b1c164ab7ce2361e2917cbf1ef35', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (22, 'Ryan', 'Whitcomb', 'rwhitcomb7@techcrunch.com', 2344315, 'a8b12e5f5d962e290aaaf2bd03684fe21a2fadf2', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (23, 'Gus', 'Ortells', 'gortells8@oaic.gov.au', 1208066, 'e8dcd1d3704418fb66bcb5dd7a2efeda9ff0e500', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (24, 'Sterne', 'Kittles', 'skittles9@nymag.com', 2406737, '725e9686c34754eda1406e18b47e59ea3bc00f37', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (25, 'Harman', 'Battersby', 'hbattersbya@mediafire.com', 9806927, '72c98bf151c588b62b0cd3c2409bacc4425bcf96', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (26, 'Serene', 'McGarvie', 'smcgarvieb@wunderground.com', 3642151, '023bdbe616e3e44b75294b0a1bbfafc1f9bb2ef9', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (27, 'Francisco', 'Conisbee', 'fconisbeec@go.com', 4396988, '211f79a2fc6f190a0d9d225a38e7876c4d58fb7f', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (28, 'Ettore', 'Madill', 'emadilld@domainmarket.com', 9189506, '9ea2e984499a6f56245a752fa703ba7d819d7653', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (29, 'Mohammed', 'Gallamore', 'mgallamoree@ifeng.com', 1549089, '5cb7b4a8840e03d0bf4708b9a5e43735fd6b8b3e', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (30, 'Annemarie', 'Lambird', 'alambirdf@trellian.com', 2100015, 'd021b985893de0b23c9fd735e744e1bb34a56e24', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (31, 'Jens', 'Milmoe', 'jmilmoeg@facebook.com', 4471837, 'c1ad8afbfdeaac950e570e6967a0f6b0dd61dc7a', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (32, 'Larine', 'Sell', 'lsellh@cdbaby.com', 9455003, '8177de2ec5c0c001019924dd87750a12ad38a3f7', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (33, 'Laurene', 'Denziloe', 'ldenziloei@163.com', 3743091, 'dce389656544c7d2e1a3de18ac99c88493da60ef', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (34, 'Kelsy', 'Tickle', 'kticklej@flavors.me', 8117254, 'ca2a85fbb4956e2fa7ec5540e9d5a32ba844a6c3', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (35, 'Gretchen', 'Borne', 'gbornek@fc2.com', 1876691, '362f9781697c3ce5063e091db1a0cc88665b2f22', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (36, 'Michaeline', 'Kiraly', 'mkiralyl@ebay.com', 2495344, '98fd3233004db92f7ee92a62fa7c00b1ee89d590', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (37, 'Natty', 'Sinclair', 'nsinclairm@e-recht24.de', 2394746, '06b7fb85885df4a5d7cf2fa7781bc58031028810', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (38, 'Demott', 'Moth', 'dmothn@aol.com', 2669782, '31fb89437aea6ca1c7fd8240d5c058b3c24d7ec7', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (39, 'Rosita', 'Hayton', 'rhaytono@icio.us', 9432003, '317b77e0790231ed053ae2331773e1bb38493ad3', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (40, 'Julius', 'Oehme', 'joehmep@cloudflare.com', 9229565, '66ff3c5c36148eb8e8ec87b59aa61ca1822a5dd0', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (41, 'Page', 'Martino', 'pmartinoq@posterous.com', 5399438, '5617cd22c2ff5e707331446052461a6f1371b89e', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (42, 'Cicely', 'Sheahan', 'csheahanr@booking.com', 3666642, 'cc9d9d9fc6098bc56849cd54f2a59d980cbe9f04', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (43, 'Inesita', 'Yakubov', 'iyakubovs@furl.net', 5720337, '51b04fc49a4899869569cf4856040070e563b951', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (44, 'Pattie', 'Lindenblatt', 'plindenblattt@biglobe.ne.jp', 7426297, '9ff4c22b9dc1684993a2e867294f1b447803f4c1', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (45, 'Nicolais', 'Gunn', 'ngunnu@ihg.com', 4281093, '7b1cab0341e0389a21c2b365af45c51c09d63850', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (46, 'Hamish', 'Garrand', 'hgarrandv@t.co', 4543816, '3121578d3be03b12b03eda07b1e412b78bcc6b53', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (47, 'Ariel', 'Sans', 'asansw@ed.gov', 1682101, '7ce1a68c892ec97aacdf5775e3de6aa2a508fbc4', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (48, 'Vivienne', 'Shewan', 'vshewanx@homestead.com', 9326719, 'cd2ae77ca4200908615c4bb254833da9be205de8', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (49, 'Shae', 'Spikins', 'sspikinsy@weebly.com', 1923726, '11652f3338c462b2556730f2a2c699c647d197fa', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (50, 'Kellsie', 'McKeurton', 'kmckeurtonz@squidoo.com', 5970163, '88becb1ae8462f6347f93cd10391c5aaa777390b', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (51, 'Elset', 'Pease', 'epease10@paginegialle.it', 8004599, '550df70c2592ec526de0630fc08a98072339049b', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (52, 'Angel', 'Ennew', 'aennew11@xrea.com', 2325906, '183020607923fc35d82207a3d5764f804f75811e', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (53, 'Oona', 'Brainsby', 'obrainsby12@cloudflare.com', 6498639, 'f77478cdf40691af33be28fa523c7024df454fd9', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (54, 'Melania', 'Nieass', 'mnieass13@simplemachines.org', 4229187, 'beb05b712c1ef2a2f151068dc55456c32f3da48a', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (55, 'Brett', 'Beavors', 'bbeavors14@sakura.ne.jp', 8933108, '5e26b57ec11633df0e00bbf0630c765e7559ef9f', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (56, 'Gennifer', 'Auguste', 'gauguste15@hp.com', 3105136, '1a7831c9e09d4c130d73bb3dcecbf4af91c8b7fc', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (57, 'Kally', 'Gobeau', 'kgobeau16@tuttocitta.it', 9120665, 'e8532bd51f623b32d578d0ef1a277037efabdd82', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (58, 'Pollyanna', 'Danahar', 'pdanahar17@surveymonkey.com', 5572765, '36884150f77b0683bc7dafa709f4a46e6063c81f', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (59, 'Drusilla', 'McIlory', 'dmcilory18@mac.com', 6815671, '3d8540f8b8f101e34a82f6f1b57fdd96e7fc5593', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (60, 'Mikael', 'Carty', 'mcarty19@foxnews.com', 1673990, '625a6ca4501698a8c45a09c8f74f590eeebfc4e3', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (61, 'Angelia', 'Humble', 'ahumble1a@vimeo.com', 3391140, '7b0ce0f326b28b57115da64784dbb5813010d2b7', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (62, 'Malinde', 'Van Oord', 'mvanoord1b@mail.ru', 1647773, 'f8328f0f52703a2e3dab3269f5e2cc126f2d35ee', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (63, 'Shalne', 'Heaviside', 'sheaviside1c@dailymotion.com', 2983351, 'e21133f86d1afa5a9afb7edd3c41502a5abb00c7', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (64, 'Guntar', 'Cassimer', 'gcassimer1d@engadget.com', 5631115, 'c49e243588bab9b6db001f5adc71d7822527788e', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (65, 'Junette', 'Plewright', 'jplewright1e@google.it', 2776537, '08c9c1e373cd70e9fcc0fd9476fb572fdb493662', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (66, 'Vikky', 'Sibbons', 'vsibbons1f@amazonaws.com', 7632534, '4c2c34ae2fc7fa45a71ea6cb786478f8845037e0', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (67, 'Orv', 'Siaspinski', 'osiaspinski1g@princeton.edu', 7027646, 'a1a4f75b30e396af63dffe08e8366825dbe0b1eb', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (68, 'Garwin', 'Brands', 'gbrands1h@redcross.org', 6247348, 'eaf1f1b3e6acde56af405cd387767250591860f7', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (69, 'Jannelle', 'Philler', 'jphiller1i@gmpg.org', 9111631, '199f4ac1a8304fb398afe2be2c4ae5c679bf7772', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (70, 'Florinda', 'Deering', 'fdeering1j@ed.gov', 9573965, 'e51bfb02234fc5d2e70700b2356d997e129cf2a4', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (71, 'Harris', 'Sidebottom', 'hsidebottom1k@live.com', 2187226, 'eada53ac410244b23b527f1100fe2a7e7ffa93a8', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (72, 'Alric', 'Yele', 'ayele1l@who.int', 7569427, 'b9f92ec9e51c4cda48df0ee131699e654addeb65', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (73, 'Gretal', 'Attyeo', 'gattyeo1m@nhs.uk', 5274778, 'ae9978e63520c8c8079d5ea2eddf2dcb106bf901', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (74, 'Amie', 'Goldes', 'agoldes1n@miibeian.gov.cn', 4186126, 'cffc7ed376b7e7968187ba05a98440fb18c984d4', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (75, 'Maximilianus', 'Thomelin', 'mthomelin1o@wikipedia.org', 2800749, 'ecc05b1e3f4ea03f90bb16684734a0d50095ad3a', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (76, 'Coreen', 'Stapele', 'cstapele1p@slate.com', 2325521, 'a90f2ea1a90da7d609d7cbf9635b016c7cb7b473', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (77, 'Rudd', 'Luc', 'rluc1q@mlb.com', 1769580, '0d08270568e3f20a7def808a7a34e06a7f6dd96d', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (78, 'Chrissie', 'Roser', 'croser1r@columbia.edu', 2154436, '89dbef0512a847bdc072fd788ee0c10ab8353830', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (79, 'Janeva', 'Czaple', 'jczaple1s@csmonitor.com', 8277396, '6593b42702333952a46293470dd5555d3c643b7b', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (80, 'Marrilee', 'Abbado', 'mabbado1t@tripod.com', 5088814, '8c8dd0c8642a189cbafece313c02070794a16205', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (81, 'Corenda', 'Derisley', 'cderisley1u@bloglines.com', 1531475, '62407c53cdcadf788590f65d406b483110f946ab', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (82, 'Shaina', 'Held', 'sheld1v@java.com', 5821488, 'bc5981e90b42c7a5edd61dd18803500943c94b42', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (83, 'Issiah', 'Stienham', 'istienham1w@freewebs.com', 8187872, '0059eba2769b4b4a200ab661ff59d54754513130', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (84, 'Ewen', 'Eastop', 'eeastop1x@army.mil', 4664049, '05ba7067c39a3a2a66aefe3e963bf467a9b0b0cd', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (85, 'Brian', 'Catterill', 'bcatterill1y@marriott.com', 9556340, 'e6ba459424444323f2eb82bcf6c943b3ce29604b', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (86, 'Terry', 'Ziemsen', 'tziemsen1z@thetimes.co.uk', 8830146, '7c760a640621f3f9e85955a494203f89f11bd0e9', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (87, 'Donall', 'Hendrik', 'dhendrik20@un.org', 5510874, '8f402e6ddb04a742c71396f787deadbcd2e37d2a', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (88, 'Vick', 'Tyrrell', 'vtyrrell21@hao123.com', 2334018, '3008661a58df05e186c79268065dda003d9af880', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (89, 'Alexia', 'Durrance', 'adurrance22@comsenz.com', 1785250, '53281e04766e67d3c70b3531c48c00ad3f82cf63', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (90, 'Farah', 'Andrieux', 'fandrieux23@woothemes.com', 2308429, '39ece9313e09b19eff5556ad0b5b2c2c3d562105', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (91, 'Priscella', 'Stanlick', 'pstanlick24@kickstarter.com', 2455110, '78519209cd858944194b0b9f7a482d887253675c', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (92, 'Mill', 'Everleigh', 'meverleigh25@irs.gov', 7977652, 'c54cee82172701b339bc431d974e22b67e4f8237', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (93, 'Saundra', 'Koeppe', 'skoeppe26@dropbox.com', 9892485, 'bf4acc2a4609e22082262e09fe65eab18e2660e1', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (94, 'Donnie', 'Knowlman', 'dknowlman27@fda.gov', 2175951, 'a774c98ecee4375f773bb7c01abd84d71175bff5', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (95, 'Annamarie', 'Elman', 'aelman28@reddit.com', 3182765, 'e0be533e0f831f56cbe262c4e6976819aad742c2', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (96, 'Kris', 'Gregol', 'kgregol29@wunderground.com', 7432251, '2eab464716e13c4c36b535010561fb25f0e52643', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (97, 'Jodi', 'Tassel', 'jtassel2a@indiatimes.com', 5798228, 'd95ba45e91c58320b455cbd76b6396e64aa29bfd', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (98, 'Karlik', 'Kettlesting', 'kkettlesting2b@uiuc.edu', 3488696, '24b62189c2c4cefb46ff09cc1bb928ef719254ec', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (99, 'Haydon', 'Brandone', 'hbrandone2c@shinystat.com', 9844953, '26aca81f01c4b7c6176d5a3921ac22dda1cb9653', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (100, 'Rozella', 'Ford', 'rford2d@seattletimes.com', 2941584, 'b43b120240175495ac1e68393aa4f6c1de51b6d1', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (101, 'Sharyl', 'McGeachie', 'smcgeachie2e@opera.com', 8566119, 'a6e7d1427a019ca28bf08def97bbc67a4b8871cf', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (102, 'Gerick', 'Annice', 'gannice2f@eepurl.com', 9096106, '2f8a38dcafb63aa95d7046b18c73d4815f3048b3', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (103, 'Ronnie', 'Lindenstrauss', 'rlindenstrauss2g@blog.com', 3340187, 'ab48feaefef60ea433571f9919e5f0304111210c', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (104, 'Georgette', 'Bosanko', 'gbosanko2h@163.com', 9130314, '7609830ea89d49cb2975d6b5188db751da60baa3', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (105, 'Josi', 'Gounel', 'jgounel2i@google.pl', 6964126, '273f5200c1d92f34a4eb13f9ba9a7603197704ba', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (106, 'Maury', 'Sellner', 'msellner2j@cdc.gov', 8525892, '081fca041b25452eea5de48a8a4bae956b8b3e25', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (107, 'Jeramey', 'Folkerts', 'jfolkerts2k@yale.edu', 4482440, 'fc076d0148203a16176e2e90f42d780e68893c6c', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (108, 'Orion', 'Pettengell', 'opettengell2l@stumbleupon.com', 1012557, '0c2aeecb284cf6036ae6ed185dcf08ecb36d1aed', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (109, 'Bevin', 'Spatig', 'bspatig2m@adobe.com', 1898118, '97daad6e6926e1f175d7c04897badecc577bfc58', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (110, 'Stephine', 'Gammons', 'sgammons2n@multiply.com', 2185462, '9508af83f97222ed3370e88cac72fb31d8775c5e', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (111, 'Michaelina', 'Cartan', 'mcartan2o@ycombinator.com', 5201914, '3d39fed9012c21e4546d29e033499cd0da7e4413', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (112, 'Hamlin', 'Polglaze', 'hpolglaze2p@answers.com', 3864838, '1eee93d2e5f2e5df35991c917e924d2e28a58ac5', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (113, 'Lorenzo', 'Pyle', 'lpyle2q@mashable.com', 1346957, 'ee688a4732eeb618ccfc937afafdefc42b907c4b', NULL, NULL, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (114, 'Linnea', 'Sear', 'lsear2r@weibo.com', 8714392, 'f71ab65b7e03c506a7ee33fa22f99e7b13629928', NULL, NULL, '2019-06-12 22:46:59');
 
 SET FOREIGN_KEY_CHECKS = 1;
