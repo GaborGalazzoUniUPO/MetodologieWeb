@@ -26,7 +26,7 @@
     
         public static function validateFullName($full_name)
         {
-            return strlen($full_name) > 3;
+            return preg_match("/^[\w\s]+$/", $full_name);
         }
     
         public static function validateExpiry($month, $year)
@@ -41,7 +41,7 @@
     
         public static function validateCVC($cvc)
         {
-            return strlen($cvc) == 3;
+            return preg_match("/^[0-9]{3}$/", $cvc);
         }
     
         public static function registerCard($number, $full_name, $exp_month, $exp_year, $cvc)

@@ -151,17 +151,17 @@
         public function validate()
         {
             $error = [];
-            if(strlen(trim($this->full_name))<5)
+            if(!preg_match("/^[\w\s]{3,}$/", $this->full_name))
                 $error['address_full_name'] = "Full name invalid, must contain 5 characters at least";
-            if(strlen(trim($this->street))<5)
+            if(!preg_match("/^[\w\s-]{5,}$/", $this->street))
                 $error['street'] = "Street invalid, must contain 5 characters at least";
-            if(strlen(trim($this->city))<2)
+            if(!preg_match("/^[\w\s-]{2,}$/", $this->city))
                 $error['city'] = "City invalid, must contain 2 characters at least";
-            if(strlen(trim($this->region))<2)
+            if(!preg_match("/^[\w\s-]{2,}$/", $this->region))
                 $error['region'] = "State/Province/Region invalid, must contain 2 characters at least";
-            if(strlen(trim($this->zip_code))<4)
+            if(!preg_match("/^[\w\s-]{4,}$/", $this->zip_code))
                 $error['zip_code'] = "Zip code invalid, must contain 4 characters at least";
-            if(strlen(trim($this->country))<3)
+            if(!preg_match("/^[\w\s-]{3,}$/", $this->country))
                 $error['country'] = "Country invalid, must contain 3 characters at least";
             
             return $error;
