@@ -29,7 +29,7 @@ CREATE TABLE `cart_products`  (
   UNIQUE INDEX `cart_products_stock_unit_uindex`(`stock_unit`) USING BTREE,
   UNIQUE INDEX `cart_products_cart_id_stock_unit_uindex`(`cart_id`, `stock_unit`) USING BTREE,
   CONSTRAINT `cart_products_carts_id_fk` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `cart_products_ibfk_1` FOREIGN KEY (`stock_unit`) REFERENCES `stock` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `cart_products_ibfk_1` FOREIGN KEY (`stock_unit`) REFERENCES stock_units (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -115,7 +115,7 @@ CREATE TABLE `order_products`  (
   INDEX `order_products_orders_id_fk`(`order_id`) USING BTREE,
   INDEX `stock_unit`(`stock_unit`) USING BTREE,
   CONSTRAINT `order_products_orders_id_fk` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `order_products_ibfk_1` FOREIGN KEY (`stock_unit`) REFERENCES `stock` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `order_products_ibfk_1` FOREIGN KEY (`stock_unit`) REFERENCES stock_units (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -538,7 +538,7 @@ INSERT INTO `shipping_addresses` VALUES (2, 'Wagner 51', 'Alessandria', 'AL', 'I
 -- ----------------------------
 -- Table structure for stock
 -- ----------------------------
-DROP TABLE IF EXISTS `stock`;
+DROP TABLE IF EXISTS stock_units;
 CREATE TABLE `stock`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) NOT NULL,
@@ -551,103 +551,103 @@ CREATE TABLE `stock`  (
 -- ----------------------------
 -- Records of stock
 -- ----------------------------
-INSERT INTO `stock` VALUES (1, 7, 0);
-INSERT INTO `stock` VALUES (2, 22, 0);
-INSERT INTO `stock` VALUES (3, 26, 1);
-INSERT INTO `stock` VALUES (4, 22, 0);
-INSERT INTO `stock` VALUES (5, 20, 1);
-INSERT INTO `stock` VALUES (6, 10, 0);
-INSERT INTO `stock` VALUES (7, 7, 0);
-INSERT INTO `stock` VALUES (8, 21, 0);
-INSERT INTO `stock` VALUES (9, 20, 0);
-INSERT INTO `stock` VALUES (10, 13, 0);
-INSERT INTO `stock` VALUES (11, 19, 1);
-INSERT INTO `stock` VALUES (12, 11, 0);
-INSERT INTO `stock` VALUES (13, 11, 0);
-INSERT INTO `stock` VALUES (14, 7, 0);
-INSERT INTO `stock` VALUES (15, 13, 0);
-INSERT INTO `stock` VALUES (16, 19, 0);
-INSERT INTO `stock` VALUES (17, 28, 1);
-INSERT INTO `stock` VALUES (18, 9, 0);
-INSERT INTO `stock` VALUES (19, 18, 0);
-INSERT INTO `stock` VALUES (20, 19, 0);
-INSERT INTO `stock` VALUES (21, 17, 0);
-INSERT INTO `stock` VALUES (22, 18, 0);
-INSERT INTO `stock` VALUES (23, 10, 0);
-INSERT INTO `stock` VALUES (24, 16, 0);
-INSERT INTO `stock` VALUES (25, 28, 0);
-INSERT INTO `stock` VALUES (26, 21, 0);
-INSERT INTO `stock` VALUES (27, 10, 0);
-INSERT INTO `stock` VALUES (28, 21, 0);
-INSERT INTO `stock` VALUES (29, 13, 0);
-INSERT INTO `stock` VALUES (30, 21, 0);
-INSERT INTO `stock` VALUES (31, 28, 0);
-INSERT INTO `stock` VALUES (32, 9, 0);
-INSERT INTO `stock` VALUES (33, 28, 0);
-INSERT INTO `stock` VALUES (34, 17, 0);
-INSERT INTO `stock` VALUES (35, 12, 0);
-INSERT INTO `stock` VALUES (36, 26, 1);
-INSERT INTO `stock` VALUES (37, 12, 0);
-INSERT INTO `stock` VALUES (38, 18, 0);
-INSERT INTO `stock` VALUES (39, 26, 1);
-INSERT INTO `stock` VALUES (40, 28, 0);
-INSERT INTO `stock` VALUES (41, 17, 0);
-INSERT INTO `stock` VALUES (42, 7, 0);
-INSERT INTO `stock` VALUES (43, 16, 0);
-INSERT INTO `stock` VALUES (44, 16, 0);
-INSERT INTO `stock` VALUES (45, 9, 0);
-INSERT INTO `stock` VALUES (46, 23, 1);
-INSERT INTO `stock` VALUES (47, 9, 0);
-INSERT INTO `stock` VALUES (48, 17, 0);
-INSERT INTO `stock` VALUES (49, 8, 0);
-INSERT INTO `stock` VALUES (50, 28, 0);
-INSERT INTO `stock` VALUES (51, 20, 0);
-INSERT INTO `stock` VALUES (52, 21, 0);
-INSERT INTO `stock` VALUES (53, 23, 1);
-INSERT INTO `stock` VALUES (54, 25, 0);
-INSERT INTO `stock` VALUES (55, 13, 0);
-INSERT INTO `stock` VALUES (56, 9, 0);
-INSERT INTO `stock` VALUES (57, 39, 0);
-INSERT INTO `stock` VALUES (58, 39, 0);
-INSERT INTO `stock` VALUES (59, 39, 0);
-INSERT INTO `stock` VALUES (60, 39, 0);
-INSERT INTO `stock` VALUES (61, 39, 0);
-INSERT INTO `stock` VALUES (62, 39, 0);
-INSERT INTO `stock` VALUES (63, 38, 1);
-INSERT INTO `stock` VALUES (64, 38, 0);
-INSERT INTO `stock` VALUES (65, 38, 0);
-INSERT INTO `stock` VALUES (66, 38, 0);
-INSERT INTO `stock` VALUES (67, 38, 0);
-INSERT INTO `stock` VALUES (68, 38, 0);
-INSERT INTO `stock` VALUES (69, 38, 0);
-INSERT INTO `stock` VALUES (70, 38, 0);
-INSERT INTO `stock` VALUES (71, 38, 0);
-INSERT INTO `stock` VALUES (72, 38, 0);
-INSERT INTO `stock` VALUES (73, 38, 0);
-INSERT INTO `stock` VALUES (74, 38, 0);
-INSERT INTO `stock` VALUES (75, 38, 0);
-INSERT INTO `stock` VALUES (76, 38, 0);
-INSERT INTO `stock` VALUES (77, 38, 0);
-INSERT INTO `stock` VALUES (78, 38, 0);
-INSERT INTO `stock` VALUES (79, 38, 0);
-INSERT INTO `stock` VALUES (80, 38, 0);
-INSERT INTO `stock` VALUES (81, 38, 0);
-INSERT INTO `stock` VALUES (82, 38, 0);
-INSERT INTO `stock` VALUES (83, 38, 0);
-INSERT INTO `stock` VALUES (84, 36, 0);
-INSERT INTO `stock` VALUES (85, 36, 0);
-INSERT INTO `stock` VALUES (86, 36, 0);
-INSERT INTO `stock` VALUES (87, 36, 0);
-INSERT INTO `stock` VALUES (88, 36, 0);
-INSERT INTO `stock` VALUES (89, 35, 0);
-INSERT INTO `stock` VALUES (90, 35, 0);
-INSERT INTO `stock` VALUES (91, 35, 0);
-INSERT INTO `stock` VALUES (92, 35, 0);
-INSERT INTO `stock` VALUES (93, 35, 0);
-INSERT INTO `stock` VALUES (94, 35, 0);
-INSERT INTO `stock` VALUES (95, 34, 0);
-INSERT INTO `stock` VALUES (96, 33, 0);
-INSERT INTO `stock` VALUES (103, 32, 0);
+INSERT INTO stock_units VALUES (1, 7, 0);
+INSERT INTO stock_units VALUES (2, 22, 0);
+INSERT INTO stock_units VALUES (3, 26, 1);
+INSERT INTO stock_units VALUES (4, 22, 0);
+INSERT INTO stock_units VALUES (5, 20, 1);
+INSERT INTO stock_units VALUES (6, 10, 0);
+INSERT INTO stock_units VALUES (7, 7, 0);
+INSERT INTO stock_units VALUES (8, 21, 0);
+INSERT INTO stock_units VALUES (9, 20, 0);
+INSERT INTO stock_units VALUES (10, 13, 0);
+INSERT INTO stock_units VALUES (11, 19, 1);
+INSERT INTO stock_units VALUES (12, 11, 0);
+INSERT INTO stock_units VALUES (13, 11, 0);
+INSERT INTO stock_units VALUES (14, 7, 0);
+INSERT INTO stock_units VALUES (15, 13, 0);
+INSERT INTO stock_units VALUES (16, 19, 0);
+INSERT INTO stock_units VALUES (17, 28, 1);
+INSERT INTO stock_units VALUES (18, 9, 0);
+INSERT INTO stock_units VALUES (19, 18, 0);
+INSERT INTO stock_units VALUES (20, 19, 0);
+INSERT INTO stock_units VALUES (21, 17, 0);
+INSERT INTO stock_units VALUES (22, 18, 0);
+INSERT INTO stock_units VALUES (23, 10, 0);
+INSERT INTO stock_units VALUES (24, 16, 0);
+INSERT INTO stock_units VALUES (25, 28, 0);
+INSERT INTO stock_units VALUES (26, 21, 0);
+INSERT INTO stock_units VALUES (27, 10, 0);
+INSERT INTO stock_units VALUES (28, 21, 0);
+INSERT INTO stock_units VALUES (29, 13, 0);
+INSERT INTO stock_units VALUES (30, 21, 0);
+INSERT INTO stock_units VALUES (31, 28, 0);
+INSERT INTO stock_units VALUES (32, 9, 0);
+INSERT INTO stock_units VALUES (33, 28, 0);
+INSERT INTO stock_units VALUES (34, 17, 0);
+INSERT INTO stock_units VALUES (35, 12, 0);
+INSERT INTO stock_units VALUES (36, 26, 1);
+INSERT INTO stock_units VALUES (37, 12, 0);
+INSERT INTO stock_units VALUES (38, 18, 0);
+INSERT INTO stock_units VALUES (39, 26, 1);
+INSERT INTO stock_units VALUES (40, 28, 0);
+INSERT INTO stock_units VALUES (41, 17, 0);
+INSERT INTO stock_units VALUES (42, 7, 0);
+INSERT INTO stock_units VALUES (43, 16, 0);
+INSERT INTO stock_units VALUES (44, 16, 0);
+INSERT INTO stock_units VALUES (45, 9, 0);
+INSERT INTO stock_units VALUES (46, 23, 1);
+INSERT INTO stock_units VALUES (47, 9, 0);
+INSERT INTO stock_units VALUES (48, 17, 0);
+INSERT INTO stock_units VALUES (49, 8, 0);
+INSERT INTO stock_units VALUES (50, 28, 0);
+INSERT INTO stock_units VALUES (51, 20, 0);
+INSERT INTO stock_units VALUES (52, 21, 0);
+INSERT INTO stock_units VALUES (53, 23, 1);
+INSERT INTO stock_units VALUES (54, 25, 0);
+INSERT INTO stock_units VALUES (55, 13, 0);
+INSERT INTO stock_units VALUES (56, 9, 0);
+INSERT INTO stock_units VALUES (57, 39, 0);
+INSERT INTO stock_units VALUES (58, 39, 0);
+INSERT INTO stock_units VALUES (59, 39, 0);
+INSERT INTO stock_units VALUES (60, 39, 0);
+INSERT INTO stock_units VALUES (61, 39, 0);
+INSERT INTO stock_units VALUES (62, 39, 0);
+INSERT INTO stock_units VALUES (63, 38, 1);
+INSERT INTO stock_units VALUES (64, 38, 0);
+INSERT INTO stock_units VALUES (65, 38, 0);
+INSERT INTO stock_units VALUES (66, 38, 0);
+INSERT INTO stock_units VALUES (67, 38, 0);
+INSERT INTO stock_units VALUES (68, 38, 0);
+INSERT INTO stock_units VALUES (69, 38, 0);
+INSERT INTO stock_units VALUES (70, 38, 0);
+INSERT INTO stock_units VALUES (71, 38, 0);
+INSERT INTO stock_units VALUES (72, 38, 0);
+INSERT INTO stock_units VALUES (73, 38, 0);
+INSERT INTO stock_units VALUES (74, 38, 0);
+INSERT INTO stock_units VALUES (75, 38, 0);
+INSERT INTO stock_units VALUES (76, 38, 0);
+INSERT INTO stock_units VALUES (77, 38, 0);
+INSERT INTO stock_units VALUES (78, 38, 0);
+INSERT INTO stock_units VALUES (79, 38, 0);
+INSERT INTO stock_units VALUES (80, 38, 0);
+INSERT INTO stock_units VALUES (81, 38, 0);
+INSERT INTO stock_units VALUES (82, 38, 0);
+INSERT INTO stock_units VALUES (83, 38, 0);
+INSERT INTO stock_units VALUES (84, 36, 0);
+INSERT INTO stock_units VALUES (85, 36, 0);
+INSERT INTO stock_units VALUES (86, 36, 0);
+INSERT INTO stock_units VALUES (87, 36, 0);
+INSERT INTO stock_units VALUES (88, 36, 0);
+INSERT INTO stock_units VALUES (89, 35, 0);
+INSERT INTO stock_units VALUES (90, 35, 0);
+INSERT INTO stock_units VALUES (91, 35, 0);
+INSERT INTO stock_units VALUES (92, 35, 0);
+INSERT INTO stock_units VALUES (93, 35, 0);
+INSERT INTO stock_units VALUES (94, 35, 0);
+INSERT INTO stock_units VALUES (95, 34, 0);
+INSERT INTO stock_units VALUES (96, 33, 0);
+INSERT INTO stock_units VALUES (103, 32, 0);
 
 -- ----------------------------
 -- Table structure for users

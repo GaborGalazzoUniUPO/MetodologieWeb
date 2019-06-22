@@ -72,7 +72,7 @@
                sum(p.unit_price) as total
         from orders o
                  left join order_products op on o.id = op.order_id
-                 left join stock s on s.id = op.stock_unit
+                 left join stock_units s on s.id = op.stock_unit
                  left join products p on p.id = s.product_id
         where owner_id = :owner_id
         group by o.id";
@@ -114,7 +114,7 @@
                sum(p.unit_price) as total
         from orders o
                  left join order_products op on o.id = op.order_id
-                 left join stock s on s.id = op.stock_unit
+                 left join stock_units s on s.id = op.stock_unit
                  left join products p on p.id = s.product_id
         where owner_id = :owner_id and o.id = :order_id
         group by o.id";
@@ -142,7 +142,7 @@
                    count(s.id) as qta,
                    p.id
             from order_products op
-                     inner join stock s on s.id = op.stock_unit
+                     inner join stock_units s on s.id = op.stock_unit
                      inner join products p on s.product_id = p.id
             where op.order_id = :order_id
             group by p.id";

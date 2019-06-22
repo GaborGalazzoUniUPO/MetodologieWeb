@@ -21,7 +21,7 @@ class CartRepository extends AbstractRepository
                sum(p.unit_price) as total
         from carts c
                  left join cart_products cp on c.id = cp.cart_id
-                 left join stock s on s.id = cp.stock_unit
+                 left join stock_units s on s.id = cp.stock_unit
                  left join products p on p.id = s.product_id
         where cookie_cart = :cookie_cart
         group by c.id
@@ -46,16 +46,16 @@ class CartRepository extends AbstractRepository
     {
         $this->connection->beginTransaction();
         try {
-            $this->connection->query("lock tables stock as sr READ, stock as sw WRITE, cart_products write;");
+            $this->connection->query("lock tables stock_units as sr READ, stock_units as sw WRITE, cart_products write;");
 
 
-            $query = "select id from stock as sr where status = 0 and product_id = :p_id";
+            $query = "select id from stock_units as sr where status = 0 and product_id = :p_id";
             $stm = $this->connection->prepare($query);
             $stm->execute(['p_id' => $productId]);
             $sku = $stm->fetchColumn();
 
 
-            $query = "update stock as sw set status = 1 where id = :id";
+            $query = "update stock_units as sw set status = 1 where id = :id";
             $stm = $this->connection->prepare($query);
             $stm->execute([':id' => $sku]);
 
@@ -88,7 +88,7 @@ class CartRepository extends AbstractRepository
                sum(p.unit_price) as total
         from carts c
                  left join cart_products cp on c.id = cp.cart_id
-                 left join stock s on s.id = cp.stock_unit
+                 left join stock_units s on s.id = cp.stock_unit
                  left join products p on p.id = s.product_id
         where owner_id = :owner_id
         group by c.id
@@ -164,7 +164,7 @@ class CartRepository extends AbstractRepository
         $query = "select s.id as sku_id,
                cd.id as cart_product_id
         from cart_products cd
-                 inner join stock s on s.id = cd.stock_unit
+                 inner join stock_units s on s.id = cd.stock_unit
         where cd.cart_id = :cart_id and s.product_id = :product_id
         limit 1";
 
@@ -179,7 +179,7 @@ class CartRepository extends AbstractRepository
 
         $query = "delete from cart_products where id = :id";
         $this->connection->prepare($query)->execute(['id'=>$cp]);
-        $query = "update stock set status = 0 where id = :id";
+        $query = "update stock_units set status = 0 where id = :id";
         $this->connection->prepare($query)->execute(['id' => $sku]);
     }
     
@@ -194,7 +194,7 @@ class CartRepository extends AbstractRepository
                sum(p.unit_price) as total
         from carts c
                  left join cart_products cp on c.id = cp.cart_id
-                 left join stock s on s.id = cp.stock_unit
+                 left join stock_units s on s.id = cp.stock_unit
                  left join products p on p.id = s.product_id
         where c.id = :id
         group by c.id
@@ -224,7 +224,7 @@ class CartRepository extends AbstractRepository
                    count(s.id) as qta,
                    p.id
             from cart_products cp
-                     inner join stock s on s.id = cp.stock_unit
+                     inner join stock_units s on s.id = cp.stock_unit
                      inner join products p on s.product_id = p.id
             where cp.cart_id = :cart_id
             group by p.id";

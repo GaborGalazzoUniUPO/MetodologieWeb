@@ -1,0 +1,1058 @@
+{
+  "entities": [
+    {
+      "generalizations": [],
+      "primaryKey": [
+        98
+      ],
+      "id": 93,
+      "name": "Order",
+      "attributes": [
+        {
+          "name": "transaction",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 99.0,
+            "height": 15.0,
+            "x": 630.0,
+            "y": 570.0
+          },
+          "id": 94
+        },
+        {
+          "name": "status",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 54.0,
+            "height": 15.0,
+            "x": 510.0,
+            "y": 570.0
+          },
+          "id": 95
+        },
+        {
+          "name": "created at",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 90.0,
+            "height": 15.0,
+            "x": 560.0,
+            "y": 570.0
+          },
+          "id": 96
+        },
+        {
+          "name": "shipment type",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 117.0,
+            "height": 15.0,
+            "x": 640.0,
+            "y": 540.0
+          },
+          "id": 97
+        },
+        {
+          "name": "code",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 36.0,
+            "height": 15.0,
+            "x": 460.0,
+            "y": 540.0
+          },
+          "id": 98
+        },
+        {
+          "name": "delivered at",
+          "cardinality": "ZERO_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 108.0,
+            "height": 15.0,
+            "x": 690.0,
+            "y": 510.0
+          },
+          "id": 99
+        },
+        {
+          "name": "tracking code",
+          "cardinality": "ZERO_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 117.0,
+            "height": 15.0,
+            "x": 670.0,
+            "y": 480.0
+          },
+          "id": 100
+        }
+      ],
+      "geometry": {
+        "relative": false,
+        "width": 130.0,
+        "height": 60.0,
+        "x": 510.0,
+        "y": 480.0
+      }
+    },
+    {
+      "generalizations": [],
+      "primaryKey": [
+        102
+      ],
+      "id": 101,
+      "name": "Product",
+      "attributes": [
+        {
+          "name": "code",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 40.0,
+            "height": 20.0,
+            "x": 90.0,
+            "y": 300.0
+          },
+          "id": 102
+        },
+        {
+          "name": "photo url",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 70.0,
+            "height": 10.0,
+            "x": 70.0,
+            "y": 350.0
+          },
+          "id": 103
+        },
+        {
+          "name": "descrption",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 80.0,
+            "height": 10.0,
+            "x": 70.0,
+            "y": 330.0
+          },
+          "id": 104
+        },
+        {
+          "name": "name",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 50.0,
+            "height": 10.0,
+            "x": 90.0,
+            "y": 470.0
+          },
+          "id": 105
+        },
+        {
+          "name": "unit price",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 70.0,
+            "height": 20.0,
+            "x": 70.0,
+            "y": 360.0
+          },
+          "id": 106
+        },
+        {
+          "name": "category",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 60.0,
+            "height": 20.0,
+            "x": 70.0,
+            "y": 380.0
+          },
+          "id": 107
+        },
+        {
+          "name": "date added",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 90.0,
+            "height": 15.0,
+            "x": 70.0,
+            "y": 440.0
+          },
+          "id": 108
+        },
+        {
+          "name": "small description",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 153.0,
+            "height": 15.0,
+            "x": 30.0,
+            "y": 420.0
+          },
+          "id": 109
+        },
+        {
+          "name": "category info",
+          "cardinality": "ONE_TO_MANY",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 117.0,
+            "height": 15.0,
+            "x": 50.0,
+            "y": 400.0
+          },
+          "id": 110
+        }
+      ],
+      "geometry": {
+        "relative": false,
+        "width": 110.0,
+        "height": 150.0,
+        "x": 220.0,
+        "y": 300.0
+      }
+    },
+    {
+      "generalizations": [],
+      "primaryKey": [
+        112
+      ],
+      "id": 111,
+      "name": "Cart",
+      "attributes": [
+        {
+          "name": "cookie",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 54.0,
+            "height": 15.0,
+            "x": 530.0,
+            "y": 130.0
+          },
+          "id": 112
+        },
+        {
+          "name": "created at",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 90.0,
+            "height": 15.0,
+            "x": 490.0,
+            "y": 150.0
+          },
+          "id": 113
+        }
+      ],
+      "geometry": {
+        "relative": false,
+        "width": 100.0,
+        "height": 40.0,
+        "x": 600.0,
+        "y": 140.0
+      }
+    },
+    {
+      "generalizations": [],
+      "primaryKey": [
+        117
+      ],
+      "id": 114,
+      "name": "User",
+      "attributes": [
+        {
+          "name": "name",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 50.0,
+            "height": 10.0,
+            "x": 990.0,
+            "y": 80.0
+          },
+          "id": 115
+        },
+        {
+          "name": "surname",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 63.0,
+            "height": 15.0,
+            "x": 1000.0,
+            "y": 100.0
+          },
+          "id": 116
+        },
+        {
+          "name": "email",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 45.0,
+            "height": 15.0,
+            "x": 1000.0,
+            "y": 50.0
+          },
+          "id": 117
+        },
+        {
+          "name": "secret",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 54.0,
+            "height": 15.0,
+            "x": 1000.0,
+            "y": 120.0
+          },
+          "id": 118
+        },
+        {
+          "name": "salt",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 36.0,
+            "height": 15.0,
+            "x": 1000.0,
+            "y": 140.0
+          },
+          "id": 119
+        },
+        {
+          "name": "created at",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 90.0,
+            "height": 15.0,
+            "x": 990.0,
+            "y": 160.0
+          },
+          "id": 120
+        },
+        {
+          "name": "cookies",
+          "cardinality": "ZERO_TO_MANY",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 63.0,
+            "height": 15.0,
+            "x": 1010.0,
+            "y": 190.0
+          },
+          "id": 121
+        }
+      ],
+      "geometry": {
+        "relative": false,
+        "width": 110.0,
+        "height": 120.0,
+        "x": 870.0,
+        "y": 70.0
+      }
+    },
+    {
+      "generalizations": [],
+      "primaryKey": [
+        146,
+        145
+      ],
+      "id": 122,
+      "name": "Review",
+      "attributes": [
+        {
+          "name": "vote",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 36.0,
+            "height": 15.0,
+            "x": 140.0,
+            "y": 130.0
+          },
+          "id": 123
+        },
+        {
+          "name": "content",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 63.0,
+            "height": 15.0,
+            "x": 120.0,
+            "y": 80.0
+          },
+          "id": 124
+        },
+        {
+          "name": "created at",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 80.0,
+            "height": 20.0,
+            "x": 100.0,
+            "y": 100.0
+          },
+          "id": 125
+        }
+      ],
+      "geometry": {
+        "relative": false,
+        "width": 110.0,
+        "height": 60.0,
+        "x": 230.0,
+        "y": 80.0
+      }
+    },
+    {
+      "generalizations": [],
+      "primaryKey": [
+        128
+      ],
+      "id": 126,
+      "name": "Stock Unit",
+      "attributes": [
+        {
+          "name": "status",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 54.0,
+            "height": 15.0,
+            "x": 490.0,
+            "y": 270.0
+          },
+          "id": 127
+        },
+        {
+          "name": "id",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 18.0,
+            "height": 15.0,
+            "x": 470.0,
+            "y": 275.0
+          },
+          "id": 128
+        }
+      ],
+      "geometry": {
+        "relative": false,
+        "width": 100.0,
+        "height": 50.0,
+        "x": 470.0,
+        "y": 310.0
+      }
+    },
+    {
+      "generalizations": [],
+      "primaryKey": [
+        133
+      ],
+      "id": 129,
+      "name": "Payment Method",
+      "attributes": [
+        {
+          "name": "card type",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 81.0,
+            "height": 15.0,
+            "x": 860.0,
+            "y": 370.0
+          },
+          "id": 130
+        },
+        {
+          "name": "last digits",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 99.0,
+            "height": 15.0,
+            "x": 870.0,
+            "y": 350.0
+          },
+          "id": 131
+        },
+        {
+          "name": "expiry",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 54.0,
+            "height": 15.0,
+            "x": 890.0,
+            "y": 330.0
+          },
+          "id": 132
+        },
+        {
+          "name": "token id",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 72.0,
+            "height": 15.0,
+            "x": 860.0,
+            "y": 250.0
+          },
+          "id": 133
+        },
+        {
+          "name": "full name",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 81.0,
+            "height": 15.0,
+            "x": 880.0,
+            "y": 310.0
+          },
+          "id": 134
+        },
+        {
+          "name": "deleted at",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 90.0,
+            "height": 15.0,
+            "x": 870.0,
+            "y": 280.0
+          },
+          "id": 135
+        }
+      ],
+      "geometry": {
+        "relative": false,
+        "width": 100.0,
+        "height": 80.0,
+        "x": 760.0,
+        "y": 280.0
+      }
+    },
+    {
+      "generalizations": [],
+      "primaryKey": [
+        144
+      ],
+      "id": 136,
+      "name": "Shipping Address",
+      "attributes": [
+        {
+          "name": "street",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 54.0,
+            "height": 15.0,
+            "x": 1080.0,
+            "y": 440.0
+          },
+          "id": 137
+        },
+        {
+          "name": "city",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 36.0,
+            "height": 15.0,
+            "x": 1070.0,
+            "y": 400.0
+          },
+          "id": 138
+        },
+        {
+          "name": "region",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 54.0,
+            "height": 15.0,
+            "x": 1090.0,
+            "y": 460.0
+          },
+          "id": 139
+        },
+        {
+          "name": "country",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 63.0,
+            "height": 15.0,
+            "x": 1090.0,
+            "y": 480.0
+          },
+          "id": 140
+        },
+        {
+          "name": "zip",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 27.0,
+            "height": 15.0,
+            "x": 1080.0,
+            "y": 420.0
+          },
+          "id": 141
+        },
+        {
+          "name": "full name",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 81.0,
+            "height": 15.0,
+            "x": 1080.0,
+            "y": 500.0
+          },
+          "id": 142
+        },
+        {
+          "name": "deleted at",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 90.0,
+            "height": 15.0,
+            "x": 1070.0,
+            "y": 520.0
+          },
+          "id": 143
+        },
+        {
+          "name": "id",
+          "cardinality": "ONE_TO_ONE",
+          "type": "STRING",
+          "geometry": {
+            "relative": false,
+            "width": 18.0,
+            "height": 15.0,
+            "x": 1020.0,
+            "y": 390.0
+          },
+          "id": 144
+        }
+      ],
+      "geometry": {
+        "relative": false,
+        "width": 100.0,
+        "height": 70.0,
+        "x": 930.0,
+        "y": 430.0
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "associations": [
+        {
+          "cardinality": "ONE_TO_ONE",
+          "port": "WEST",
+          "entityId": 122,
+          "points": [
+            {
+              "x": 310.0,
+              "y": 100.0
+            }
+          ]
+        },
+        {
+          "cardinality": "ZERO_TO_MANY",
+          "port": "EAST",
+          "entityId": 114,
+          "points": [
+            {
+              "x": 900.0,
+              "y": 100.0
+            }
+          ]
+        }
+      ],
+      "id": 145,
+      "name": "author",
+      "attributes": [],
+      "geometry": {
+        "relative": false,
+        "width": 80.0,
+        "height": 34.0,
+        "x": 430.0,
+        "y": 70.0
+      }
+    },
+    {
+      "associations": [
+        {
+          "cardinality": "ONE_TO_ONE",
+          "port": "NORTH",
+          "entityId": 122
+        },
+        {
+          "cardinality": "ZERO_TO_MANY",
+          "port": "SOUTH",
+          "entityId": 101
+        }
+      ],
+      "id": 146,
+      "name": "object",
+      "attributes": [],
+      "geometry": {
+        "relative": false,
+        "width": 80.0,
+        "height": 34.0,
+        "x": 250.0,
+        "y": 190.0
+      }
+    },
+    {
+      "associations": [
+        {
+          "cardinality": "ZERO_TO_MANY",
+          "port": "WEST",
+          "entityId": 101,
+          "points": [
+            {
+              "x": 320.0,
+              "y": 330.0
+            }
+          ]
+        },
+        {
+          "cardinality": "ONE_TO_ONE",
+          "port": "EAST",
+          "entityId": 126,
+          "points": [
+            {
+              "x": 480.0,
+              "y": 330.0
+            }
+          ]
+        }
+      ],
+      "id": 147,
+      "name": "unit",
+      "attributes": [],
+      "geometry": {
+        "relative": false,
+        "width": 80.0,
+        "height": 34.0,
+        "x": 360.0,
+        "y": 330.0
+      }
+    },
+    {
+      "associations": [
+        {
+          "cardinality": "ONE_TO_ONE",
+          "port": "EAST",
+          "entityId": 114,
+          "points": [
+            {
+              "x": 880.0,
+              "y": 130.0
+            }
+          ]
+        },
+        {
+          "cardinality": "ZERO_TO_ONE",
+          "port": "WEST",
+          "entityId": 111
+        }
+      ],
+      "id": 148,
+      "name": "owner",
+      "attributes": [],
+      "geometry": {
+        "relative": false,
+        "width": 80.0,
+        "height": 34.0,
+        "x": 740.0,
+        "y": 120.0
+      }
+    },
+    {
+      "associations": [
+        {
+          "cardinality": "ZERO_TO_MANY",
+          "port": "NORTH",
+          "entityId": 111,
+          "points": [
+            {
+              "x": 550.0,
+              "y": 170.0
+            }
+          ]
+        },
+        {
+          "cardinality": "ZERO_TO_ONE",
+          "port": "SOUTH",
+          "entityId": 126
+        }
+      ],
+      "id": 149,
+      "name": "reserve",
+      "attributes": [],
+      "geometry": {
+        "relative": false,
+        "width": 80.0,
+        "height": 34.0,
+        "x": 510.0,
+        "y": 220.0
+      }
+    },
+    {
+      "associations": [
+        {
+          "cardinality": "ONE_TO_MANY",
+          "port": "SOUTH",
+          "entityId": 93
+        },
+        {
+          "cardinality": "ZERO_TO_ONE",
+          "port": "NORTH",
+          "entityId": 126
+        }
+      ],
+      "id": 150,
+      "name": "item",
+      "attributes": [],
+      "geometry": {
+        "relative": false,
+        "width": 80.0,
+        "height": 34.0,
+        "x": 490.0,
+        "y": 390.0
+      }
+    },
+    {
+      "associations": [
+        {
+          "cardinality": "ONE_TO_MANY",
+          "port": "EAST",
+          "entityId": 129,
+          "points": [
+            {
+              "x": 770.0,
+              "y": 320.0
+            }
+          ]
+        },
+        {
+          "cardinality": "ONE_TO_ONE",
+          "port": "WEST",
+          "entityId": 93,
+          "points": [
+            {
+              "x": 600.0,
+              "y": 390.0
+            }
+          ]
+        }
+      ],
+      "id": 151,
+      "name": "payed with",
+      "attributes": [],
+      "geometry": {
+        "relative": false,
+        "width": 90.0,
+        "height": 40.0,
+        "x": 630.0,
+        "y": 300.0
+      }
+    },
+    {
+      "associations": [
+        {
+          "cardinality": "ONE_TO_MANY",
+          "port": "EAST",
+          "entityId": 136,
+          "points": [
+            {
+              "x": 950.0,
+              "y": 460.0
+            }
+          ]
+        },
+        {
+          "cardinality": "ONE_TO_ONE",
+          "port": "WEST",
+          "entityId": 93,
+          "points": [
+            {
+              "x": 630.0,
+              "y": 460.0
+            }
+          ]
+        }
+      ],
+      "id": 152,
+      "name": "sent to",
+      "attributes": [],
+      "geometry": {
+        "relative": false,
+        "width": 80.0,
+        "height": 34.0,
+        "x": 750.0,
+        "y": 430.0
+      }
+    },
+    {
+      "associations": [
+        {
+          "cardinality": "ZERO_TO_MANY",
+          "port": "NORTH",
+          "entityId": 114,
+          "points": [
+            {
+              "x": 820.0,
+              "y": 170.0
+            }
+          ]
+        },
+        {
+          "cardinality": "ONE_TO_ONE",
+          "port": "SOUTH",
+          "entityId": 129
+        }
+      ],
+      "id": 153,
+      "name": "owner",
+      "attributes": [],
+      "geometry": {
+        "relative": false,
+        "width": 80.0,
+        "height": 34.0,
+        "x": 780.0,
+        "y": 230.0
+      }
+    },
+    {
+      "associations": [
+        {
+          "cardinality": "ZERO_TO_MANY",
+          "port": "NORTH",
+          "entityId": 114
+        },
+        {
+          "cardinality": "ONE_TO_ONE",
+          "port": "SOUTH",
+          "entityId": 136
+        }
+      ],
+      "id": 154,
+      "name": "owner",
+      "attributes": [],
+      "geometry": {
+        "relative": false,
+        "width": 80.0,
+        "height": 34.0,
+        "x": 930.0,
+        "y": 230.0
+      }
+    },
+    {
+      "associations": [
+        {
+          "cardinality": "ZERO_TO_MANY",
+          "port": "NORTH",
+          "entityId": 114,
+          "points": [
+            {
+              "x": 430.0,
+              "y": 110.0
+            }
+          ]
+        },
+        {
+          "cardinality": "ZERO_TO_MANY",
+          "port": "SOUTH",
+          "entityId": 101,
+          "points": [
+            {
+              "x": 430.0,
+              "y": 310.0
+            }
+          ]
+        }
+      ],
+      "id": 155,
+      "name": "watcher",
+      "attributes": [],
+      "geometry": {
+        "relative": false,
+        "width": 80.0,
+        "height": 34.0,
+        "x": 390.0,
+        "y": 150.0
+      }
+    }
+  ],
+  "timestamp": "2019-06-22T12:39:32.488"
+}
