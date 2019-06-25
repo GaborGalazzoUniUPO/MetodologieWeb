@@ -11,7 +11,7 @@
  Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 12/06/2019 23:26:36
+ Date: 25/06/2019 19:06:58
 */
 
 SET NAMES utf8mb4;
@@ -29,8 +29,8 @@ CREATE TABLE `cart_products`  (
   UNIQUE INDEX `cart_products_stock_unit_uindex`(`stock_unit`) USING BTREE,
   UNIQUE INDEX `cart_products_cart_id_stock_unit_uindex`(`cart_id`, `stock_unit`) USING BTREE,
   CONSTRAINT `cart_products_carts_id_fk` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `cart_products_ibfk_1` FOREIGN KEY (`stock_unit`) REFERENCES stock_units (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `cart_products_ibfk_1` FOREIGN KEY (`stock_unit`) REFERENCES `stock_units` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for carts
@@ -67,7 +67,7 @@ CREATE TABLE `cookies`  (
   UNIQUE INDEX `cookies_cookie_session_uindex`(`cookie_session`) USING BTREE,
   INDEX `cookies_users_id_fk`(`user_id`) USING BTREE,
   CONSTRAINT `cookies_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of cookies
@@ -102,6 +102,7 @@ INSERT INTO `cookies` VALUES (27, '5cf2b3b38352d', 9, '2019-06-01 19:19:47');
 INSERT INTO `cookies` VALUES (28, '5cf80bca27e20', 9, '2019-06-05 20:36:58');
 INSERT INTO `cookies` VALUES (29, '5cfada468ddce', 9, '2019-06-07 23:42:30');
 INSERT INTO `cookies` VALUES (30, '5d01665daabec', 9, '2019-06-12 22:53:49');
+INSERT INTO `cookies` VALUES (31, '5d0f9fcfb4c1d', 9, '2019-06-23 17:50:39');
 
 -- ----------------------------
 -- Table structure for order_products
@@ -114,9 +115,9 @@ CREATE TABLE `order_products`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `order_products_orders_id_fk`(`order_id`) USING BTREE,
   INDEX `stock_unit`(`stock_unit`) USING BTREE,
-  CONSTRAINT `order_products_orders_id_fk` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `order_products_ibfk_1` FOREIGN KEY (`stock_unit`) REFERENCES stock_units (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `order_products_ibfk_1` FOREIGN KEY (`stock_unit`) REFERENCES `stock_units` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `order_products_orders_id_fk` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of order_products
@@ -130,6 +131,7 @@ INSERT INTO `order_products` VALUES (9, 11, 7);
 INSERT INTO `order_products` VALUES (10, 17, 8);
 INSERT INTO `order_products` VALUES (11, 39, 9);
 INSERT INTO `order_products` VALUES (12, 63, 10);
+INSERT INTO `order_products` VALUES (13, 64, 11);
 
 -- ----------------------------
 -- Table structure for orders
@@ -156,7 +158,7 @@ CREATE TABLE `orders`  (
   CONSTRAINT `orders_payment_methods_id_fk` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_methods` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `orders_shipping_addresses_id_fk` FOREIGN KEY (`shipping_address_id`) REFERENCES `shipping_addresses` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `orders_users_id_fk` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orders
@@ -167,6 +169,7 @@ INSERT INTO `orders` VALUES (7, 'transaction_5cf05c0fdfcea', 1, 9, '2019-05-31 0
 INSERT INTO `orders` VALUES (8, 'transaction_5cf2633a4b099', 0, 9, '2019-06-01 13:36:26', 0, 1, 1, 'ord_5cf2633a4f3b0', NULL, 'none');
 INSERT INTO `orders` VALUES (9, 'transaction_5cf27e88a3963', 0, 9, '2019-06-01 15:32:56', 0, 1, 1, 'ord_5cf27e88a3a64', NULL, 'none');
 INSERT INTO `orders` VALUES (10, 'transaction_5d01668df3be4', 0, 9, '2019-06-12 22:54:37', 0, 2, 2, 'ord_5d01668df3cc1', NULL, 'none');
+INSERT INTO `orders` VALUES (11, 'transaction_5d0fa37e0a01e', 0, 9, '2019-06-23 18:06:22', 0, 5, 3, 'ord_5d0fa37e0a17b', NULL, 'none');
 
 -- ----------------------------
 -- Table structure for payment_methods
@@ -184,13 +187,16 @@ CREATE TABLE `payment_methods`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK_payment_methods_users`(`owner_id`) USING BTREE,
   CONSTRAINT `FK_payment_methods_users` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of payment_methods
 -- ----------------------------
 INSERT INTO `payment_methods` VALUES (1, 'Visa', '4242', '2020-02-01', 9, '5cf0413ecd373', 'Gabor Galazzo', '2019-06-03 23:23:38');
-INSERT INTO `payment_methods` VALUES (2, 'Visa', '4242', '2020-02-01', 9, '5d01668bb13a0', 'GABOR GALAZZO', NULL);
+INSERT INTO `payment_methods` VALUES (2, 'Visa', '4242', '2020-02-01', 9, '5d01668bb13a0', 'GABOR GALAZZO', '2019-06-23 18:04:26');
+INSERT INTO `payment_methods` VALUES (3, 'Visa', '4242', '2020-02-01', 9, '5d0fa1211b4a1', '12', '2019-06-23 18:04:22');
+INSERT INTO `payment_methods` VALUES (4, 'Visa', '4242', '2020-02-01', 9, '5d0fa13967a0e', '12', '2019-06-23 18:04:21');
+INSERT INTO `payment_methods` VALUES (5, 'Visa', '4224', '2020-10-01', 9, '5d0fa3761ab84', 'Gabor Galazzo', NULL);
 
 -- ----------------------------
 -- Table structure for product_watchers
@@ -280,7 +286,7 @@ CREATE TABLE `report_messages`  (
 INSERT INTO `report_messages` VALUES (1, 5, 0, 'mi è arrivato l\'album sbagliato', '2019-06-05 21:21:01', 1);
 INSERT INTO `report_messages` VALUES (2, 5, 0, 'mi rispondete!\r\n', '2019-06-05 21:21:11', 1);
 INSERT INTO `report_messages` VALUES (3, 5, 0, 'Mi fa tutto schifo', '2019-06-05 21:22:04', 1);
-INSERT INTO `report_messages` VALUES (4, 5, 1, 'mi spiace , le manderemo un alto articolo non peena riceveremo il suo ordine indietro al seguente indirizzo: ...', '2019-06-10 20:36:06', 0);
+INSERT INTO `report_messages` VALUES (4, 5, 1, 'mi spiace , le manderemo un alto articolo non peena riceveremo il suo ordine indietro al seguente indirizzo: ...', '2019-06-10 20:36:06', 1);
 INSERT INTO `report_messages` VALUES (5, 6, 0, 'oilaaaaa', '2019-06-12 22:29:03', 1);
 INSERT INTO `report_messages` VALUES (6, 6, 0, 'mi sentitee', '2019-06-12 22:33:51', 1);
 INSERT INTO `report_messages` VALUES (7, 6, 1, 'si si', '2019-06-12 22:34:08', 1);
@@ -302,7 +308,7 @@ CREATE TABLE `reviews`  (
   INDEX `product_id`(`product_id`) USING BTREE,
   CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 257 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 258 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of reviews
@@ -509,6 +515,7 @@ INSERT INTO `reviews` VALUES (248, 45, 21, 2, 'Pellentesque at nulla. Suspendiss
 INSERT INTO `reviews` VALUES (249, 107, 16, 2, 'Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (250, 97, 25, 3, 'Phasellus id sapien in sapien iaculis congue.', '2019-05-25 16:17:24');
 INSERT INTO `reviews` VALUES (256, 9, 26, 4, 'Bellissimo non ho mai visto un film piÃ¹ bello di questo Ã¨ spettacolare mi piacarebbe ne facessero di piÃ¹', '2019-06-02 18:55:09');
+INSERT INTO `reviews` VALUES (257, 9, 38, 4, 'Ã¨ un libro meraviglioso ed Ã¨ stato ben trasposto su questo film. il dvd e la confezione sono di ottima qualitÃ  e i contenuti aggiuntivi sono imperdibili!', '2019-06-21 14:50:11');
 
 -- ----------------------------
 -- Table structure for shipping_addresses
@@ -527,19 +534,20 @@ CREATE TABLE `shipping_addresses`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `FK_shipping_addresses_users`(`owner_id`) USING BTREE,
   CONSTRAINT `FK_shipping_addresses_users` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of shipping_addresses
 -- ----------------------------
 INSERT INTO `shipping_addresses` VALUES (1, 'Via Wagner 51', 'Alessandria', 'AL', 'Italia', '15121', 9, 'Gabor Galazzo', '2019-06-05 21:32:17');
-INSERT INTO `shipping_addresses` VALUES (2, 'Wagner 51', 'Alessandria', 'AL', 'Ita', '15121', 9, 'Gabor Galazzo', NULL);
+INSERT INTO `shipping_addresses` VALUES (2, 'Wagner 51', 'Alessandria', 'AL', 'Ita', '15121', 9, 'Gabor Galazzo', '2019-06-23 18:04:25');
+INSERT INTO `shipping_addresses` VALUES (3, 'Via Wagner 51', 'Alessandria', 'AL', 'Italia', '15121', 9, 'Gabor Galazzo', NULL);
 
 -- ----------------------------
--- Table structure for stock
+-- Table structure for stock_units
 -- ----------------------------
-DROP TABLE IF EXISTS stock_units;
-CREATE TABLE `stock`  (
+DROP TABLE IF EXISTS `stock_units`;
+CREATE TABLE `stock_units`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
@@ -549,105 +557,105 @@ CREATE TABLE `stock`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 104 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of stock
+-- Records of stock_units
 -- ----------------------------
-INSERT INTO stock_units VALUES (1, 7, 0);
-INSERT INTO stock_units VALUES (2, 22, 0);
-INSERT INTO stock_units VALUES (3, 26, 1);
-INSERT INTO stock_units VALUES (4, 22, 0);
-INSERT INTO stock_units VALUES (5, 20, 1);
-INSERT INTO stock_units VALUES (6, 10, 0);
-INSERT INTO stock_units VALUES (7, 7, 0);
-INSERT INTO stock_units VALUES (8, 21, 0);
-INSERT INTO stock_units VALUES (9, 20, 0);
-INSERT INTO stock_units VALUES (10, 13, 0);
-INSERT INTO stock_units VALUES (11, 19, 1);
-INSERT INTO stock_units VALUES (12, 11, 0);
-INSERT INTO stock_units VALUES (13, 11, 0);
-INSERT INTO stock_units VALUES (14, 7, 0);
-INSERT INTO stock_units VALUES (15, 13, 0);
-INSERT INTO stock_units VALUES (16, 19, 0);
-INSERT INTO stock_units VALUES (17, 28, 1);
-INSERT INTO stock_units VALUES (18, 9, 0);
-INSERT INTO stock_units VALUES (19, 18, 0);
-INSERT INTO stock_units VALUES (20, 19, 0);
-INSERT INTO stock_units VALUES (21, 17, 0);
-INSERT INTO stock_units VALUES (22, 18, 0);
-INSERT INTO stock_units VALUES (23, 10, 0);
-INSERT INTO stock_units VALUES (24, 16, 0);
-INSERT INTO stock_units VALUES (25, 28, 0);
-INSERT INTO stock_units VALUES (26, 21, 0);
-INSERT INTO stock_units VALUES (27, 10, 0);
-INSERT INTO stock_units VALUES (28, 21, 0);
-INSERT INTO stock_units VALUES (29, 13, 0);
-INSERT INTO stock_units VALUES (30, 21, 0);
-INSERT INTO stock_units VALUES (31, 28, 0);
-INSERT INTO stock_units VALUES (32, 9, 0);
-INSERT INTO stock_units VALUES (33, 28, 0);
-INSERT INTO stock_units VALUES (34, 17, 0);
-INSERT INTO stock_units VALUES (35, 12, 0);
-INSERT INTO stock_units VALUES (36, 26, 1);
-INSERT INTO stock_units VALUES (37, 12, 0);
-INSERT INTO stock_units VALUES (38, 18, 0);
-INSERT INTO stock_units VALUES (39, 26, 1);
-INSERT INTO stock_units VALUES (40, 28, 0);
-INSERT INTO stock_units VALUES (41, 17, 0);
-INSERT INTO stock_units VALUES (42, 7, 0);
-INSERT INTO stock_units VALUES (43, 16, 0);
-INSERT INTO stock_units VALUES (44, 16, 0);
-INSERT INTO stock_units VALUES (45, 9, 0);
-INSERT INTO stock_units VALUES (46, 23, 1);
-INSERT INTO stock_units VALUES (47, 9, 0);
-INSERT INTO stock_units VALUES (48, 17, 0);
-INSERT INTO stock_units VALUES (49, 8, 0);
-INSERT INTO stock_units VALUES (50, 28, 0);
-INSERT INTO stock_units VALUES (51, 20, 0);
-INSERT INTO stock_units VALUES (52, 21, 0);
-INSERT INTO stock_units VALUES (53, 23, 1);
-INSERT INTO stock_units VALUES (54, 25, 0);
-INSERT INTO stock_units VALUES (55, 13, 0);
-INSERT INTO stock_units VALUES (56, 9, 0);
-INSERT INTO stock_units VALUES (57, 39, 0);
-INSERT INTO stock_units VALUES (58, 39, 0);
-INSERT INTO stock_units VALUES (59, 39, 0);
-INSERT INTO stock_units VALUES (60, 39, 0);
-INSERT INTO stock_units VALUES (61, 39, 0);
-INSERT INTO stock_units VALUES (62, 39, 0);
-INSERT INTO stock_units VALUES (63, 38, 1);
-INSERT INTO stock_units VALUES (64, 38, 0);
-INSERT INTO stock_units VALUES (65, 38, 0);
-INSERT INTO stock_units VALUES (66, 38, 0);
-INSERT INTO stock_units VALUES (67, 38, 0);
-INSERT INTO stock_units VALUES (68, 38, 0);
-INSERT INTO stock_units VALUES (69, 38, 0);
-INSERT INTO stock_units VALUES (70, 38, 0);
-INSERT INTO stock_units VALUES (71, 38, 0);
-INSERT INTO stock_units VALUES (72, 38, 0);
-INSERT INTO stock_units VALUES (73, 38, 0);
-INSERT INTO stock_units VALUES (74, 38, 0);
-INSERT INTO stock_units VALUES (75, 38, 0);
-INSERT INTO stock_units VALUES (76, 38, 0);
-INSERT INTO stock_units VALUES (77, 38, 0);
-INSERT INTO stock_units VALUES (78, 38, 0);
-INSERT INTO stock_units VALUES (79, 38, 0);
-INSERT INTO stock_units VALUES (80, 38, 0);
-INSERT INTO stock_units VALUES (81, 38, 0);
-INSERT INTO stock_units VALUES (82, 38, 0);
-INSERT INTO stock_units VALUES (83, 38, 0);
-INSERT INTO stock_units VALUES (84, 36, 0);
-INSERT INTO stock_units VALUES (85, 36, 0);
-INSERT INTO stock_units VALUES (86, 36, 0);
-INSERT INTO stock_units VALUES (87, 36, 0);
-INSERT INTO stock_units VALUES (88, 36, 0);
-INSERT INTO stock_units VALUES (89, 35, 0);
-INSERT INTO stock_units VALUES (90, 35, 0);
-INSERT INTO stock_units VALUES (91, 35, 0);
-INSERT INTO stock_units VALUES (92, 35, 0);
-INSERT INTO stock_units VALUES (93, 35, 0);
-INSERT INTO stock_units VALUES (94, 35, 0);
-INSERT INTO stock_units VALUES (95, 34, 0);
-INSERT INTO stock_units VALUES (96, 33, 0);
-INSERT INTO stock_units VALUES (103, 32, 0);
+INSERT INTO `stock_units` VALUES (1, 7, 0);
+INSERT INTO `stock_units` VALUES (2, 22, 0);
+INSERT INTO `stock_units` VALUES (3, 26, 1);
+INSERT INTO `stock_units` VALUES (4, 22, 0);
+INSERT INTO `stock_units` VALUES (5, 20, 1);
+INSERT INTO `stock_units` VALUES (6, 10, 0);
+INSERT INTO `stock_units` VALUES (7, 7, 0);
+INSERT INTO `stock_units` VALUES (8, 21, 0);
+INSERT INTO `stock_units` VALUES (9, 20, 0);
+INSERT INTO `stock_units` VALUES (10, 13, 0);
+INSERT INTO `stock_units` VALUES (11, 19, 1);
+INSERT INTO `stock_units` VALUES (12, 11, 0);
+INSERT INTO `stock_units` VALUES (13, 11, 0);
+INSERT INTO `stock_units` VALUES (14, 7, 0);
+INSERT INTO `stock_units` VALUES (15, 13, 0);
+INSERT INTO `stock_units` VALUES (16, 19, 0);
+INSERT INTO `stock_units` VALUES (17, 28, 1);
+INSERT INTO `stock_units` VALUES (18, 9, 0);
+INSERT INTO `stock_units` VALUES (19, 18, 0);
+INSERT INTO `stock_units` VALUES (20, 19, 0);
+INSERT INTO `stock_units` VALUES (21, 17, 0);
+INSERT INTO `stock_units` VALUES (22, 18, 0);
+INSERT INTO `stock_units` VALUES (23, 10, 0);
+INSERT INTO `stock_units` VALUES (24, 16, 0);
+INSERT INTO `stock_units` VALUES (25, 28, 0);
+INSERT INTO `stock_units` VALUES (26, 21, 0);
+INSERT INTO `stock_units` VALUES (27, 10, 0);
+INSERT INTO `stock_units` VALUES (28, 21, 0);
+INSERT INTO `stock_units` VALUES (29, 13, 0);
+INSERT INTO `stock_units` VALUES (30, 21, 0);
+INSERT INTO `stock_units` VALUES (31, 28, 0);
+INSERT INTO `stock_units` VALUES (32, 9, 0);
+INSERT INTO `stock_units` VALUES (33, 28, 0);
+INSERT INTO `stock_units` VALUES (34, 17, 0);
+INSERT INTO `stock_units` VALUES (35, 12, 0);
+INSERT INTO `stock_units` VALUES (36, 26, 1);
+INSERT INTO `stock_units` VALUES (37, 12, 0);
+INSERT INTO `stock_units` VALUES (38, 18, 0);
+INSERT INTO `stock_units` VALUES (39, 26, 1);
+INSERT INTO `stock_units` VALUES (40, 28, 0);
+INSERT INTO `stock_units` VALUES (41, 17, 0);
+INSERT INTO `stock_units` VALUES (42, 7, 0);
+INSERT INTO `stock_units` VALUES (43, 16, 0);
+INSERT INTO `stock_units` VALUES (44, 16, 0);
+INSERT INTO `stock_units` VALUES (45, 9, 0);
+INSERT INTO `stock_units` VALUES (46, 23, 1);
+INSERT INTO `stock_units` VALUES (47, 9, 0);
+INSERT INTO `stock_units` VALUES (48, 17, 0);
+INSERT INTO `stock_units` VALUES (49, 8, 0);
+INSERT INTO `stock_units` VALUES (50, 28, 0);
+INSERT INTO `stock_units` VALUES (51, 20, 0);
+INSERT INTO `stock_units` VALUES (52, 21, 0);
+INSERT INTO `stock_units` VALUES (53, 23, 1);
+INSERT INTO `stock_units` VALUES (54, 25, 0);
+INSERT INTO `stock_units` VALUES (55, 13, 0);
+INSERT INTO `stock_units` VALUES (56, 9, 0);
+INSERT INTO `stock_units` VALUES (57, 39, 0);
+INSERT INTO `stock_units` VALUES (58, 39, 0);
+INSERT INTO `stock_units` VALUES (59, 39, 0);
+INSERT INTO `stock_units` VALUES (60, 39, 0);
+INSERT INTO `stock_units` VALUES (61, 39, 0);
+INSERT INTO `stock_units` VALUES (62, 39, 0);
+INSERT INTO `stock_units` VALUES (63, 38, 1);
+INSERT INTO `stock_units` VALUES (64, 38, 1);
+INSERT INTO `stock_units` VALUES (65, 38, 0);
+INSERT INTO `stock_units` VALUES (66, 38, 0);
+INSERT INTO `stock_units` VALUES (67, 38, 0);
+INSERT INTO `stock_units` VALUES (68, 38, 0);
+INSERT INTO `stock_units` VALUES (69, 38, 0);
+INSERT INTO `stock_units` VALUES (70, 38, 0);
+INSERT INTO `stock_units` VALUES (71, 38, 0);
+INSERT INTO `stock_units` VALUES (72, 38, 0);
+INSERT INTO `stock_units` VALUES (73, 38, 0);
+INSERT INTO `stock_units` VALUES (74, 38, 0);
+INSERT INTO `stock_units` VALUES (75, 38, 0);
+INSERT INTO `stock_units` VALUES (76, 38, 0);
+INSERT INTO `stock_units` VALUES (77, 38, 0);
+INSERT INTO `stock_units` VALUES (78, 38, 0);
+INSERT INTO `stock_units` VALUES (79, 38, 0);
+INSERT INTO `stock_units` VALUES (80, 38, 0);
+INSERT INTO `stock_units` VALUES (81, 38, 0);
+INSERT INTO `stock_units` VALUES (82, 38, 0);
+INSERT INTO `stock_units` VALUES (83, 38, 0);
+INSERT INTO `stock_units` VALUES (84, 36, 0);
+INSERT INTO `stock_units` VALUES (85, 36, 0);
+INSERT INTO `stock_units` VALUES (86, 36, 0);
+INSERT INTO `stock_units` VALUES (87, 36, 0);
+INSERT INTO `stock_units` VALUES (88, 36, 0);
+INSERT INTO `stock_units` VALUES (89, 35, 0);
+INSERT INTO `stock_units` VALUES (90, 35, 0);
+INSERT INTO `stock_units` VALUES (91, 35, 0);
+INSERT INTO `stock_units` VALUES (92, 35, 0);
+INSERT INTO `stock_units` VALUES (93, 35, 0);
+INSERT INTO `stock_units` VALUES (94, 35, 0);
+INSERT INTO `stock_units` VALUES (95, 34, 0);
+INSERT INTO `stock_units` VALUES (96, 33, 0);
+INSERT INTO `stock_units` VALUES (103, 32, 0);
 
 -- ----------------------------
 -- Table structure for users
@@ -674,7 +682,7 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (9, 'Gabor', 'Galazzo', 'gabor.galazzo@gmail.com', 8866424, '$2y$12$bj5wurPlxQnTB4EojGM4febvXNiywv040h28vpSoCORrI0.x903w6', 2, 2, '2019-06-12 22:46:59');
+INSERT INTO `users` VALUES (9, 'Gabor', 'Galazzo', 'gabor.galazzo@gmail.com', 8866424, '$2y$12$bj5wurPlxQnTB4EojGM4febvXNiywv040h28vpSoCORrI0.x903w6', 5, 3, '2019-06-12 22:46:59');
 INSERT INTO `users` VALUES (11, 'Gabor', 'Galazzo', 'gaborando@live.it', 4393958, '$2y$12$oHUwQ.YZYQorATYaMvIDYORGyxJE5yQPTucDbmexOXZiIQAg3gHYy', NULL, NULL, '2019-06-12 22:46:59');
 INSERT INTO `users` VALUES (12, 'Michela', 'Galazzo', 'michelagalazzo@icloud.com', 2196061, '$2y$12$OWx3dhFC/fnV/RZB2ftGcOurN1agSNJ2gTPGCwZ2s3ejaeNoAl6d2', NULL, NULL, '2019-06-12 22:46:59');
 INSERT INTO `users` VALUES (14, 'Mario', 'Galazzo', 'mariogalazzo@libero.it', 4130327, '$2y$12$0ulOIDL0sLXQWZtcvn/eU.0l8epRlsejZMZuUgR06C.cPRAlP7uyu', NULL, NULL, '2019-06-12 22:46:59');
