@@ -32,7 +32,10 @@
         public static function validateExpiry($month, $year)
         {
             try {
-                return date_create_from_format('Y-n-1', "$year-$month-1")->getTimestamp() > strtotime('now');
+                $date = date_create_from_format('Y-n-1', "$year-$month-1");
+                if(!$date)
+                    return false;
+                return $date->getTimestamp() > strtotime('now');
             }catch (\Exception $e){
                 return false;
             }

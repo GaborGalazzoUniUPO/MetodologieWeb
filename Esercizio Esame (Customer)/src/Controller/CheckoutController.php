@@ -56,21 +56,19 @@
             
             if ($shippingAddress == 'new') {
                 
-                $shippingAddress = new ShippingAddress();
-                $shippingAddress->setFullName($this->get('address_full_name'));
-                $shippingAddress->setStreet($this->get('street'));
-                $shippingAddress->setCity($this->get('city'));
-                $shippingAddress->setRegion($this->get('region'));
-                $shippingAddress->setZipCode($this->get('zip_code'));
-                $shippingAddress->setCountry($this->get('country'));
-                $shippingAddress->setOwnerId($this->getUserSession()->getId());
+                $sa = new ShippingAddress();
+                $sa->setFullName($this->get('address_full_name'));
+                $sa->setStreet($this->get('street'));
+                $sa->setCity($this->get('city'));
+                $sa->setRegion($this->get('region'));
+                $sa->setZipCode($this->get('zip_code'));
+                $sa->setCountry($this->get('country'));
+                $sa->setOwnerId($this->getUserSession()->getId());
                 
-                $saErrors = $shippingAddress->validate();
+                $saErrors = $sa->validate();
                 
                 if (count($saErrors) > 0) {
                     $error = array_merge($error, $saErrors);
-                } else {
-                    $saRepo->save($shippingAddress);
                 }
             } else {
                 $shippingAddress = $saRepo->findByIdAndOwner($shippingAddress, $this->getUserSession()->getId());
@@ -80,25 +78,15 @@
             if ($paymentMethod == 'new') {
                 
                 
-                $result = PaymentService::registerCard(
+                $pm = PaymentService::registerCard(
                     $this->get('number'),
                     $this->get('full_name'),
                     $this->get('exp_month'),
                     $this->get('exp_year'),
                     $this->get('cvc')
                 );
-                if (count($result['error']) > 0) {
-                    $error = array_merge($error, $result['error']);
-                } else {
-                    $paymentMethod = new PaymentMethod();
-                    $paymentMethod->setFullName($result['full_name']);
-                    $paymentMethod->setCardType($result['card_type']);
-                    $paymentMethod->setExpiry($result['expiry']);
-                    $paymentMethod->setLastDigits($result['last_digits']);
-                    $paymentMethod->setTokenId($result['token_id']);
-                    $paymentMethod->setOwnerId($this->getUserSession()->getId());
-                    
-                    $pmRepo->save($paymentMethod);
+                if (count($pm['error']) > 0) {
+                    $error = array_merge($error, $pm['error']);
                 }
                 
             } else {
@@ -133,6 +121,24 @@
                     )
                 );
             }
+    
+            if(isset($sa)) {
+                $saRepo->save($sa);
+                $shippingAddress = $sa;
+            }
+    
+            if(isset($pm)) {
+                $paymentMethod = new PaymentMethod();
+                $paymentMethod->setFullName($pm['full_name']);
+                $paymentMethod->setCardType($pm['card_type']);
+                $paymentMethod->setExpiry($pm['expiry']);
+                $paymentMethod->setLastDigits($pm['last_digits']);
+                $paymentMethod->setTokenId($pm['token_id']);
+                $paymentMethod->setOwnerId($this->getUserSession()->getId());
+                $pmRepo->save($paymentMethod);
+            }
+    
+           
             
             $this->getUserSession()->setDefaultPaymentMethod($paymentMethod->getId());
             $this->getUserSession()->setDefaultShippingAddress($shippingAddress->getId());

@@ -159,7 +159,7 @@
                 $error['city'] = "City invalid, must contain 2 characters at least";
             if(!preg_match("/^[\w\s-]{2,}$/", $this->region))
                 $error['region'] = "State/Province/Region invalid, must contain 2 characters at least";
-            if(!preg_match("/^[\w\s-]{4,}$/", $this->zip_code))
+            if(!preg_match("/^[\w]{4,}$/", $this->zip_code))
                 $error['zip_code'] = "Zip code invalid, must contain 4 characters at least";
             if(!preg_match("/^[\w\s-]{3,}$/", $this->country))
                 $error['country'] = "Country invalid, must contain 3 characters at least";
