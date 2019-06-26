@@ -552,8 +552,8 @@ CREATE TABLE `stock_units`  (
   `product_id` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `FK_stock_productd`(`product_id`) USING BTREE,
-  CONSTRAINT `FK_stock_productd` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `FK_stock_product`(`product_id`) USING BTREE,
+  CONSTRAINT `FK_stock_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 104 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
