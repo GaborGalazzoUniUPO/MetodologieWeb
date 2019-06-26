@@ -2,6 +2,7 @@ package upo.gaborgalazzo.mweb.marketplace.domain;
 
 import de.ailis.pherialize.MixedArray;
 import de.ailis.pherialize.Pherialize;
+import upo.gaborgalazzo.mweb.marketplace.functiolanities.StringConverter;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -30,16 +31,16 @@ public class Product
 	{
 		Product product = new Product();
 		product.setId(resultSet.getInt("id"));
-		product.setName(resultSet.getString("name"));
-		product.setCode(resultSet.getString("code"));
-		product.setPhotoUrl(resultSet.getString("photo_url"));
-		product.setDescription(resultSet.getString("description"));
-		product.setSmallDescription(resultSet.getString("small_description"));
+		product.setName(StringConverter.toUtf8(resultSet,"name"));
+		product.setCode(StringConverter.toUtf8(resultSet,"code"));
+		product.setPhotoUrl(StringConverter.toUtf8(resultSet,"photo_url"));
+		product.setDescription(StringConverter.toUtf8(resultSet,"description"));
+		product.setSmallDescription(StringConverter.toUtf8(resultSet,"small_description"));
 		product.setUnitPrice(resultSet.getFloat("unit_price"));
 		product.setCategory(resultSet.getInt("category"));
 		product.setDateAdded(resultSet.getDate("date_added"));
 		product.setQta(resultSet.getInt("qta"));
-		product.setCategoryInfo(Pherialize.unserialize(resultSet.getString("category_info")).toArray());
+		product.setCategoryInfo(Pherialize.unserialize(StringConverter.toUtf8(resultSet,"category_info")).toArray());
 		return product;
 	}
 
@@ -172,9 +173,9 @@ public class Product
 		Map<String, String> errors = new HashMap<>();
 		try
 		{
-			if (code.matches("^[\\w]{3,}$"))
+			if (!code.matches("^[\\w]{3,}$"))
 				errors.put("code", "Code required (3 characters at least)");
-			if (name.matches("[a-zA-Z]+"))
+			if (!name.matches("[a-zA-Z ]+"))
 				errors.put("name", "Code required (3 characters at least)");
 			try{
 				new URL(photoUrl);
@@ -196,42 +197,42 @@ public class Product
 			switch (category){
 				case 1:
 				case 2:
-					if(categoryInfo.getString("Author") == null ||  !categoryInfo.getString("Author").matches("^[\\w\\s]{3,}$"))
+					if(categoryInfo.get("Author") == null ||  !categoryInfo.getString("Author").matches("^[\\w\\s]{3,}$"))
 						errors.put("author", "Author required (3 characters at least)");
-					if(categoryInfo.getString("Editor") == null ||  !categoryInfo.getString("Editor").matches("^[\\w\\s]{3,}$"))
+					if(categoryInfo.get("Editor") == null ||  !categoryInfo.getString("Editor").matches("^[\\w\\s]{3,}$"))
 						errors.put("editor", "Editor required (3 characters at least)");
-					if(categoryInfo.getString("ISBN") == null ||  !categoryInfo.getString("ISBN").matches("^[\\w]{10,}$"))
+					if(categoryInfo.get("ISBN") == null ||  !categoryInfo.getString("ISBN").matches("^[\\w]{10,}$"))
 						errors.put("isbn", "ISBN required (10 characters at least)");
-					if(categoryInfo.getInt("Print length") < 1)
+					if(categoryInfo.get("Print length") == null || categoryInfo.getInt("Print length") < 1)
 						errors.put("length", "Print Length required (must be greater than 1)");
-					if(categoryInfo.getString("Publication year") == null ||  !categoryInfo.getString("Publication year").matches("^[0-9]{4,}$") )
+					if(categoryInfo.get("Publication year") == null ||  !categoryInfo.getString("Publication year").matches("^[0-9]{4,}$") )
 						errors.put("pub_year", "Publication year required (4 digits at least)");
 					break;
 				case 3:
 				case 4:
-					if(categoryInfo.getString("Author") == null ||  !categoryInfo.getString("Author").matches("^[\\w\\s]{3,}$"))
+					if(categoryInfo.get("Author") == null ||  !categoryInfo.getString("Author").matches("^[\\w\\s]{3,}$"))
 						errors.put("author", "Author required (3 characters at least)");
-					if(categoryInfo.getString("Publication year") == null ||  !categoryInfo.getString("Publication year").matches("^[0-9]{4,}$"))
+					if(categoryInfo.get("Publication year") == null ||  !categoryInfo.getString("Publication year").matches("^[0-9]{4,}$"))
 						errors.put("pub_year", "Publication year required (4 digits at least)");
-					if(categoryInfo.getArray("Tracks") == null ||  categoryInfo.getArray("Tracks").size() < 1)
+					if(categoryInfo.get("Tracks") == null ||  categoryInfo.getArray("Tracks").size() < 1)
 						errors.put("tracks", "Tracks required (1 actors at least)");
 					break;
 				case 5:
-					if(categoryInfo.getString("Director") == null ||  !categoryInfo.getString("Director").matches("^[\\w\\s]{3,}$"))
+					if(categoryInfo.get("Director") == null ||  !categoryInfo.getString("Director").matches("^[\\w\\s]{3,}$"))
 						errors.put("director", "Director required (3 characters at least)");
-					if(categoryInfo.getString("Publication year") == null ||  !categoryInfo.getString("Publication year").matches("^[0-9]{4,}$"))
+					if(categoryInfo.get("Publication year") == null ||  !categoryInfo.getString("Publication year").matches("^[0-9]{4,}$"))
 						errors.put("pub_year", "Publication year required (4 digits at least)");
-					if(categoryInfo.getString("Genre") == null ||  categoryInfo.getString("Genre").length() < 5)
+					if(categoryInfo.get("Genre") == null ||  categoryInfo.getString("Genre").length() < 5)
 						errors.put("genre", "Genre required (5 characters at least)");
-					if(categoryInfo.getArray("Actors") == null ||  categoryInfo.getArray("Actors").size() < 3 || categoryInfo.getArray("Actors").size() > 6)
+					if(categoryInfo.get("Actors") == null ||  categoryInfo.getArray("Actors").size() < 3 || categoryInfo.getArray("Actors").size() > 6)
 						errors.put("actors", "Actors required (3 actors at least, maximum 6)");
 					break;
 				case 6:
-					if(categoryInfo.getString("Platform") == null ||  !categoryInfo.getString("Platform").matches("^[\\w\\s]{4,}$"))
+					if(categoryInfo.get("Platform") == null ||  !categoryInfo.getString("Platform").matches("^[\\w\\s]{4,}$"))
 						errors.put("platform", "Platform year required (4 digits at least)");
-					if(categoryInfo.getString("Publisher") == null ||  !categoryInfo.getString("Publisher").matches("^[\\w\\s]{3,}$"))
+					if(categoryInfo.get("Publisher") == null ||  !categoryInfo.getString("Publisher").matches("^[\\w\\s]{3,}$"))
 						errors.put("publisher", "Publisher year required (4 digits at least)");
-					if(categoryInfo.getString("Publication year") == null ||  !categoryInfo.getString("Publication year").matches("^[0-9]{4,}$"))
+					if(categoryInfo.get("Publication year") == null ||  !categoryInfo.getString("Publication year").matches("^[0-9]{4,}$"))
 						errors.put("pub_year", "Publication year required (4 digits at least)");
 			}
 

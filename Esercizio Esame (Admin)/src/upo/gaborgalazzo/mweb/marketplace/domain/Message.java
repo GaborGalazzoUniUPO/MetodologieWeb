@@ -1,5 +1,7 @@
 package upo.gaborgalazzo.mweb.marketplace.domain;
 
+import upo.gaborgalazzo.mweb.marketplace.functiolanities.StringConverter;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,7 +16,7 @@ public class Message
 		Message message = new Message();
 		message.setOrderId(resultSet.getInt("order_id"));
 		message.setType(resultSet.getInt("type"));
-		message.setText(resultSet.getString("text"));
+		message.setText(StringConverter.toUtf8(resultSet,"text"));
 		return message;
 	}
 

@@ -1,5 +1,7 @@
 package upo.gaborgalazzo.mweb.marketplace.domain;
 
+import upo.gaborgalazzo.mweb.marketplace.functiolanities.StringConverter;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -17,8 +19,8 @@ public class CartProduct
 		cartProduct.setId(resultSet.getInt("id"));
 		cartProduct.setQta(resultSet.getInt("qta"));
 		cartProduct.setUnitPrice(resultSet.getFloat("unit_price"));
-		cartProduct.setPhotoUrl(resultSet.getString("photo_url"));
-		cartProduct.setName(resultSet.getString("name"));
+		cartProduct.setPhotoUrl(StringConverter.toUtf8(resultSet,"photo_url"));
+		cartProduct.setName(StringConverter.toUtf8(resultSet,"name"));
 		return cartProduct;
 	}
 

@@ -1,5 +1,7 @@
 package upo.gaborgalazzo.mweb.marketplace.domain;
 
+import upo.gaborgalazzo.mweb.marketplace.functiolanities.StringConverter;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -53,9 +55,9 @@ public class User
 	public static User fromResultSet(ResultSet resultSet) throws SQLException
 	{
 		User user = new User();
-		user.setEmail(resultSet.getString("email"));
-		user.setName(resultSet.getString("name"));
-		user.setSurname(resultSet.getString("surname"));
+		user.setEmail(StringConverter.toUtf8(resultSet,"email"));
+		user.setName(StringConverter.toUtf8(resultSet,"name"));
+		user.setSurname(StringConverter.toUtf8(resultSet,"surname"));
 		user.setId(resultSet.getInt("id"));
 		return user;
 	}

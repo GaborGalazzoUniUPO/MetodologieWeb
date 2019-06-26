@@ -1,5 +1,7 @@
 package upo.gaborgalazzo.mweb.marketplace.domain;
 
+import upo.gaborgalazzo.mweb.marketplace.functiolanities.StringConverter;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,9 +16,9 @@ public class Customer
 	{
 		Customer customer = new Customer();
 		customer.setId(resultSet.getInt("id"));
-		customer.setName(resultSet.getString("name"));
-		customer.setEmail(resultSet.getString("email"));
-		customer.setSurname(resultSet.getString("surname"));
+		customer.setName(StringConverter.toUtf8(resultSet,"name"));
+		customer.setEmail(StringConverter.toUtf8(resultSet,"email"));
+		customer.setSurname(StringConverter.toUtf8(resultSet,"surname"));
 		return customer;
 	}
 

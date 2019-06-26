@@ -1,5 +1,7 @@
 package upo.gaborgalazzo.mweb.marketplace.domain;
 
+import upo.gaborgalazzo.mweb.marketplace.functiolanities.StringConverter;
+
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,15 +41,15 @@ public class Order
 		order.setShippingAddressId(resultSet.getInt("shipping_address_id"));
 		order.setItemCount(resultSet.getInt("item_count"));
 		order.setMessagesCount(resultSet.getInt("messages_count"));
-		order.setTransaction(resultSet.getString("transaction"));
-		order.setCode(resultSet.getString("code"));
-		order.setTrackingCode(resultSet.getString("tracking_code"));
+		order.setTransaction(StringConverter.toUtf8(resultSet,"transaction"));
+		order.setCode(StringConverter.toUtf8(resultSet,"code"));
+		order.setTrackingCode(StringConverter.toUtf8(resultSet,"tracking_code"));
 		order.setCreatedAt(resultSet.getDate("created_at"));
 		order.setDeliveredAt(resultSet.getDate("delivered_at"));
 		order.setTotal(resultSet.getFloat("total"));
-		order.setOwnerInfo(resultSet.getString("owner_info"));
-		order.setPmInfo(resultSet.getString("pm_info"));
-		order.setSaInfo(resultSet.getString("sa_info"));
+		order.setOwnerInfo(StringConverter.toUtf8(resultSet,"owner_info"));
+		order.setPmInfo(StringConverter.toUtf8(resultSet,"pm_info"));
+		order.setSaInfo(StringConverter.toUtf8(resultSet,"sa_info"));
 		return order;
 	}
 
