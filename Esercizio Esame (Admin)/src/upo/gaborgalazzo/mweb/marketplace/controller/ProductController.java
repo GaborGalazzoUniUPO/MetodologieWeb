@@ -105,7 +105,7 @@ public class ProductController extends RouteHttpServlet
 
 
 		Product product = new Product();
-		product.setCategory(Integer.parseInt(request.getParameter("category")));
+		product.setCategory(Integer.parseInt(getParameter(request,"category")));
 		request.setAttribute("product", product);
 		request.setAttribute("errors", new HashMap<>());
 		request.getRequestDispatcher("/WEB-INF/template/page/product/form.jsp").forward(request, response);
@@ -145,7 +145,7 @@ public class ProductController extends RouteHttpServlet
 	{
 		try
 		{
-			int stockCount = Integer.parseInt(request.getParameter("stock_increment"));
+			int stockCount = Integer.parseInt(getParameter(request,"stock_increment"));
 			StockDAO stockDAO = new StockDAO();
 			for (int i = 0; i < stockCount; i++)
 			{
@@ -174,9 +174,9 @@ public class ProductController extends RouteHttpServlet
 	private MixedArray parseVideoGame(HttpServletRequest request)
 	{
 		MixedArray mixedArray = new MixedArray();
-		mixedArray.put("Platform", request.getParameter("platform"));
-		mixedArray.put("Publisher", request.getParameter("publisher"));
-		mixedArray.put("Publication year", request.getParameter("pub_year"));
+		mixedArray.put("Platform", getParameter(request,"platform"));
+		mixedArray.put("Publisher", getParameter(request,"publisher"));
+		mixedArray.put("Publication year", getParameter(request,"pub_year"));
 		return mixedArray;
 	}
 
@@ -184,9 +184,9 @@ public class ProductController extends RouteHttpServlet
 	{
 
 		MixedArray mixedArray = new MixedArray();
-		mixedArray.put("Director", request.getParameter("director"));
-		mixedArray.put("Genre", request.getParameter("genre"));
-		mixedArray.put("Publication year", request.getParameter("pub_year"));
+		mixedArray.put("Director", getParameter(request,"director"));
+		mixedArray.put("Genre", getParameter(request,"genre"));
+		mixedArray.put("Publication year", getParameter(request,"pub_year"));
 		String[] list = request.getParameterValues("actors");
 		mixedArray.put("Actors", list != null ? Arrays.asList(list) : new ArrayList<>());
 		return mixedArray;
@@ -195,8 +195,8 @@ public class ProductController extends RouteHttpServlet
 	private MixedArray parseCD(HttpServletRequest request)
 	{
 		MixedArray mixedArray = new MixedArray();
-		mixedArray.put("Author", request.getParameter("author"));
-		mixedArray.put("Publication year", request.getParameter("pub_year"));
+		mixedArray.put("Author", getParameter(request,"author"));
+		mixedArray.put("Publication year", getParameter(request,"pub_year"));
 		String[] list = request.getParameterValues("tracks");
 		mixedArray.put("Tracks", list != null ? Arrays.asList(list) : new ArrayList<>());
 		return mixedArray;
@@ -206,25 +206,25 @@ public class ProductController extends RouteHttpServlet
 	{
 
 		MixedArray mixedArray = new MixedArray();
-		mixedArray.put("Author", request.getParameter("author"));
-		mixedArray.put("Editor", request.getParameter("editor"));
-		mixedArray.put("ISBN", request.getParameter("isbn"));
-		mixedArray.put("Print length", request.getParameter("length"));
-		mixedArray.put("Publication year", request.getParameter("pub_year"));
+		mixedArray.put("Author", getParameter(request,"author"));
+		mixedArray.put("Editor", getParameter(request,"editor"));
+		mixedArray.put("ISBN", getParameter(request,"isbn"));
+		mixedArray.put("Print length", getParameter(request,"length"));
+		mixedArray.put("Publication year", getParameter(request,"pub_year"));
 		return mixedArray;
 	}
 
-	private Map<String, String> parseProductRequest(Product product, HttpServletRequest request)
+    private Map<String, String> parseProductRequest(Product product, HttpServletRequest request)
 	{
-		product.setCode(request.getParameter("code"));
-		product.setDescription(request.getParameter("description"));
-		product.setSmallDescription(request.getParameter("small_description"));
-		product.setName(request.getParameter("name"));
-		product.setUnitPrice(Float.parseFloat(request.getParameter("unit_price")));
-		product.setCategory(Integer.parseInt(request.getParameter("category")));
-		product.setPhotoUrl(request.getParameter("photo_url"));
+		product.setCode(getParameter(request,"code"));
+		product.setDescription(getParameter(request,"description"));
+		product.setSmallDescription(getParameter(request,"small_description"));
+		product.setName(getParameter(request,"name"));
+		product.setUnitPrice(Float.parseFloat(getParameter(request,"unit_price")));
+		product.setCategory(Integer.parseInt(getParameter(request,"category")));
+		product.setPhotoUrl(getParameter(request,"photo_url"));
 
-		switch (request.getParameter("category"))
+		switch (getParameter(request,"category"))
 		{
 			case "1":
 			case "2":

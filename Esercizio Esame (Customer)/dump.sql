@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : LOCALHOST
+ Source Server         : Locahost
  Source Server Type    : MySQL
- Source Server Version : 50718
+ Source Server Version : 50719
  Source Host           : localhost:3306
  Source Schema         : mweb-digital_store
 
  Target Server Type    : MySQL
- Target Server Version : 50718
+ Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 25/06/2019 19:06:58
+ Date: 26/06/2019 13:42:38
 */
 
 SET NAMES utf8mb4;
@@ -67,7 +67,7 @@ CREATE TABLE `cookies`  (
   UNIQUE INDEX `cookies_cookie_session_uindex`(`cookie_session`) USING BTREE,
   INDEX `cookies_users_id_fk`(`user_id`) USING BTREE,
   CONSTRAINT `cookies_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of cookies
@@ -103,6 +103,7 @@ INSERT INTO `cookies` VALUES (28, '5cf80bca27e20', 9, '2019-06-05 20:36:58');
 INSERT INTO `cookies` VALUES (29, '5cfada468ddce', 9, '2019-06-07 23:42:30');
 INSERT INTO `cookies` VALUES (30, '5d01665daabec', 9, '2019-06-12 22:53:49');
 INSERT INTO `cookies` VALUES (31, '5d0f9fcfb4c1d', 9, '2019-06-23 17:50:39');
+INSERT INTO `cookies` VALUES (32, '5d133b14af398', 9, '2019-06-26 11:29:56');
 
 -- ----------------------------
 -- Table structure for order_products
@@ -254,8 +255,8 @@ INSERT INTO `products` VALUES (23, '', 'https://images-na.ssl-images-amazon.com/
 INSERT INTO `products` VALUES (25, 'B01KMWAV3Q', 'https://images-na.ssl-images-amazon.com/images/I/91XzfVwf76L._SX425_.jpg', '', 'Harry Potter and the Deathly Hallows, Part II', 10.88, 5, '2019-05-25 15:30:46', '', 'a:4:{s:8:\"Director\";s:11:\"David Yates\";s:6:\"Actors\";s:82:\"Daniel Radcliffe, Rupert Grint, Emma Watson, Helena Bonham Carter, Robbie Coltrane\";s:5:\"Genre\";s:7:\"Fantasy\";s:16:\"Publication year\";s:4:\"2016\";}');
 INSERT INTO `products` VALUES (26, 'B07BYWVLZR', 'https://images-na.ssl-images-amazon.com/images/I/81GfZasnt9L._SY500_.jpg', 'An unprecedented cinematic journey ten years in the making and spanning the entire Marvel Cinematic Universe, Marvel Studios\' \'Avengers: Infinity War\' brings to the screen the ultimate, deadliest showdown of all time. As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos. A despot of intergalactic infamy, his goal is to collect all six Infinity Stones, artifacts of unimaginable power, and use them to inflict his twisted will on all of reality. Everything the Avengers have fought for has led up to this moment - the fate of Earth and existence itself has never been more uncertain.', 'AVENGERS: INFINITY WAR', 13.94, 5, '2019-05-25 15:35:14', 'An unprecedented cinematic journey ten years in the making and spanning the entire Marvel Cinematic Universe, MARVEL STUDIOS\' THE AVENGERS', 'a:4:{s:8:\"Director\";s:19:\"Joe & Anthony Russo\";s:6:\"Actors\";s:81:\"Robert Downey Jr., Chris Hemsworth, Mark Ruffalo, Chris Evans, Scarlett Johansson\";s:5:\"Genre\";s:6:\"Action\";s:16:\"Publication year\";s:4:\"2018\";}');
 INSERT INTO `products` VALUES (28, 'B01L7DYMIE', 'https://images-na.ssl-images-amazon.com/images/I/917IDVbIJRL._SY500_.jpg', '', 'Marvel\'s The Avengers 2-Movie Collection', 46, 5, '2019-05-25 15:38:01', '', 'a:4:{s:8:\"Director\";s:19:\"Joe & Anthony Russo\";s:6:\"Actors\";s:61:\"Chris Evans, Robert Jr. Downey, Mark Ruffalo, Chris Hemsworth\";s:5:\"Genre\";s:6:\"Action\";s:16:\"Publication year\";s:4:\"2016\";}');
-INSERT INTO `products` VALUES (29, 'B07HN2XHVC', 'https://images-na.ssl-images-amazon.com/images/I/81Qmd0Dv43L._SX522_.jpg', '', 'love', 16.49, 3, '2019-05-29 22:17:22', '', 'a:3:{s:6:\"Author\";s:14:\"Buble\' Michael\";s:16:\"Publication year\";s:4:\"2018\";s:6:\"Tracks\";a:10:{i:0;s:29:\"When I Fall In Love - (04:03)\";i:1;s:34:\"I Only Have Eyes for You - (03:22)\";i:2;s:26:\"Love You Anymore - (03:02)\";i:3;s:56:\"La vie en rose (feat. CÃ©cile McLorin Salvant) - (03:49)\";i:4;s:28:\"My Funny Valentine - (04:25)\";i:5;s:22:\"Such a Night - (03:17)\";i:6;s:21:\"Forever Now - (03:40)\";i:7;s:64:\"Help Me Make It Through the Night (feat. Loren Allred) - (03:42)\";i:8;s:29:\"When You\'re Smiling - (02:50)\";i:10;s:24:\" Where or When - (03:05)\";}}');
-INSERT INTO `products` VALUES (31, 'B0041KVZ1I', 'https://images-na.ssl-images-amazon.com/images/I/81oFpzU4d3L._SX522_PJautoripBadge,BottomRight,4,-40_OU11__.jpg', '', 'Abbey Road', 22.99, 4, '2019-05-29 22:36:55', '', 'a:1:{s:6:\"Tracks\";a:15:{i:0;s:27:\"\"Come Together\"	Lennon	4:19\";i:1;s:43:\"\"Something\" (George Harrison)	Harrison	3:02\";i:2;s:40:\"\"Maxwell\'s Silver Hammer\"	McCartney	3:27\";i:3;s:28:\"\"Oh! Darling\"	McCartney	3:27\";i:4;s:47:\"\"Octopus\'s Garden\" (Richard Starkey)	Starr	2:51\";i:5;s:41:\"\"I Want You (She\'s So Heavy)\"	Lennon	7:47\";i:6;s:52:\"\"Here Comes the Sun\" (George Harrison)	Harrison	3:05\";i:7;s:45:\"\"Because\"	Lennon, McCartney and Harrison	2:45\";i:8;s:51:\"\"Sun King\"	Lennon, with McCartney and Harrison	2:26\";i:10;s:30:\"\"Mean Mr. Mustard\"	Lennon	1:06\";i:11;s:27:\"\"Polythene Pam\"	Lennon	1:13\";i:12;s:56:\"\"She Came In Through the Bathroom Window\"	McCartney	1:58\";i:13;s:32:\"\"Golden Slumbers\"	McCartney	1:31\";i:14;s:67:\"\"Carry That Weight\"	McCartney, with Lennon, Harrison and Starr	1:36\";i:15;s:24:\"\"The End\"	McCartney	2:05\";}}');
+INSERT INTO `products` VALUES (29, 'B07HN2XHVC', 'https://images-na.ssl-images-amazon.com/images/I/81Qmd0Dv43L._SX522_.jpg', 'molto bello molto carino', 'love', 16.49, 3, '2019-05-29 22:17:22', 'molto bello molto carino molto bello molto carino', 'a:3:{s:6:\"Author\";s:13:\"Buble Michael\";s:16:\"Publication year\";s:4:\"2018\";s:6:\"Tracks\";a:9:{i:0;s:29:\"When I Fall In Love - (04:03)\";i:1;s:34:\"I Only Have Eyes for You - (03:22)\";i:2;s:26:\"Love You Anymore - (03:02)\";i:3;s:28:\"My Funny Valentine - (04:25)\";i:4;s:22:\"Such a Night - (03:17)\";i:5;s:21:\"Forever Now - (03:40)\";i:6;s:64:\"Help Me Make It Through the Night (feat. Loren Allred) - (03:42)\";i:7;s:8:\"When You\";i:8;s:56:\"La vie en rose (feat. CÃ©cile McLorin Salvant) - (03:49)\";}}');
+INSERT INTO `products` VALUES (31, 'B0041KVZ1I', 'https://images-na.ssl-images-amazon.com/images/I/81oFpzU4d3L._SX522_PJautoripBadge,BottomRight,4,-40_OU11__.jpg', 'èèèèèè Ã Ã Ã Ã Ã Ã Ã²Ã¨++Ã Ã¨Ã¨Ã Ã¨Ã¨Ã Ã²Ã¨Ã Ã Ã¹+Ã -Ã¨Ã Ã +Ã Ã¨Ã Ã Ã ', 'Abbey Road', 22.99, 4, '2019-05-29 22:36:55', 'Ã Ã Ã Ã Ã Ã Ã²Ã¨++Ã Ã¨Ã¨Ã Ã¨Ã¨Ã Ã²Ã¨Ã Ã Ã¹+Ã -Ã¨Ã Ã +Ã Ã¨Ã Ã Ã ', 'a:3:{s:6:\"Author\";s:11:\"The Beatles\";s:16:\"Publication year\";s:4:\"1969\";s:6:\"Tracks\";a:14:{i:0;s:27:\"\"Come Together\"	Lennon	4:19\";i:1;s:43:\"\"Something\" (George Harrison)	Harrison	3:02\";i:2;s:8:\"\"Maxwell\";i:3;s:28:\"\"Oh! Darling\"	McCartney	3:27\";i:4;s:8:\"\"Octopus\";i:5;s:16:\"\"I Want You (She\";i:6;s:52:\"\"Here Comes the Sun\" (George Harrison)	Harrison	3:05\";i:7;s:45:\"\"Because\"	Lennon, McCartney and Harrison	2:45\";i:8;s:51:\"\"Sun King\"	Lennon, with McCartney and Harrison	2:26\";i:9;s:30:\"\"Mean Mr. Mustard\"	Lennon	1:06\";i:10;s:27:\"\"Polythene Pam\"	Lennon	1:13\";i:11;s:56:\"\"She Came In Through the Bathroom Window\"	McCartney	1:58\";i:12;s:32:\"\"Golden Slumbers\"	McCartney	1:31\";i:13;s:67:\"\"Carry That Weight\"	McCartney, with Lennon, Harrison and Starr	1:36\";}}');
 INSERT INTO `products` VALUES (32, 'B00K6IU3MG', 'https://images-na.ssl-images-amazon.com/images/I/91iW%2BpWm6WL._AC_SX215_.jpg', 'Nintendo Super Mario Galaxy 2, Wii. Piattaforma: Nintendo Wii, Genere: Piattaforma, Classificazione ESRB: E (tutti)', 'Super Mario: Galaxy 2', 27.9, 6, '2019-05-29 22:42:51', 'Nintendo Super Mario Galaxy 2, Wii. Piattaforma: Nintendo Wii, Genere: Piattaforma, Classificazione ESRB: E (tutti)', 'a:3:{s:8:\"Platform\";s:12:\"Nintendo Wii\";s:9:\"Publisher\";s:8:\"Nintendo\";s:16:\"Publication year\";s:4:\"2014\";}');
 INSERT INTO `products` VALUES (33, 'B005KJG6TA', 'https://images-na.ssl-images-amazon.com/images/I/51JaVWRVHwL._AC_SX215_.jpg', 'Super Mario Galaxy, Nintendo Wii', 'Super Mario Galaxy - Nintendo Selects Edition', 27.98, 6, '2019-05-29 22:43:50', 'Super Mario Galaxy, Nintendo Wii', 'a:3:{s:8:\"Platform\";s:12:\"Nintendo Wii\";s:9:\"Publisher\";s:8:\"Nintendo\";s:16:\"Publication year\";s:4:\"2011\";}');
 INSERT INTO `products` VALUES (34, '0694003611', 'https://images-na.ssl-images-amazon.com/images/I/51%2BmV1XUUQL._SY432_BO1,204,203,200_.jpg', 'In a great green room, tucked away in bed, is a little bunny. \"Goodnight room, goodnight moon.\" And to all the familiar things in the softly lit room - to the picture of the three little bears sitting on chairs, to the clocks and his socks, to the mittens and the kittens, to everything one by one - the little bunny says goodnight.\r\n\r\nIn this classic of children\'s literature, beloved by generations of readers and listeners, the quiet poetry of the words and the gentle, lulling illustrations combine to make a perfect book for the end of the day.\r\n\r\nThis board book edition is the perfect size for little hands.', 'Goodnight Moon', 6.53, 1, '2019-06-07 17:09:30', 'In this classic of children\'s literature, beloved by generations of readers and listeners, the quiet poetry of the words and the gentle, lulling illustrations combine to make a perfect book for the end of the day.', 'a:5:{s:6:\"Author\";s:19:\"Margaret Wise Brown\";s:6:\"Editor\";s:14:\"HarperFestival\";s:4:\"ISBN\";s:14:\"978-0694003617\";s:12:\"Print length\";s:2:\"30\";s:16:\"Publication year\";s:4:\"2007\";}');
@@ -278,7 +279,7 @@ CREATE TABLE `report_messages`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `order_id`(`order_id`) USING BTREE,
   CONSTRAINT `report_messages_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of report_messages
@@ -290,6 +291,8 @@ INSERT INTO `report_messages` VALUES (4, 5, 1, 'mi spiace , le manderemo un alto
 INSERT INTO `report_messages` VALUES (5, 6, 0, 'oilaaaaa', '2019-06-12 22:29:03', 1);
 INSERT INTO `report_messages` VALUES (6, 6, 0, 'mi sentitee', '2019-06-12 22:33:51', 1);
 INSERT INTO `report_messages` VALUES (7, 6, 1, 'si si', '2019-06-12 22:34:08', 1);
+INSERT INTO `report_messages` VALUES (8, 5, 0, 'Ã¨ bruttissimo Ã²Ã Ã¹Ã¨+', '2019-06-26 11:30:12', 1);
+INSERT INTO `report_messages` VALUES (9, 5, 1, 'non Ã¨ colpa nostra', '2019-06-26 11:31:04', 1);
 
 -- ----------------------------
 -- Table structure for reviews
@@ -542,6 +545,92 @@ CREATE TABLE `shipping_addresses`  (
 INSERT INTO `shipping_addresses` VALUES (1, 'Via Wagner 51', 'Alessandria', 'AL', 'Italia', '15121', 9, 'Gabor Galazzo', '2019-06-05 21:32:17');
 INSERT INTO `shipping_addresses` VALUES (2, 'Wagner 51', 'Alessandria', 'AL', 'Ita', '15121', 9, 'Gabor Galazzo', '2019-06-23 18:04:25');
 INSERT INTO `shipping_addresses` VALUES (3, 'Via Wagner 51', 'Alessandria', 'AL', 'Italia', '15121', 9, 'Gabor Galazzo', NULL);
+
+-- ----------------------------
+-- Table structure for stock
+-- ----------------------------
+DROP TABLE IF EXISTS `stock`;
+CREATE TABLE `stock`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `FK_stock_productd`(`product_id`) USING BTREE,
+  CONSTRAINT `FK_stock_productd` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 70 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of stock
+-- ----------------------------
+INSERT INTO `stock` VALUES (1, 7, 0);
+INSERT INTO `stock` VALUES (2, 22, 0);
+INSERT INTO `stock` VALUES (3, 26, 1);
+INSERT INTO `stock` VALUES (4, 22, 0);
+INSERT INTO `stock` VALUES (5, 20, 1);
+INSERT INTO `stock` VALUES (6, 10, 0);
+INSERT INTO `stock` VALUES (7, 7, 0);
+INSERT INTO `stock` VALUES (8, 21, 0);
+INSERT INTO `stock` VALUES (9, 20, 0);
+INSERT INTO `stock` VALUES (10, 13, 0);
+INSERT INTO `stock` VALUES (11, 19, 1);
+INSERT INTO `stock` VALUES (12, 11, 0);
+INSERT INTO `stock` VALUES (13, 11, 0);
+INSERT INTO `stock` VALUES (14, 7, 0);
+INSERT INTO `stock` VALUES (15, 13, 0);
+INSERT INTO `stock` VALUES (16, 19, 0);
+INSERT INTO `stock` VALUES (17, 28, 1);
+INSERT INTO `stock` VALUES (18, 9, 0);
+INSERT INTO `stock` VALUES (19, 18, 0);
+INSERT INTO `stock` VALUES (20, 19, 0);
+INSERT INTO `stock` VALUES (21, 17, 0);
+INSERT INTO `stock` VALUES (22, 18, 0);
+INSERT INTO `stock` VALUES (23, 10, 0);
+INSERT INTO `stock` VALUES (24, 16, 0);
+INSERT INTO `stock` VALUES (25, 28, 0);
+INSERT INTO `stock` VALUES (26, 21, 0);
+INSERT INTO `stock` VALUES (27, 10, 0);
+INSERT INTO `stock` VALUES (28, 21, 0);
+INSERT INTO `stock` VALUES (29, 13, 0);
+INSERT INTO `stock` VALUES (30, 21, 0);
+INSERT INTO `stock` VALUES (31, 28, 0);
+INSERT INTO `stock` VALUES (32, 9, 0);
+INSERT INTO `stock` VALUES (33, 28, 0);
+INSERT INTO `stock` VALUES (34, 17, 0);
+INSERT INTO `stock` VALUES (35, 12, 0);
+INSERT INTO `stock` VALUES (36, 26, 1);
+INSERT INTO `stock` VALUES (37, 12, 0);
+INSERT INTO `stock` VALUES (38, 18, 0);
+INSERT INTO `stock` VALUES (39, 26, 1);
+INSERT INTO `stock` VALUES (40, 28, 0);
+INSERT INTO `stock` VALUES (41, 17, 0);
+INSERT INTO `stock` VALUES (42, 7, 0);
+INSERT INTO `stock` VALUES (43, 16, 0);
+INSERT INTO `stock` VALUES (44, 16, 0);
+INSERT INTO `stock` VALUES (45, 9, 0);
+INSERT INTO `stock` VALUES (46, 23, 1);
+INSERT INTO `stock` VALUES (47, 9, 0);
+INSERT INTO `stock` VALUES (48, 17, 0);
+INSERT INTO `stock` VALUES (49, 8, 0);
+INSERT INTO `stock` VALUES (50, 28, 0);
+INSERT INTO `stock` VALUES (51, 20, 0);
+INSERT INTO `stock` VALUES (52, 21, 0);
+INSERT INTO `stock` VALUES (53, 23, 1);
+INSERT INTO `stock` VALUES (54, 25, 0);
+INSERT INTO `stock` VALUES (55, 13, 0);
+INSERT INTO `stock` VALUES (56, 9, 0);
+INSERT INTO `stock` VALUES (57, 33, 0);
+INSERT INTO `stock` VALUES (58, 33, 0);
+INSERT INTO `stock` VALUES (59, 33, 0);
+INSERT INTO `stock` VALUES (60, 33, 0);
+INSERT INTO `stock` VALUES (61, 33, 0);
+INSERT INTO `stock` VALUES (62, 31, 0);
+INSERT INTO `stock` VALUES (63, 31, 0);
+INSERT INTO `stock` VALUES (64, 31, 0);
+INSERT INTO `stock` VALUES (65, 31, 0);
+INSERT INTO `stock` VALUES (66, 31, 0);
+INSERT INTO `stock` VALUES (67, 29, 0);
+INSERT INTO `stock` VALUES (68, 29, 0);
+INSERT INTO `stock` VALUES (69, 29, 0);
 
 -- ----------------------------
 -- Table structure for stock_units

@@ -9,6 +9,13 @@
 		<!-- class="sort" automagically makes an element a sort buttons. The date-sort value decides what to sort by. -->
 
 	</div>
+	<div id="status_buttons">
+		<button class="btn btn-outline-secondary active" id="btn_all" onclick="filterListByStatus('all')">All</button>
+		<button class="btn btn-outline-primary" id="btn_sent" onclick="filterListByStatus('sent')">Sent</button>
+		<button class="btn btn-outline-success" id="btn_del" onclick="filterListByStatus('del')">Delivered</button>
+		<button class="btn btn-outline-warning" id="btn_tproc" onclick="filterListByStatus('tproc')">To process</button>
+		<button class="btn btn-outline-danger" id="btn_err" onclick="filterListByStatus('err')">Error</button>
+	</div>
 
 	<div class="card mt-3">
 	<table class="table table-hover shopping-cart-wrap">
@@ -87,5 +94,20 @@
 	};
 
 	var list = new List('orders', options);
+
+	function filterListByStatus(status){
+		$('#status_buttons button').removeClass('active');
+		$('#btn_'+status).addClass('active');
+
+		if(status === 'all') {
+			list.search('', ['status']);
+		}
+			else{
+			list.search(status, ['status']);
+		}
+
+
+
+	}
 </script>
 <jsp:include page="../../common/footer.jsp"/>
