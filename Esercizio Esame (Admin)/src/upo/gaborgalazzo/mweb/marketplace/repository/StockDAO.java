@@ -13,7 +13,7 @@ public class StockDAO
 		Connection connection = DatabaseConnection.initializeDatabase();
 
 		PreparedStatement preparedStatement = connection.prepareStatement(
-				"insert into stock (product_id) values (?);"
+				"insert into stock_units (product_id) values (?);"
 		);
 
 		preparedStatement.setInt(1, id);

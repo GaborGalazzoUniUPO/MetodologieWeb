@@ -141,7 +141,7 @@ class ProductRepository extends AbstractRepository implements Repository
         and (p.category = :category || :category = 0)
         group by p.id
         having (review_avg >= 3 || 1 <> :type)
-        order by match(name, small_description, description, category_info) against (:search_text) desc
+        order by match(name, small_description, description, category_info) against (:search_text in boolean mode) desc
         , $order_field $order_direction
         limit ".(intval($page)*18).", 18;";
 

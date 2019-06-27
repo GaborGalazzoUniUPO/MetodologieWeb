@@ -53,6 +53,11 @@
                     </div>
                     <div class="card-body">
                         <dl>
+                            <dt>Owner:</dt>
+                            <dd>${order.ownerInfo}</dd>
+
+                        </dl>
+                        <dl>
                             <dt>Status:</dt>
                             <dd>${order.statusString}</dd>
 

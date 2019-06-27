@@ -70,7 +70,7 @@ public class DashboardDAO
 			PreparedStatement query = connection.prepareStatement(
 					"select sum(p.unit_price) from orders o " +
 							"inner join order_products op on op.order_id = o.id " +
-							"inner join stock s on s.id = op.stock_unit inner join products p on s.product_id = p.id " +
+							"inner join stock_units s on s.id = op.stock_unit inner join products p on s.product_id = p.id " +
 							"where o.created_at > CURRENT_DATE - INTERVAL 7 DAY "
 			);
 			ResultSet resultSet = query.executeQuery();

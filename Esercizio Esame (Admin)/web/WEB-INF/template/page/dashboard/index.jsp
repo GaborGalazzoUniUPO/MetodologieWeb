@@ -64,7 +64,7 @@
 		</div><!-- col // -->
 	</div>
 	<div class="row mt-3">
-		<div class="col-4">
+		<div class="col-6">
 			<div class="card">
 				<div class="card-header">
 					Order to process
@@ -76,6 +76,7 @@
 							<th>Code</th>
 							<th>#Items</th>
 							<th>Total</th>
+							<th>User</th>
 							<th>Date</th>
 						</tr>
 						</thead>
@@ -90,6 +91,7 @@
 							<td><div class="price-wrap">
 								<var class="price total">€ <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${order.total}"/></var>
 							</div> <!-- price-wrap .// --></td>
+							<td>${order.ownerInfo}</td>
 							<td>${order.createdAt}</td>
 						</tr>
 					</c:forEach>
@@ -98,7 +100,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-4">
+		<div class="col-6">
 			<div class="card">
 				<div class="card-header">
 					Order with new report

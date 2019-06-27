@@ -215,7 +215,7 @@ public class Product
 					if(categoryInfo.get("Publication year") == null ||  !categoryInfo.getString("Publication year").matches("^[0-9]{4,}$"))
 						errors.put("pub_year", "Publication year required (4 digits at least)");
 					if(categoryInfo.get("Tracks") == null ||  categoryInfo.getArray("Tracks").size() < 1)
-						errors.put("tracks", "Tracks required (1 actors at least)");
+						errors.put("tracks", "Tracks required (1 track at least)");
 					break;
 				case 5:
 					if(categoryInfo.get("Director") == null ||  !categoryInfo.getString("Director").matches("^[\\u00C0-\\u00D6\\u00D8-\\u00f6\\u00f8-\u00ff\\w\\s]{3,}$"))

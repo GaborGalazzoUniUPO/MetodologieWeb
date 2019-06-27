@@ -18,7 +18,7 @@ public class ProductDAO
 		{
 			PreparedStatement query = connection.prepareStatement(
 					"select *, " +
-							"(select count(*) from stock s where s.product_id = products.id and s.status = 0) as qta " +
+							"(select count(*) from stock_units s where s.product_id = products.id and s.status = 0) as qta " +
 							"from products " +
 							"where id = ?"
 			);
@@ -121,7 +121,7 @@ public class ProductDAO
 		{
 			PreparedStatement query = connection.prepareStatement(
 					"select *, " +
-							"(select count(*) from stock s where s.product_id = products.id and s.status = 0) as qta " +
+							"(select count(*) from stock_units s where s.product_id = products.id and s.status = 0) as qta " +
 							"from products " +
 							"order by date_added desc "
 			);

@@ -45,7 +45,7 @@ public class OrderDAO
 							"               sum(p.unit_price) as total" +
 							"        from orders o" +
 							"                 inner join order_products op on o.id = op.order_id" +
-							"                 inner join stock s on s.id = op.stock_unit" +
+							"                 inner join stock_units s on s.id = op.stock_unit" +
 							"                 inner join products p on p.id = s.product_id" +
 							"                 inner join users u on o.owner_id = u.id" +
 							"                 inner join payment_methods pm on pm.id = o.payment_method_id" +
@@ -97,7 +97,7 @@ public class OrderDAO
 							"               sum(p.unit_price) as total" +
 							"        from orders o" +
 							"                 inner join order_products op on o.id = op.order_id" +
-							"                 inner join stock s on s.id = op.stock_unit" +
+							"                 inner join stock_units s on s.id = op.stock_unit" +
 							"                 inner join products p on p.id = s.product_id" +
 							"                 inner join users u on o.owner_id = u.id" +
 							"                 inner join payment_methods pm on pm.id = o.payment_method_id" +
@@ -151,7 +151,7 @@ public class OrderDAO
 							"               sum(p.unit_price) as total" +
 							"        from orders o" +
 							"                 inner join order_products op on o.id = op.order_id" +
-							"                 inner join stock s on s.id = op.stock_unit" +
+							"                 inner join stock_units s on s.id = op.stock_unit" +
 							"                 inner join products p on p.id = s.product_id" +
 							"                 inner join users u on o.owner_id = u.id" +
 							"                 inner join payment_methods pm on pm.id = o.payment_method_id" +
@@ -204,7 +204,7 @@ public class OrderDAO
 							"               sum(p.unit_price) as total" +
 							"        from orders o" +
 							"                 inner join order_products op on o.id = op.order_id" +
-							"                 inner join stock s on s.id = op.stock_unit" +
+							"                 inner join stock_units s on s.id = op.stock_unit" +
 							"                 inner join products p on p.id = s.product_id" +
 							"                 inner join users u on o.owner_id = u.id" +
 							"                 inner join payment_methods pm on pm.id = o.payment_method_id" +
@@ -238,7 +238,7 @@ public class OrderDAO
 				"            count(s.id) as qta," +
 				"        p.id" +
 				"        from order_products op" +
-				"        inner join stock s on s.id = op.stock_unit" +
+				"        inner join stock_units s on s.id = op.stock_unit" +
 				"        inner join products p on s.product_id = p.id" +
 				"        where op.order_id = ?" +
 				"        group by p.id";
