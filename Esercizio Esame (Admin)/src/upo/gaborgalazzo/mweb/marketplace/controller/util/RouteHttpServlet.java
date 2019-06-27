@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -84,5 +85,9 @@ public abstract class RouteHttpServlet extends HttpServlet
 
 
 		return params.toArray();
+	}
+
+	public String getParameter(HttpServletRequest request, String param){
+		return new String(request.getParameter(param).getBytes(), StandardCharsets.UTF_8);
 	}
 }
