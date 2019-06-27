@@ -5,6 +5,7 @@ import upo.gaborgalazzo.mweb.marketplace.controller.util.RequestMapping;
 import upo.gaborgalazzo.mweb.marketplace.controller.util.RouteHttpServlet;
 import upo.gaborgalazzo.mweb.marketplace.domain.Message;
 import upo.gaborgalazzo.mweb.marketplace.domain.Order;
+import upo.gaborgalazzo.mweb.marketplace.functiolanities.NotificationService;
 import upo.gaborgalazzo.mweb.marketplace.repository.OrderDAO;
 import upo.gaborgalazzo.mweb.marketplace.repository.ReportMessageDAO;
 
@@ -77,6 +78,7 @@ public class OrderController extends RouteHttpServlet
 			return;
 		}
 
+		int oldStatus = order.getStatus();
 		int status = Integer.parseInt(request.getParameter("status"));
 		if (order.getStatus() != 2 && status == 2)
 		{
@@ -90,6 +92,11 @@ public class OrderController extends RouteHttpServlet
 		{
 			order = orderDAO.update(order);
 			errors.put("success", "Order updated");
+			if(oldStatus == 0 && status == 1){
+				NotificationService.orderSent(order);
+			} else if (oldStatus == 1 && status == 2){
+				NotificationService.orderDelivered(order);
+			}
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
@@ -145,6 +152,7 @@ public class OrderController extends RouteHttpServlet
 		{
 			reportMessageDAO.save(message);
 			reportMessageDAO.setRead(order.getId());
+			NotificationService.reportResponse(order, message);
 		} catch (SQLException e)
 		{
 			e.printStackTrace();

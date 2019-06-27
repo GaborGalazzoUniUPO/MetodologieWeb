@@ -2,6 +2,7 @@ package upo.gaborgalazzo.mweb.marketplace.repository;
 
 import upo.gaborgalazzo.mweb.marketplace.domain.Customer;
 import upo.gaborgalazzo.mweb.marketplace.domain.Product;
+import upo.gaborgalazzo.mweb.marketplace.domain.User;
 import upo.gaborgalazzo.mweb.marketplace.functiolanities.DatabaseConnection;
 
 import java.sql.Connection;
@@ -40,5 +41,31 @@ public class CustomerDAO
 
 		return result;
 
+	}
+
+	public Customer get(int id) {
+		Connection connection = DatabaseConnection.initializeDatabase();
+
+		Customer result = null;
+		try
+		{
+			PreparedStatement query = connection.prepareStatement(
+					"select * from users where id = ?"
+			);
+			query.setInt(1, id);
+			ResultSet resultSet = query.executeQuery();
+			if (resultSet.next())
+			{
+				result = Customer.fromResultSet(resultSet);
+
+			}
+			query.close();
+			connection.close();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+
+		return result;
 	}
 }
