@@ -173,9 +173,9 @@ public class Product
 		Map<String, String> errors = new HashMap<>();
 		try
 		{
-			if (!code.matches("^[\\w]{3,}$"))
+			if (!code.matches("^[\\u00C0-\\u00D6\\u00D8-\\u00f6\\u00f8-\\u00ff\\w]{3,}$"))
 				errors.put("code", "Code required (3 characters at least)");
-			if (!name.matches("[a-zA-Z ]+"))
+			if (!name.matches("[a-zA-Z\\u00C0-\\u00D6\\u00D8-\\u00f6\\u00f8-\\u00ff ]+"))
 				errors.put("name", "Code required (3 characters at least)");
 			try{
 				new URL(photoUrl);
@@ -197,11 +197,11 @@ public class Product
 			switch (category){
 				case 1:
 				case 2:
-					if(categoryInfo.get("Author") == null ||  !categoryInfo.getString("Author").matches("^[\\w\\s]{3,}$"))
+					if(categoryInfo.get("Author") == null ||  !categoryInfo.getString("Author").matches("^[\\u00C0-\\u00D6\\u00D8-\\u00f6\\u00f8-\u00ff\\w\\s]{3,}$"))
 						errors.put("author", "Author required (3 characters at least)");
-					if(categoryInfo.get("Editor") == null ||  !categoryInfo.getString("Editor").matches("^[\\w\\s]{3,}$"))
+					if(categoryInfo.get("Editor") == null ||  !categoryInfo.getString("Editor").matches("^[\\u00C0-\\u00D6\\u00D8-\\u00f6\\u00f8-\u00ff\\w\\s]{3,}$"))
 						errors.put("editor", "Editor required (3 characters at least)");
-					if(categoryInfo.get("ISBN") == null ||  !categoryInfo.getString("ISBN").matches("^[\\w]{10,}$"))
+					if(categoryInfo.get("ISBN") == null ||  !categoryInfo.getString("ISBN").matches("^[\\u00C0-\\u00D6\\u00D8-\\u00f6\\u00f8-\u00ff\\w]{10,}$"))
 						errors.put("isbn", "ISBN required (10 characters at least)");
 					if(categoryInfo.get("Print length") == null || categoryInfo.getInt("Print length") < 1)
 						errors.put("length", "Print Length required (must be greater than 1)");
@@ -210,7 +210,7 @@ public class Product
 					break;
 				case 3:
 				case 4:
-					if(categoryInfo.get("Author") == null ||  !categoryInfo.getString("Author").matches("^[\\w\\s]{3,}$"))
+					if(categoryInfo.get("Author") == null ||  !categoryInfo.getString("Author").matches("^[\\u00C0-\\u00D6\\u00D8-\\u00f6\\u00f8-\u00ff\\w\\s]{3,}$"))
 						errors.put("author", "Author required (3 characters at least)");
 					if(categoryInfo.get("Publication year") == null ||  !categoryInfo.getString("Publication year").matches("^[0-9]{4,}$"))
 						errors.put("pub_year", "Publication year required (4 digits at least)");
@@ -218,7 +218,7 @@ public class Product
 						errors.put("tracks", "Tracks required (1 actors at least)");
 					break;
 				case 5:
-					if(categoryInfo.get("Director") == null ||  !categoryInfo.getString("Director").matches("^[\\w\\s]{3,}$"))
+					if(categoryInfo.get("Director") == null ||  !categoryInfo.getString("Director").matches("^[\\u00C0-\\u00D6\\u00D8-\\u00f6\\u00f8-\u00ff\\w\\s]{3,}$"))
 						errors.put("director", "Director required (3 characters at least)");
 					if(categoryInfo.get("Publication year") == null ||  !categoryInfo.getString("Publication year").matches("^[0-9]{4,}$"))
 						errors.put("pub_year", "Publication year required (4 digits at least)");
@@ -228,9 +228,9 @@ public class Product
 						errors.put("actors", "Actors required (3 actors at least, maximum 6)");
 					break;
 				case 6:
-					if(categoryInfo.get("Platform") == null ||  !categoryInfo.getString("Platform").matches("^[\\w\\s]{4,}$"))
+					if(categoryInfo.get("Platform") == null ||  !categoryInfo.getString("Platform").matches("^[\\u00C0-\\u00D6\\u00D8-\\u00f6\\u00f8-\u00ff\\w\\s]{4,}$"))
 						errors.put("platform", "Platform year required (4 digits at least)");
-					if(categoryInfo.get("Publisher") == null ||  !categoryInfo.getString("Publisher").matches("^[\\w\\s]{3,}$"))
+					if(categoryInfo.get("Publisher") == null ||  !categoryInfo.getString("Publisher").matches("^[\\u00C0-\\u00D6\\u00D8-\\u00f6\\u00f8-\u00ff\\w\\s]{3,}$"))
 						errors.put("publisher", "Publisher year required (4 digits at least)");
 					if(categoryInfo.get("Publication year") == null ||  !categoryInfo.getString("Publication year").matches("^[0-9]{4,}$"))
 						errors.put("pub_year", "Publication year required (4 digits at least)");
