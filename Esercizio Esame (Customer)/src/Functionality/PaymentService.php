@@ -26,7 +26,7 @@
     
         public static function validateFullName($full_name)
         {
-            return preg_match("/^[\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\w\s]+$/", $full_name);
+            return preg_match("/^[\w\s]+$/", $full_name);
         }
     
         public static function validateExpiry($month, $year)
